@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/kalendae.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/kalendae.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.s120{
+				width:120px; 
+				padding:5px 10px;
+			}
+			.kalendae .k-calendar {
+			    display: inline-block;
+			    zoom:1;
+			    *display:inline;
+			    /* width改为100% width:155px;*/ 
+			    width: 200px; 
+			    vertical-align:top;
+			}
+			.kalendae .k-title, 
+			.kalendae .k-header, 
+			.kalendae .k-days{
+				width:100%;
+				line-height: 1px;
+			}
+			
+			.kalendae .k-header span{
+				width:25px;
+			    height:25px;
+			    line-height:25px;
+			}
+			.kalendae .k-days span {
+			    /* 水平居中 */
+			    text-align:center;
+			    width:25px;
+			    /* 高度 4.5em效果比较好 height等于line-height就能垂直居中了 */
+			    height:25px;
+			    line-height:25px;
+			    padding:2px 3px 2px 2px;
+			    border:1px solid transparent;
+			    border-radius:3px;
+			    color:#999;
+			}
+			#sk-div dl{
+				border-bottom:1px solid gainsboro;
+				width:48%;
+				display: inline-block;
+			} 
+			#sk-div dl:nth-child(odd){
+				border-right:1px solid gainsboro;
+			}
+			#sk-div dl dt{
+				line-height:80px;
+			}
+			#sk-div dl dd{
+				display: none;
+				padding-left:30px;
+			}
+			.panel-body #fm>div{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="panel-head">
+				<ul class="search">
+					<li>
+						<button type="button" id="add" class="button">
+							选择日期<span class="icon-calendar text-big"></span>
+						</button>
+					</li>
+					<li>方案：</li>
+					<li>
+						<input form="fm" class="input" style="width:550px" name="note" id="note" />
+					</li>
+					<li id="dateview" style="display: none;"></li>
+				</ul>	
+				<hr />
+				<ul class="search">
+					<li>
+						<button type="button"  data-div="sk-div" data-tp="1" class="button input s100 wy_t">
+							<span class="icon-archive text-big text-blue"></span>&nbsp;&nbsp;授课
+						</button>
+					</li>
+					<li>
+						<button type="button" data-div="xxq-div" data-tp="0"  class="button input s100 wy_t">
+							<span class="icon-bank  text-big text-yellow"></span>&nbsp;&nbsp;小学期
+						</button>
+					</li>
+					<li>
+						<button type="button" data-div="ys-div"  class="button input s120 wy_t">
+							<span class="icon-flask text-big text-red"></span>&nbsp;&nbsp;验收阶段
+						</button>
+					</li>
+					<li>
+						<button type="button" class="button input s120 wy_t">
+							<span class="icon-keyboard-o text-big text-blue"></span>&nbsp;&nbsp;项目开发
+						</button>
+					</li>
+					<li>
+						<button type="button" class="button input s100 wy_t">
+							<span class="icon-briefcase text-big " style="color:rgb(128,128,128);"></span>&nbsp;&nbsp;就业期
+						</button>
+					</li>
+					<li>
+						<button type="button" class="button input s120 wy_t">
+							<span class="icon-refresh text-big" style="color:#0000FF"></span>&nbsp;&nbsp;串讲复习
+						</button>
+					</li>
+				</ul>
+			</div>
+			<div class="panel-body">
+				<form  id='fm' method="post">
+					<input id="dates" name="dates" type="hidden" />
+					<input id="type" name="type" type="hidden" />
+					<div id="sk-div">
+						<div class="field label-block">
+						</div>
+						 <button id="btn1"  class="button bg-main icon-check-square-o" type="button" > 提交</button>
+					</div>
+					<div id="xxq-div">
+						 <button id="btn2"  class="button bg-main icon-check-square-o" type="button" > 提交</button>
+					</div>
+					<div id="ys-div">
+						<select class="input" name="jd" id="jd">
+						</select>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var gId=$.getUrlParam("gId");
+				new Kalendae({
+					attachTo:document.getElementById("dateview"),
+					months:2,
+					mode:'multiple'
+				});
+				$("#add").click(function(){
+					$("#dateview").toggle();
+				});
+				
+				var url=backPath+"course/getCourses";
+				var data=getData({},url);
+				for(var i=0;i<data.length;i++){
+					var $dl=$('<dl></dl>');
+					var $dt=$('<dt><img src="'+resourcePath+data[i].img+'" width="80" height="80" class="img-border radius-circle" />'+data[i].name+'</dt>');
+					$dl.append($dt);
+					var $option=$('<option value="'+data[i].id+'"><img src="'+resourcePath+data[i].img+'" width="80" height="80" class="img-border radius-circle" />'+data[i].name+'</option>');
+					$("#jd").append($option);
+					for(var j=0;j<data[i].plans.length;j++){
+						var $dd=$('<dd><label><input type="radio" name="pId" value="'+data[i].plans[j].id+'"/>'+data[i].plans[j].name+'</label></dd>');
+						$dl.append($dd);
+					}
+					$dt.click(function(){
+						$(this).siblings("dd").toggle().parent().siblings().find("dd").hide();
+					});
+					$("#sk-div .label-block").append($dl);
+				}
+				$(".wy_t").click(function(){
+					var d= $(this).data("div");
+					$("#"+d).toggle().siblings().hide();
+					$("#type").val($(this).data("tp"));
+				});
+				
+				$("#btn1").click(function(){
+					var dates=getDate();
+					if(dates.length==0){
+						alert("请选择日期");
+					}else if($("#sk-div").find("input[name='pId']:checked").length==0){
+						alert("请选择一种课程方案");
+					}else{
+						submitForm('fm','arrange/add?gId='+gId,true);
+					}
+				});
+				$("#btn2").click(function(){
+					var dates=getDate();
+					if(dates.length==0){
+						alert("请选择日期");
+					}else if($("#note").val().length==0){
+						alert("请写小学期方案");
+					}else{
+						submitForm('fm','arrange/add?gId='+gId,true);
+					}
+				});
+				function getDate(){
+					var dates=[];
+					$("#dateview").find(".k-selected").each(function(index,element){
+						if(!contains(dates,$(element).data("date"))){
+							dates.push($(element).data("date"));
+						}
+					});
+					$("#dates").val(dates);
+					return dates;
+				}
+			});
+		</script>
+	</body>
+</html>

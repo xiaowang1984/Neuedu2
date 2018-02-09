@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<!--<li>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="课程名" />
+				 	 	</li>
+				 	 	<li>
+				 	 		<button type="button" id="query" class="button input s100"><span class="icon-search"></span>搜索</button>
+				 	 	</li> -->
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100 dialogs" onclick="dialog(this)" data-title="添加案例" data-url="pages/case/add.html"  ></span>创建案例</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <table id="tb"  class="table table-hover table-bordered">
+			 	<thead>
+		 			<tr>
+		 				<th>案例名称</th>
+		 				<th>案例说明</th>
+		 				<th>案例类型</th>
+		 				<th>代码行数</th>
+		 				<th>知识点</th>
+		 				<th>操作</th>
+		 			</tr>
+		 		</thead>
+		 		<tbody>
+		 			
+		 		</tbody>
+			 </table>
+			 <div id="wy_page" class="wy_page"></div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"cases/list";
+				var path=basePath+"pages/case/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var data=getData({"pageNo":pageNo},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"path":path,"totalPage":data.totalPage});
+				for(var i=0;i<data.list.length;i++){
+					var $tr=$('<tr data-id="'+data.list[i].id+'"></tr>');
+					var type={"0":"课堂案例","1":"实践案例","2":"拓展案例","3":"企业案例"};
+					$tr.append('<td>'+data.list[i].name+'</td>');
+					$tr.append('<td>'+data.list[i].extend+'</td>');
+					$tr.append('<td>'+type[data.list[i].type]+'</td>');
+					$tr.append('<td>'+data.list[i].count+'</td>');
+					$tr.append('<td>'+data.list[i].point+'</td>');
+					$tr.append('<td><button  class="button button-little border-main" onclick="dialog(this)" data-title="修改案例信息" data-url="pages/case/edit.html?id='+data.list[i].id+'" >修改</button>'+
+					'&nbsp;&nbsp;<button  class="button button-little border-main" >删除</button></td>');
+					$("#tb tbody").append($tr);
+				}
+				$("#tb tr").dblclick(function(){
+					dialogframe({"title":"查看案例信息","url":"pages/case/details.html?id="+$(this).data("id")});
+				});
+			});
+			
+		</script>
+	</body>
+</html>

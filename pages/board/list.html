@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style type="text/css">
+			.panel{
+				margin-top:10px;
+			}
+			.panel .row-head{
+				padding-top: 12px;
+				text-align:right;
+				padding-right:10%;
+			}
+			.search li{
+				width:20%;
+			}
+			.wy_body{
+				padding:40px;
+			}
+			.wy_body .item{
+				border:1px solid #999999;
+				margin-top:-1px;
+				padding-bottom: 40px;
+				position:relative;
+			}
+			.wy_body .item .wy_logo{
+				position:absolute;
+				left:-40px;
+				top:-40px;
+				background: #fff;
+			}
+			.wy_body .item .ihead{
+				margin-left: 80px;
+				padding-left:10px;
+				position:absolute;
+				top:-30px;
+			}
+			.wy_body .item .ibody{
+				margin-left: 80px;
+				padding-left:10px;
+			}
+			.wy_body .item .ibody li{
+				list-style:none;
+				width:120px;
+				height:130px;
+				background: #CBEEFF;
+				display: inline-block;
+				margin: 5px;
+			}
+			.wy_body  .item .ibody li .lhead{
+				height:25px;
+				line-height:25px;
+				text-align: center;
+				background: #66CCFF;
+			}
+			.wy_body  .item .ibody li .lbody{
+				padding: 10px;
+			}
+			.wy_body  .item .ibody li .lbody div{
+				height:30px;
+				line-height: 30px;
+				text-align: center;
+				cursor:pointer;
+			}
+			.wy_body  .item .ibody li .lbody .lrz{
+				background: #FFCC99;
+			}
+			.wy_body  .item .ibody li .lbody .lwk{
+				margin-top: 10px;
+				background: #F2F2F2;
+			}
+			.wy_body .item img{
+				cursor:pointer;
+			}
+			.icon {
+			   width: 1em; height: 1em;
+			   vertical-align: -0.15em;
+			   fill: currentColor;
+			   overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="row-head">
+				<span style="margin-right:100px;font-weight: bold;" id="gname"></span>
+				<span class="icon-desktop text-big"></span>
+				<span style="margin-left:5px">实训期</span>
+				<span style="margin-left:40px" class="icon-bar-chart-o text-big"></span>
+				<span style="margin-left:5px">已经进行了XX天</span>
+				<span style="margin-left:40px" class="icon-sun-o text-big"></span>
+				<span style="margin-left:5px">68</span>
+				<span style="margin-left:40px" class="icon-moon-o text-big"></span>
+				<span style="margin-left:5px">24</span>
+			</div>
+			<hr class="bg-main" />
+			<div class="panel-body">
+				<div class="wy_title">
+					<ul class="search" style="padding-left:10px; margin-left:120px;">
+						<li>
+							<button type="button" id="add" class="button text-blue" >
+								增加进度&nbsp;<span class="icon-plus-square-o"></span>
+							</button>
+						</li>
+						<li>
+							<span class="icon-user text-big text-blue"></span>
+							<span id="js"></span>
+						</li>
+						<li>
+							<span class="icon-users text-big text-blue"></span>
+							<span id="ss"></span>
+						</li>
+						<li>
+							<span class="icon-calendar text-big text-blue"></span>
+							<span id="stime"></span>
+						</li>
+					</ul>
+				</div>
+				<div class="wy_body">
+					
+					
+				</div>
+			
+			</div>
+			
+		</div>
+		<script type="text/javascript">
+			function init(data){
+				$("#js").text(data.grade.lecturerName);
+				$("#ss").text(data.grade.managerName);
+				$("#gname").text(data.grade.name);
+				$("#stime").text(data.grade.startDate);
+				for(var i=0;i<data.arranges.length;i++){
+					var $logo;
+					var $headname;
+					var $item=$("<div class='item'></div>");
+					if(data.arranges[i].type==1){
+						$logo=$('<img height="80" width="80" alt="logo" src="'+resourcePath+data.arranges[i].plan.course.img+'" class="wy_logo img-border border-green radius-circle" data-id="'+data.arranges[i].id+'"  />')
+						$headname=data.arranges[i].plan.name;
+					}else if(data.arranges[i].type==0){
+						
+						$logo=$('<img height="80" width="80" style="line-height: 80px;"  alt="小学期" src="'+resourcePath+'images/xxq.jpg"  class="wy_logo img-border border-green radius-circle" data-id="'+data.arranges[i].id+'"  />')
+						$headname="小学期";
+					}
+					$logo.click(function(){
+						var aId=$(this).data("id");
+						var options={
+							"title":"修改进度",
+							"url":"pages/board/edit.html?aId="+aId,
+							"width":"1000px",
+							"height":"500px"
+						};
+						dialogframe(options);
+					});
+					var startDate=data.arranges[i].arrangeLists.length>0?data.arranges[i].arrangeLists[0].date:"";
+					var endDate=data.arranges[i].arrangeLists.length>0?data.arranges[i].arrangeLists[data.arranges[i].arrangeLists.length-1].date:"";
+					var $ihead=$('<div class="ihead"><span data-url="'+data.arranges[i].note+'" class="wytxt icon-tag text-big text-red" style="transform: rotate(0deg);cursor:pointer">'+$headname+'</span>'+
+									'<span class="icon-calendar text-big" style="margin-left: 30px;"></span>&nbsp;'+startDate+" ~ "+endDate+
+								'</div>');
+					var $ul=$('<ul class="ibody"></ul>');
+					for(var j=0;j<data.arranges[i].arrangeLists.length;j++){
+						var $li=$('<li></li>');
+						var $lhead=$('<div class="lhead">'+data.arranges[i].arrangeLists[j].date+'</div>');
+						var $lbody=$('<div class="lbody" data-id="'+data.arranges[i].arrangeLists[j].id+'"></div>');
+						var $lrz=$('<div class="lrz"><span class="icon-calendar text-big"></span>&nbsp;课程日志</div>');
+						if(data.arranges[i].arrangeLists[j].morning!=""||data.arranges[i].arrangeLists[j].afternoon!=""){
+							$lrz.append('<span class="icon-check-square-o text-blue"></span>');
+						}
+						var $lwk=$('<div class="lwk"><span class="icon-calendar text-big"></span>&nbsp;任务安排</div>');
+						$lbody.append($lrz).append($lwk);
+						$li.append($lhead).append($lbody);
+						$ul.append($li);
+						$lrz.click(function(){
+							dialogframe({
+								"title":"添加日志",
+								"url":"pages/board/rz.html?id="+$(this).parent().data("id")
+							});
+						});
+						$lwk.click(function(){
+							dialogframe({
+								"title":"添加任务",
+								"url":"pages/work/add.html?aId="+$(this).parent().data("id")+"&gId="+data.grade.id+"&dat="+$(this).parent().prev().text(),
+								"width":"1000px",
+								"height":"500px"
+							});
+						});
+					}
+					$item.append($logo).append($ihead).append($ul);
+					$(".wy_body").append($item);
+				}
+			}
+			$(function(){
+				var gId=$.getUrlParam("gId");
+				var path=backPath+"board/list";
+				var data=getData({"gId":gId},path);
+				init(data);
+				$("#add").click(function(){
+					var options={
+						"title":"添加进度",
+						"url":"pages/board/add.html?gId="+gId,
+						"width":"1000px",
+						"height":"500px"
+					};
+					dialogframe(options);
+				});
+				$(".ihead .wytxt").click(function(){
+					if($(this).data("url")!=""){
+						window.open($(this).data("url"));        
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

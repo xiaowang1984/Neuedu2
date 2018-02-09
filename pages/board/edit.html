@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/kalendae.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/kalendae.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.s120{
+				width:120px; 
+				padding:5px 10px;
+			}
+			.kalendae .k-calendar {
+			    display: inline-block;
+			    zoom:1;
+			    *display:inline;
+			    /* width改为100% width:155px;*/ 
+			    width: 200px; 
+			    vertical-align:top;
+			}
+			.kalendae .k-title, 
+			.kalendae .k-header, 
+			.kalendae .k-days{
+				width:100%;
+				line-height: 1px;
+			}
+			
+			.kalendae .k-header span{
+				width:25px;
+			    height:25px;
+			    line-height:25px;
+			}
+			.kalendae .k-days span {
+			    /* 水平居中 */
+			    text-align:center;
+			    width:25px;
+			    /* 高度 4.5em效果比较好 height等于line-height就能垂直居中了 */
+			    height:25px;
+			    line-height:25px;
+			    padding:2px 3px 2px 2px;
+			    border:1px solid transparent;
+			    border-radius:3px;
+			    color:#999;
+			}
+			#sk-div dl{
+				border-bottom:1px solid gainsboro;
+				width:48%;
+				display: inline-block;
+			} 
+			#sk-div dl:nth-child(odd){
+				border-right:1px solid gainsboro;
+			}
+			#sk-div dl dt{
+				line-height:80px;
+			}
+			#sk-div dl dd{
+				display: none;
+				padding-left:30px;
+			}
+			.panel-body #fm>div{
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="panel-head">
+				<ul class="search">
+					<li id="dateview"></li>
+				</ul>	
+				<hr />
+				<form  id='fm' method="post">
+					<input id="aId" name="aId" type="hidden" />
+					<input id="dates" name="dates" type="hidden" />
+					<button id="btn1"  class="button bg-main icon-check-square-o" type="button" > 提交</button>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("aId");
+				$("#aId").val(id);
+				var data=getData({"id":id},backPath+"arrange/edit");
+				var dates=[];
+				for(var i=0;i<data.arrangeLists.length;i++){
+					dates.push(data.arrangeLists[i].date);
+				}
+				new Kalendae({
+					attachTo:document.getElementById("dateview"),
+					months:2,
+					mode:'multiple',
+					selected:dates
+				});
+				$("#btn1").click(function(){
+					var ds=[];
+					$("#dateview").find(".k-selected").each(function(index,element){
+						if(!contains(ds,$(element).data("date"))){
+							ds.push($(element).data("date"));
+						}
+					});
+					$("#dates").val(ds);
+					if(dates.length==0){
+						alert("请选择日期");
+					}else{
+						submitForm('fm','arrange/edit',true);
+					}
+				});
+
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>班级列表</title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/grade.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.wy_list li{
+				list-style: none;
+				width:340px;
+				height: 200px;
+				display: inline-block;
+				border:1px solid #bbb;
+				margin: 10px;
+				display: inline-block;
+			}
+			.wy_list li .wy_item{
+				display: flex;	
+				height: 100%;
+				width: 100%;
+			}
+			.wy_list li .wy_item .wy_left{
+				flex:5;
+				padding-left: 10px;
+			}
+			.wy_list li .wy_item .wy_left .title{
+				height:60px;
+				line-height: 40px;
+				font-size: 18px;
+				font-weight: bold;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.wy_list li .wy_item .wy_right{
+				flex:2;
+			}
+			.wy_list li .wy_item .wy_content{
+				display: flex;
+				height:40px;
+			}
+			.wy_list li .wy_item .wy_content div{
+				flex:1;
+				height: 40px;
+				line-height: 40px;
+			}
+			.text-big{
+				color: #585858;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<select id="type" name="type" class="input s100" >
+								<option value="" selected="selected">班级类型</option>
+								<option value="0">招转</option>
+								<option value="1">小学期</option>
+								<option value="2">高校个体</option>
+								<option value="3">社会个体</option>
+								<option value="4">专业共建</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="lecturer" name="lecturer" class="input s100">
+								<option value="" selected="selected">讲师</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="manager" name="manager" class="input s100">
+								<option value="" selected="selected">实施</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="state" name="state" class="input s100">
+								<option value="" selected="selected">班级状态</option>
+								<option value="0">待开班</option>
+								<option value="1">正常</option>
+								<option value="2">项目期</option>
+								<option value="3">就业期</option>
+								<option value="4">结业</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="year" name="year" class="input s100">
+								<option value="" selected="selected">年份</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="month" name="month" class="input s100">
+								<option value="" selected="selected">月份</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="班级名称" />
+				 	 	</li>
+				 	 	<li>
+				 	 		<button type="button" id="query" class="button input s100"><span class="icon-search"></span>搜索</button>
+				 	 	</li> 
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100" onclick="dialog(this)" data-title="添加班级" data-url="pages/grade/add.html" ><span class="icon-plus-square-o"></span>创建班级</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <ul id="wy_list" class="wy_list">
+			 </ul>
+			 <div id="wy_page" class="wy_page">
+			 	
+			 </div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				document.getElementById("wy_list").oncontextmenu = function(){
+				    return false;
+				}
+				var url=backPath+"grade/list";
+				var path=basePath+"pages/grade/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				$("#wy_list").itemList({
+					"pageNo":pageNo,
+					"url":url,
+					"path":path,
+					"rightMouse":function(id){
+						dialogframe({
+							"title":"修改班级",
+							"url":"pages/grade/edit.html?id="+id
+						});
+					},
+					"leftMouse":function(id){
+						parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");					
+					}
+				});
+			});
+			function closeAdd(){
+				layer.closeAll('iframe'); 
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+	</head>
+	<body>
+		<div class="body-content">
+			<form method="post" class="form-x" id='fm'>
+				<input type="hidden" id="id" name="id" />
+				<input type="hidden" id="gId" name="gId" />
+				<div class="form-group">
+					<div class="label">
+						<label>学生姓名：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="name" name="name" data-validate="required:学生姓名" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>性别：</label>
+					</div>
+					<div class="field">
+						<select id="gender" name="gender" class="input w50" data-validate="required:请选择性别">
+							<option value="" disabled="disabled" selected="selected">请选择性别</option>
+							<option value="1">男</option>
+							<option value="0">女</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>民族：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="nation" name="nation" data-validate="required:民族" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>对应销售：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="sale" name="sale" data-validate="required:对应销售" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>毕业院校：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="school" name="school" data-validate="required:毕业院校" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>专业：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value=""  id="specialty" name="specialty" data-validate="required:专业" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>学历：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="education" name="education" data-validate="required:学历" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>QQ号：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="qq" name="qq" data-validate="required:QQ号" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>地址：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="address" name="address" data-validate="required:地址" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>email：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="email" name="email"  />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>房间号：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="roomNo" name="roomNo" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>培训周期：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="cycle" name="cycle" data-validate="required:培训周期" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>是否退款：</label>
+					</div>
+					<div class="field">
+						<select id="refund" name="refund" class="input w50" data-validate="required:是否退款">
+							<option value="" disabled="disabled" selected="selected">请选择是否退款</option>
+							<option value="1">是</option>
+							<option value="0">否</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>电话：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="phone" name="phone" data-validate="required:电话" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>家长电话：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="weChar" name="weChar" data-validate="required:家长电话" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>身份证号：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" id="idCard" name="idCard" data-validate="required:身份证号" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>状态：</label>
+					</div>
+					<div class="field">
+						<select id="status" name="status" class="input w50" data-validate="required:选择状态">
+							<option value="" disabled="disabled" selected="selected">请选择状态</option>
+							<option value="0">待学</option>
+							<option value="1">在学</option>
+							<option value="2">毕业</option>
+							<option value="3">就业</option>
+							<option value="4">放弃</option>
+							<option value="5">休学</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label></label>
+					</div>
+					<div class="field">
+						<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','student/edit',true)"> 提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("id");
+				var url=backPath+"student/edit"
+				var entry=getData({"id":id},url);
+				init(entry);
+				function init(entry){
+					$("#id").val(entry.id);
+					$("#name").val(entry.name);
+					$("#gender").val(entry.gender);
+					$("#nation").val(entry.nation);
+					$("#sale").val(entry.sale);
+					$("#school").val(entry.school);
+					$("#specialty").val(entry.specialty);
+					$("#education").val(entry.education);
+					$("#qq").val(entry.qq);
+					$("#address").val(entry.address);
+					$("#email").val(entry.email);
+					$("#roomNo").val(entry.roomNo);
+					$("#cycle").val(entry.cycle);
+					$("#refund").val(entry.refund);
+					$("#phone").val(entry.phone);
+					$("#idCard").val(entry.idCard);
+					$("#weChar").val(entry.weChar);
+					$("#status").val(entry.status);
+					$("#gId").val(entry.gId);
+				}
+			});
+		</script>
+	</body>
+</html>

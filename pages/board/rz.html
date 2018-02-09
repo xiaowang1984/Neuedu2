@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style>
+			.wy_time{
+				width:50px;
+			}
+			.panel-head label{
+				margin-left: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="panel-head">
+				<span id="dat" class="icon-calendar text-big text-blue">&nbsp;&nbsp;</span>
+				<label>上午:</label>
+				<input form="fm" id="mtime" type="number" min="0" max="5" class="wy_time" step="0.5" name="mtime">
+				<label>下午:</label>
+				<input form="fm" id="atime" type="number" min="0" max="5" class="wy_time" step="0.5" name="atime">
+				<label>晚自习 :</label>
+				<input form="fm" id="ntime" type="number" min="0" max="5" class="wy_time" step="0.5" name="ntime">
+			</div>
+			<hr />
+			<div class="panel-body">
+				<form id="fm" method="post">
+					<input name="id" id="id" type="hidden" />
+					<label class="label">上午</label>
+					<textarea  id="morning" rows="5" name="morning" class="input" placeholder="上午日志"></textarea>
+					<label class="label">下午</label>
+					<textarea id="afternoon" rows="5" name="afternoon" class="input" placeholder="下午日志"></textarea>
+					<label class="label">晚自习</label>
+					<textarea id="night" rows="5" name="night" class="input" placeholder="晚自习"></textarea>
+					<br />
+					<div class="form-button">
+						<button id="btn" class="button border-main" type="button">
+							提交</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("id");
+				$("#id").val(id);
+				var data=getData({"id":id},backPath+"arrangeList/edit");
+				if(data.morning!=null){
+					$("#morning").val(data.morning);
+				}
+				if(data.afternoon!=null){
+					$("#afternoon").val(data.afternoon);
+				}
+				if(data.night!=null){
+					$("#night").val(data.night);
+				}
+				$("#mtime").val(data.mtime);
+				$("#atime").val(data.atime);
+				$("#ntime").val(data.ntime);
+				$("#dat").append(data.date);
+				$("#btn").click(function(){
+					submitForm("fm","arrangeList/edit",true);
+				});
+			});
+		</script>
+	</body>
+</html>

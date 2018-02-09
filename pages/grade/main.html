@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<style type="text/css">
+			.icon {
+	          /* 通过设置 font-size 来改变图标大小 */
+	          width: 14px; 
+	          height: 14px;
+	          font-size:14px;
+	          /* 图标和文字相邻时，垂直对齐 */
+	          vertical-align: -0.15em;
+	          /* 通过设置 color 来改变 SVG 的颜色/fill */
+	          fill: currentColor;
+	          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+	             normalize.css 中也包含这行 */
+	          overflow: hidden;
+	          color: rgb(0, 170, 238);
+	        }
+	        .panel .panel-body .button-toolbar .button-group .button{
+	        	font-size: 14px;
+	        }
+	        .button{
+	        	margin-right:10px;
+	        }
+		</style>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="panel-body">
+				<div class="button-toolbar">
+					<div class="button-group  button-group-big">
+						<button id="gradeData" type="button" class="button ">
+									<span class="icon-bars text-blue"></span>&nbsp;&nbsp;班级数据</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<div class="button-toolbar">
+					<div class="button-group  button-group-big">
+						<button id="board" type="button" class="button ">
+									<span class="icon-calendar text-blue"></span>&nbsp;&nbsp;过程看板</button>
+						<button id="work" type="button" class="button ">
+									<span class="icon-tasks text-blue"></span>&nbsp;&nbsp;任务看板</button>
+					</div></br></br>
+					<div class="button-toolbar">
+					<div class="button-group  button-group-big">
+						<button type="button" class="button ">
+                    		<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-chengjizhongxin"></use>
+		                    </svg></span>&nbsp;&nbsp;班级成绩</button>
+						<button type="button" class="button ">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-05"></use>
+		                    </svg></span>&nbsp;&nbsp;模拟面试
+						</button>
+						<button type="button" class="button ">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-kaoshi"></use>
+		             		</svg></span>&nbsp;&nbsp;考试模块
+						</button>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<div class="button-toolbar">
+					<div class="button-group  button-group-big">
+						<button id="log" type="button" class="button ">
+									<span class="icon-file-text-o text-blue"></span>&nbsp;&nbsp;班级日志
+						</button>
+						<button id="meeting" type="button" class="button ">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-xuesheng--"></use>
+		            		</svg></span>&nbsp;&nbsp;会议记录
+						</button>	
+						<button type="button" class="button ">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-wenti"></use>
+		          			</svg></span>&nbsp;&nbsp;问题记录
+						</button>
+						<button id="talk" type="button" class="button ">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-pingjia"></use>
+		         			</svg></span>&nbsp;&nbsp;沟通记录
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("id");
+				$("#gradeData").click(function(){
+					parent.addTab("pages/student/list.html?gId="+id,"5","班级数据");
+				});
+				$("#board").click(function(){
+					parent.addTab("pages/board/list.html?gId="+id,"6","过程看板");
+				});
+				$("#work").click(function(){
+					parent.addTab("pages/work/list.html?gId="+id,"17","任务看板");
+				});
+				$("#log").click(function(){
+					parent.addTab("pages/grade/log.html?gId="+id,"19","日志看板");
+				});
+				$("#meeting").click(function(){
+					parent.addTab("pages/meeting/list.html?gId="+id,"20","会议管理");
+				});
+				$("#talk").click(function(){
+					parent.addTab("pages/talk/list.html?gId="+id,"21","沟通记录");
+				});
+			});
+		</script>
+	</body>
+</html>

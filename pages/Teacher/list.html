@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<select id="type" name="type" class="input s100" >
+								<option value="" selected="selected">教师类型</option>
+								<option value="0">实施</option>
+								<option value="1">讲师</option>
+							</select>
+				 	 	</li>
+				 	 	
+				 	 	<li>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="教师名" />
+				 	 	</li>
+				 	 	<li>
+				 	 		<button type="button" id="query" class="button input s100"><span class="icon-search"></span>搜索</button>
+				 	 	</li> 
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100 dialogs" onclick="dialog(this)" data-title="添加教师" data-url="pages/Teacher/add.html"  ></span>创建教师</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <table id="tb"  class="table table-hover table-bordered">
+			 	<thead>
+		 			<tr>
+		 				<th>编号</th>
+		 				<th>姓名</th>
+		 				<th>类型</th>
+		 				<th>电话</th>
+		 				<th>状态</th>
+		 				<th>操作</th>
+		 			</tr>
+		 		</thead>
+		 		<tbody>
+		 			
+		 		</tbody>
+			 </table>
+			 <div id="wy_page" class="wy_page"></div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"teacher/list";
+				var path=basePath+"pages/teacher/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var data=getData({"pageNo":pageNo},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"path":path,"totalPage":data.totalPage});
+				for(var i=0;i<data.list.length;i++){
+					var type=data.list[i].type==0?"实施":"讲师";
+					var $tr=$('<tr></tr>');
+					$tr.append('<td>'+data.list[i].no+'</td>');
+					$tr.append('<td>'+data.list[i].name+'</td>');
+					$tr.append('<td>'+type+'</td>');
+					$tr.append('<td>'+data.list[i].phone+'</td>');
+					$tr.append('<td>正常</td>');
+					$tr.append('<td><button  class="button button-little border-main" onclick="dialog(this)" data-title="修改教师信息" data-url="pages/Teacher/edit.html?id='+data.list[i].id+'" >修改</button>'+
+					'&nbsp;&nbsp;<button  class="button button-little border-main" >离职</button></td>');
+					$("#tb tbody").append($tr);
+				}
+			});
+			
+		</script>
+	</body>
+</html>

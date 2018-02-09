@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<ul class="search" style="padding-left:10px;">
+			 	 	<li>
+			 	 		<strong id='name'></strong>
+			 	 	</li>
+			 	 	<li>
+			 	 		<strong id="type"></strong>
+			 	 	</li> 
+			 	 	<li>
+			 	 		<svg class="icon" aria-hidden="true">
+							<use xlink:href="#icon-jiangshi"></use>
+						</svg>&nbsp;&nbsp;
+			 	 		<span id="lecturerName"></span>
+			 	 	</li>
+			 	 	<li>
+			 	 		<svg class="icon" aria-hidden="true">
+							<use xlink:href="#icon-laoshi"></use>
+						</svg>&nbsp;&nbsp;
+			 	 		<span id="managerName"></span>
+			 	 	</li> 
+			 	 	
+			 	</ul>
+			 </div>
+			 <hr class="bg-main" />
+			 <div class="panel admin-panel">
+			 	<div class="padding border-bottom">
+			 		<form id="listForm" method="post" enctype="multipart/form-data">
+			 			<ul class="search" style="padding-left:10px;">
+			 				<li>
+			 					<button type="button" id="add" class="button input s100 "  data-title="添加学生" data-url="pages/student/add.html" ><span class="icon-plus-square-o"></span>创建学生</button>
+			 				</li>
+			 				<li>
+			 					<button type="button" id="file" class="button input s100 " style="width:120px"></span>批量添加 xls</button>
+			 					<input id="sfile" name="sfile" type="file" style="display: none;" />
+			 				</li>
+			 			</ul>
+			 		</form>
+			 	</div>
+			 <table id="tb"  class="table table-hover table-bordered">
+			 	<thead>
+		 			<tr>
+		 				<th>编号</th>
+		 				<th>姓名</th>
+		 				<th>性别</th>
+		 				<th>电话</th>
+		 				<th>民族</th>
+		 				<th>学校</th>
+		 				<th>专业</th>
+		 				<th>负责人</th>
+		 			</tr>
+		 		</thead>
+		 		<tbody>
+		 			
+		 		</tbody>
+			 </table>
+			 <div id="wy_page" class="wy_page"></div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"student/list";
+				var url2=backPath+"grade/edit";
+				var path=basePath+"pages/student/list.html";
+				var gId=$.getUrlParam("gId");
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var grade=getData({"id":gId},url2);
+				$("#name").text(grade.name);
+				$("#lecturerName").text(grade.lecturerName);
+				$("#managerName").text(grade.managerName);
+				var type={"0":"招转","1":"小学期","2":"高校个体","3":"社会个体","4":"专业共建"};
+				$("#type").text(type[grade.type]);
+				var data=getData({"pageNo":pageNo,"gId":gId},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"params":"gId="+gId,"path":path,"totalPage":data.totalPage});
+				for(var i=0;i<data.list.length;i++){
+					var gender=data.list[i].gender==0?"女":"男";
+					var $tr=$('<tr></tr>');
+					$tr.append('<td class="sid">'+data.list[i].id+'</td>');
+					$tr.append('<td>'+data.list[i].name+'</td>');
+					$tr.append('<td>'+gender+'</td>');
+					$tr.append('<td>'+data.list[i].phone+'</td>');
+					$tr.append('<td>'+data.list[i].nation+'</td>');
+					$tr.append('<td>'+data.list[i].school+'</td>');
+					$tr.append('<td>'+data.list[i].specialty+'</td>');
+					$tr.append('<td>'+data.list[i].sale+'</td>');
+					/*$tr.append('<td><button  class="button button-little border-main" onclick="dialog(this)" data-title="修改教师信息" data-url="pages/Teacher/edit.html?id='+data.list[i].id+'" >修改</button>'+
+					'&nbsp;&nbsp;<button  class="button button-little border-main" >离职</button></td>');*/
+					$("#tb tbody").append($tr);
+				}
+				$("#sfile").change(function(){
+					submitForm('listForm',"student/upload?gid="+gId,false);
+				});
+				$("#file").click(function(){
+					$("#sfile").click();
+				});
+				$("#add").click(function(){
+					dialogframe({
+						url:"pages/student/add.html?gId="+gId,
+						title:"添加学生"
+					});
+				});
+				document.getElementById("tb").oncontextmenu = function(){
+				    return false;
+				}
+				$("#tb").dblclick(function(e){
+					if(e.target.tagName=="TD"){
+						var sId=$(e.target).parent("tr").children(".sid").text();
+						dialogframe({
+							url:"pages/student/edit.html?id="+sId,
+							title:"修改学生信息"
+						});
+					}
+				});
+			});
+			
+		</script>
+	</body>
+</html>
