@@ -36,6 +36,7 @@
 				left:-40px;
 				top:-40px;
 				background: #fff;
+				box-shadow: 1px 1px 10px 1px;
 			}
 			.wy_body .item .ihead{
 				margin-left: 80px;
@@ -143,7 +144,7 @@
 					var $headname;
 					var $item=$("<div class='item'></div>");
 					if(data.arranges[i].type==1){
-						$logo=$('<img height="80" width="80" alt="logo" src="'+resourcePath+data.arranges[i].plan.course.img+'" class="wy_logo img-border border-green radius-circle" data-id="'+data.arranges[i].id+'"  />')
+						$logo=$('<img height="80" width="80" alt="logo" src="'+resourcePath+data.arranges[i].plan.course.img+'" class="wy_logo img-border" data-id="'+data.arranges[i].id+'"  />')
 						$headname=data.arranges[i].plan.name;
 					}else if(data.arranges[i].type==0){
 						
