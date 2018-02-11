@@ -83,7 +83,7 @@
 							选择日期<span class="icon-calendar text-big"></span>
 						</button>
 					</li>
-					<li>方案：</li>
+					<li><span id="fa">方案</span></li>
 					<li>
 						<input form="fm" class="input" style="width:550px" name="note" id="note" />
 					</li>
@@ -107,7 +107,7 @@
 						</button>
 					</li>
 					<li>
-						<button type="button" class="button input s120 wy_t">
+						<button type="button" data-tp="2" class="button input s120 wy_t" data-div="xm-div" >
 							<span class="icon-keyboard-o text-big text-blue"></span>&nbsp;&nbsp;项目开发
 						</button>
 					</li>
@@ -124,7 +124,7 @@
 				</ul>
 			</div>
 			<div class="panel-body">
-				<form  id='fm' method="post">
+				<form  id='fm' class="form-x" method="post">
 					<input id="dates" name="dates" type="hidden" />
 					<input id="type" name="type" type="hidden" />
 					<div id="sk-div">
@@ -138,6 +138,27 @@
 					<div id="ys-div">
 						<select class="input" name="jd" id="jd">
 						</select>
+					</div>
+					<div id="xm-div">
+						 <div class="form-group">
+					        <div class="label">
+					          <label>项目名称：</label>
+					        </div>
+					        <div class="field">
+					          <input type="text" class="input w50" value="" name="project" data-validate="required:请输入项目名称" />
+					          <div class="tips"></div>
+					        </div>
+					    </div>
+					    <div class="form-group">
+					        <div class="label">
+					          <label>github仓库名：</label>
+					        </div>
+					        <div class="field">
+					          <input type="text" class="input w50" value="" name="git" data-validate="required:请输入git仓库名" />
+					          <div class="tips"></div>
+					        </div>
+					    </div>
+					     <button id="btn3"  class="button bg-main icon-check-square-o" type="button" > 提交</button>
 					</div>
 				</form>
 			</div>
@@ -193,6 +214,14 @@
 						alert("请选择日期");
 					}else if($("#note").val().length==0){
 						alert("请写小学期方案");
+					}else{
+						submitForm('fm','arrange/add?gId='+gId,true);
+					}
+				});
+				$("#btn3").click(function(){
+					var dates=getDate();
+					if(dates.length==0){
+						alert("请选择日期");
 					}else{
 						submitForm('fm','arrange/add?gId='+gId,true);
 					}

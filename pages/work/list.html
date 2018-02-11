@@ -6,16 +6,77 @@
 		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
 		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
 		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        #tb tr td{
+		        	border:0;
+		        }
+		</style>
 	</head>
 	<body>
+				<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<ul class="search" style="padding-left:10px;">
+			 	 	<li>
+			 	 		<strong id='name'></strong>
+			 	 	</li>
+			 	 	<li>
+			 	 		<strong id="type"></strong>
+			 	 	</li> 
+			 	</ul>
+			 </div>
+			 <hr class="bg-main" />
+			 <div class="panel admin-panel">
+				 <table id="tb"  class="table table-hover table-bordered">
+			 		<tbody>
+			 			
+			 		</tbody>
+				 </table>
+			 <div id="wy_page" class="wy_page"></div>
+		</div>
 		<script type="text/javascript">
 			$(function(){
 				var gId=$.getUrlParam("gId");
 				var data=getData({"gId":gId},backPath+"work/list");
+				var grade=getData({"id":gId},backPath+"grade/edit");
+				$("#name").text(grade.name);
+				var type={"0":"招转","1":"小学期","2":"高校个体","3":"社会个体","4":"专业共建"};
+				$("#type").text(type[grade.type]);
+				for(var i=0;i<data.works.list.length;i++){
+					var $tr=$('<tr></tr>');
+					var $td=$('<td></td>');
+					var $div=$('<div></div>');
+					var $name=$('<div>'+data.works.list[i].name+'</div>');
+					var $ul=$('<ul></ul>');
+					$div.append($name)
+					$td.append($div);
+					$tr.append($td);
+					$("#tb").children("tbody").append($tr);
+				}
 			});
 		</script>
 	</body>
