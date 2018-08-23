@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			.test>li{
+				border-bottom: 1px solid #999;
+				padding: 25px 20px;
+				padding-left:100px;
+			}
+			.option{
+				padding-top:20px;
+			}
+			.option>li{
+				list-style: upper-alpha;
+				line-height: 40px;
+			}
+			.list{
+				padding:0px 120px;
+			}
+			.list li{
+				list-style: none;
+				display: inline-block;
+				width: 40px;
+				height:40px;
+				border-radius:20px;
+				background: #0000ff;
+				text-align: center;
+				line-height: 40px;
+				margin: 6px;
+				color:#fff;
+				cursor:pointer;
+				
+			}
+			.list li:hover{
+				background: #ff8000;
+			}
+			.list .selected{
+				background: #ff8000;
+			}
+			.list .done{
+				background:#008000
+			}
+		</style>
+	</head>
+	
+	<body>
+		
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div> 考试剩余时间:{{surplus.m}}分&nbsp;&nbsp;{{surplus.s}}秒</div>
+			<form id="fm" method="post">
+				<input name="sId" v-model="user" type="hidden"/>
+				<input name="eId" v-model="id"  type="hidden"/>
+				<input name="time" v-model="time"  type="hidden"/>
+			</form>
+			<div class="body-content">
+				<ul class="list">
+					<template v-for="(item,index) in list">
+						<li @click="selectIndex=index" :class="{selected:index==selectIndex,done:item.selected!=0}">{{index+1}}</li>
+					</template>
+				</ul>	
+				<ol class="test">
+					<template v-for="(item,index) in list">
+						<li v-show="selectIndex==index"><h4 v-html="(index+1)+' . '+replace(item.tName)"></h4>
+							<ol class="option">
+								<li v-for="option in item.options" style="font-size: 14px;"><label><input :checked="item.selected==option.id" :name="item.id" type="radio" :value="option.id" @click="ans(option.id)" />{{option.name}}</label></li>
+							</ol>
+						</li>
+					</template>
+				</ol>
+			</div>
+			<div style="padding-left:120px;">
+				<button class="button bg-main icon-check-square-o" type="button" @click="prev"> 上一题</button>
+				<button class="button bg-main icon-check-square-o" type="button" @click="next"> 下一题</button>
+				<button class="button bg-main icon-check-square-o" type="button" @click="smt" :disabled="sub"> 提交</button>
+			</div>
+				
+			
+			
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var exam = JSON.parse(sessionStorage.getItem('exam'));
+				var user=sessionStorage.getItem("user");
+				var data;
+				if(sessionStorage.getItem("data")!=null){
+					data=JSON.parse(sessionStorage.getItem("data"));
+				}else{
+					var url = backPath + "paperDetails/list";
+				    data = getData({
+						"pId":exam.pId
+					}, url);
+					data.shuffle();
+					data=data.re;
+					for(var i=0;i<data.length;i++){
+						data[i].options.shuffle();
+						data[i].options=data[i].options.re;
+					}
+					sessionStorage.setItem("data",JSON.stringify(data));
+				}
+				console.log(exam);
+				var timer=setInterval(function(){
+					vue.now=new Date();
+				},1000);
+			
+				var vue = new Vue({
+					el: "#app",
+					data: {
+						"list": data,
+						"user":user,
+						"id":exam.id,
+						"selectIndex":0,
+						"sub":false,
+						"exam":exam,
+						"now":new Date(),
+						"time":0
+					},
+					computed:{
+						surplus:function(){
+							var end=new Date(this.exam.endTime);
+							var def=parseInt((end.getTime()-this.now.getTime())/1000);
+							this.time=parseInt((this.now.getTime()-new Date(this.exam.startTime).getTime())/1000);
+							if(def<=0){
+								clearInterval(timer);
+								this.smt();
+							}
+							var m=parseInt(def/60);
+							var s=def%60;
+							return {m:m,s:s};
+						}
+					},
+					methods: {
+						ans:function(id){
+							this.list[this.selectIndex].selected=id;
+							sessionStorage.setItem("data",JSON.stringify(this.list));
+						},
+						smt:function(){
+							this.sub=true;
+							$("#fm").ajaxSubmit({
+								url:backPath+"exam/examSubmt",
+								data:{"list":JSON.stringify(this.list)} ,
+								dataType:"json",
+								success:function(data){
+									if(data.code==0){
+										alert(data.mess);
+									}else{
+										window.location.href=basePath+"pages/exam/look.html?id="+data.mess;
+									}
+									
+								}
+							});
+						},
+						next:function(){
+							if(this.selectIndex<this.list.length-1)
+								this.selectIndex++;
+							else
+								alert("已经是最后一题");
+						},
+						prev:function(){
+							if(this.selectIndex!=0)
+								this.selectIndex--;
+							else
+								alert("已经是第一题");
+						},
+						replace:function(name){
+							return replacen(name);
+						},
+					}
+				});
+				
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<form id="listForm" method="post">	
+				<input type="hidden" name="id" v-model="selectId" />
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th>学生姓名</th>
+							<th>技术分</th>
+							<th>表达分</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for="entry in list">
+							<tr v-if="selectId!=entry.id">
+								<td>{{entry.sname}}</td>
+								<td>{{entry.skill}}</td>
+								<td>{{entry.express}}</td>
+								<td>
+									<button type="button"  class="button button-little border-main" @click="selectId=entry.id">修改</button>
+								</td>
+							</tr>
+							<tr v-else>
+								<td>{{entry.sname}}</td>
+								<td><input name="skill" :value="entry.skill"></td>
+								<td><input name="express" :value="entry.express"></td>
+								<td>
+									<button type="button" class="button button-little border-main" @click="save">保存</button>
+									<button type="button" class="button button-little border-main" @click="selectId=0">取消</button>
+								</td>
+							</tr>
+						</template>
+						
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var url = backPath + "interviewDetails/list";
+				var iId = $.getUrlParam("id");
+				var data = getData({
+					"iId": iId
+				}, url);
+				var action = backPath + "interviewDetails/edit";
+				var vue = new Vue({
+					el: "#app",
+					data: {
+						"list": data.list,
+						"selectId":0
+					},
+					methods: {
+						save: function() {
+							$("#listForm").ajaxSubmit({
+								url:action,
+								dataType:"json",
+								success:function(data){
+									var n= getData({
+											"iId": iId
+										}, url);
+									vue.list=n.list;
+									vue.selectId=0;
+								}
+							});
+						},
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

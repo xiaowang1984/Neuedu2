@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			*{
+				margin:0;padding:0;
+			}
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+	        }
+	        .sid{
+	        	display:none;
+	        }
+	        .mtable{
+	        	width: 100%;
+	        	border:0;
+	        }
+	        .mtable  tr td{
+	        	border:0;
+	            border-right: 1px solid #ccc;
+	        	border-bottom: 1px solid #ccc;
+	        }
+	        .mtable  tr td:nth-last-child(1) {
+	        	border-right: 0;
+	        }
+	        .mtable  tr:nth-last-child(1) td{
+	        	border-bottom: 0;
+	        }
+	        .menu li{
+	        	cursor: pointer;
+	        	background: #FFCC99;
+	        }
+	        .menu li:hover{
+	        	background: #000;
+	        	color:#fff;
+	        }
+	        .body-content{
+	        	border-bottom: 0;
+	        }
+		</style>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" style="border-bottom: 0;" v-cloak>
+			<div class="padding border-bottom">
+				<form id="fm" method="post" enctype="multipart/form-data">
+					<input name="skill" type="hidden" :value="arrids" />
+					<input name="id" type="hidden" :value="id" />
+					<ul class="search" style="padding-left:10px;">
+						<li>
+							<select v-model="lId" @change="changelId"  name="lId" class="input s100">
+								<option value="" selected="selected">请选择</option>
+								<option v-for="language in languages" :value="language.id">{{language.name}}</option>
+							</select>
+						</li>
+						
+					</ul>
+				</form>
+			</div>
+		  	<div class="body-content" style="display: flex;">
+		    	<div style="flex: 1;">
+		    		<table  class="ltable table table-hover table-bordered" >
+						<thead>
+							<tr>
+								<th>模块</th>
+								<th>知识点</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template v-for="module in modules">
+								<tr>
+									<td @mousedown="moduleMenu($event,module.id)">{{module.name}}</td>
+									<td style="padding:0">
+										<template v-if="module.points.length==0">
+											&nbsp;
+										</template>
+										<template v-else>
+											<table class="mtable">
+												<tr v-for="point in module.points">
+													<td><label><input @change="getPoint(point.id,point.name,$event)" :checked="ischecked(point.id)" type="checkbox" :value="point.id">{{point.name}}</label></td>
+												</tr>
+											</table>
+										</template>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+		    	</div>
+		    	<div style="flex: 1;">
+		    		<table  class="ltable table table-hover table-bordered" >
+		    			<thead>
+		    				<tr>
+		    					<th>已配置知识点</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				<tr v-for="point in  points">
+		    					<td>{{point.name}}</td>
+		    				</tr>
+		    			</tbody>
+		    		</table>
+		    	</div>
+			</div>
+			<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','tests/edit',true)"> 提交</button>
+		</div>
+		<script>
+			var id=$.getUrlParam("id");
+			var data=getData({},backPath+"language/list");
+			var test=getData({"id":id},backPath+"tests/edit");
+			new Vue({
+				el:"#app",
+				data:{
+					id:id,
+					languages:data.list,
+					lId:"",
+					modules:[],
+					points:test.points,
+				},
+				computed:{
+					arrids:function(){
+						var arr=[];
+						for(var i=0;i<this.points.length;i++)
+							arr.push(this.points[i].id);
+						return arr;
+					}
+				},
+				methods:{
+					changelId:function(){
+						this.modules=getData({"lId":this.lId},backPath+"module/list").list;
+					},
+					getPoint:function(id,name,e){
+						if(e.target.checked){
+								this.points.push({"id":id,"name":name});
+						}else{
+							for(var i=0;i<this.points.length;i++){
+								if(this.points[i].id==id){
+									this.points.splice(i,1);
+									return;
+								}
+							}
+						}
+					},
+					ischecked:function(id){
+						var flag=false;
+						for(var i=0;i<this.points.length;i++){
+							if(this.points[i].id==id){
+								flag=true;
+								break;
+							}
+						}
+						return flag;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

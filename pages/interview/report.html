@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div class="padding border-bottom">
+				<ul class="search" style="padding-left:10px;">
+					<li>
+						<button type="button" class="button input s100" @click="add(gId)"><span class="icon-plus-square-o"></span>添加考试</button>
+					</li>
+				</ul>
+			</div>
+			<form id="listForm" method="post">	
+				<table  class="table table-hover table-bordered">
+					<thead>	
+						<tr>
+							<th style="display: none;">编号</th>
+							<th rowspan="2">姓名</th>
+							<template v-for="entry in list">
+								<th colspan="2">{{entry.name}}</th>
+							</template>
+						</tr>
+						<tr>
+							<template v-for="entry in list">
+								<th>技术分</th>
+								<th>表达分</th>
+							</template>
+						</tr>
+					</thead>
+					<tbody>
+						<input name="id" type="hidden" v-model="selectId" />
+						<template v-for="student in stulist">
+							<tr>
+								<td>{{student.name}}</td>
+								<template v-for="interview in list">
+									<td v-if="selectId==course(student.id,interview.list).id">
+										<input @keydown="save($event)" name="skill" :value="course(student.id,interview.list).skill" />
+									</td>
+									<td v-else @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).skill}}</td>
+									<td  v-if="selectId==course(student.id,interview.list).id">
+										<input  @keydown="save($event)" name="express" :value="course(student.id,interview.list).express" />
+									</td>
+									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).express}}</td>
+								</template>
+							</tr>
+						</template>
+						
+						<!--<tr v-for="entry in list">
+							<td style="display: none;">{{entry.id}}</td>
+							<td>{{entry.name}}</td>
+							<td>{{entry.dat}}</td>
+							<td>
+								<button class="button button-little border-main" @click="score(entry.id)">成绩</button>
+							</td>
+						</tr>-->
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var url = backPath + "interview/getReport";
+				var gId = $.getUrlParam("gId");
+				var data = getData({
+					"gId": gId
+				}, url);
+				var students=getData({
+					"gId": gId
+				}, backPath + "interviewDetails/getStudents" );
+				var action = backPath + "interviewDetails/edit";
+				var vue = new Vue({
+					el: "#app",
+					data: {
+						"list": data,
+						"stulist":students,
+						"gId":gId,
+						"selectId":0
+					},
+					methods:{
+						course :function(sid,arr){
+						
+							for(var i=0;i<arr.length;i++){
+								if(sid==arr[i].sId){
+									return {"skill":arr[i].skill==-1?"":arr[i].skill,"express":arr[i].express==-1?"":arr[i].express,"id":arr[i].id};
+								}
+							}
+							return {"skill":-1,"express":-1,"id":0};
+						},
+						add: function(id) {
+							dialogframe({
+								"title": "添加面试",
+								"url": "pages/interview/add.html?gId=" + id
+							});
+						},
+						save:function(event){
+							if(event.keyCode==13){
+								$("#listForm").ajaxSubmit({
+									url:action,
+									dataType:"json",
+									success:function(data){
+										var n= getData({
+											"gId": gId
+										}, url);
+										vue.list=n;
+										vue.selectId=0;
+									}
+								});
+							}
+						}
+					},
+				});
+				$("body").keydown(function(e){
+					if(e.keyCode==27){
+						vue.selectId=0;
+					}
+				});
+			
+			});
+		</script>
+	</body>
+</html>

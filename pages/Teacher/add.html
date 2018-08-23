@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div class="body-content" id="app">	
+		    <form method="post" class="form-x" id='fm'>  
+		      <div class="form-group">
+		        <div class="label">
+		          <label>编号：</label>
+		        </div>
+		        <div class="field">
+		          <input type="text"  class="input w50" v-model="teacher.no" name="no" data-validate="required:请输入编号,length#<32:字符长度小于32位" />
+		          <div class="tips"></div>
+		        </div>
+		      </div>
+		      <div class="form-group">
+		        <div class="label">
+		          <label>姓名：</label>
+		        </div>
+		        <div class="field">
+		          <input type="text"   class="input w50" v-model="teacher.name" name="name" data-validate="required:请输入姓名,length#<10:字符长度小于10位" />
+		          <div class="tipss"></div>
+		        </div>
+		      </div>     
+		      <div class="form-group">
+		        <div class="label">
+		          <label>密码：</label>
+		        </div>
+		        <div class="field">
+		           <input type="password"    class="input w50" v-model="teacher.password" name="password" data-validate="required:请输入密码" />
+		          <div class="tips"></div>
+		        </div>
+		      </div>
+		      <div class="form-group">
+		        <div class="label">
+		          <label>电话：</label>
+		        </div>
+		        <div class="field">
+		           <input type="text"  class="input w50"  v-model="teacher.phone"  name="phone" data-validate="required:请输入电话,length#<30:字符长度小于30位" />
+		        </div>
+		      </div>
+		      <div class="form-group">
+		        <div class="label">
+		          <label>邮箱：</label>
+		        </div>
+		        <div class="field">
+		           <input type="text"   class="input w50" v-model="teacher.mail"  name="mail" data-validate="required:请输入邮箱,email:请输入正确的邮箱格式" />
+		        </div>
+		      </div>
+		      <div class="form-group">
+		      	<div class="label">
+		      		<label>类型：</label>
+		      	</div>
+		      	<div class="field">
+		      		<select v-model="teacher.type" name="type" class="input w50" data-validate="required:请选择类型" >
+		      			<option value="" disabled="disabled" selected="selected">请选择类型</option>
+		      			<option value="0">实施</option>
+		      			<option value="1">讲师</option>
+		      		</select>
+		      		<div class="tips"></div>
+		      	</div>
+		      </div>
+		      <div class="form-group">
+		        <div class="label">
+		          <label></label>
+		        </div>
+		        <div class="field">
+		          <button  class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','teacher/add',true)"> 提交</button>
+		        </div>
+		      </div>
+		    </form>
+		</div>
+		<script>
+			new Vue({
+				el:"#app",
+				data:{
+					teacher:{
+						id:"",
+						no:"",
+						name:"",
+						password:"",
+						mail:"",
+						phone:"",
+						type:""
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

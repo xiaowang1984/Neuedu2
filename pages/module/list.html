@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;padding:0;
+			}
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        .sid{
+		        	display:none;
+		        }
+		        .mtable{
+		        	width: 100%;
+		        	border:0;
+		        }
+		        .mtable  tr td{
+		        	border:0;
+		            border-right: 1px solid #ccc;
+		        	border-bottom: 1px solid #ccc;
+		        }
+		         tr .showname:hover{
+		        	background:#000000;
+		        	color: #FFFFFF;
+		        }
+		        .mtable  tr td:nth-last-child(1) {
+		        	border-right: 0;
+		        }
+		        .mtable  tr:nth-last-child(1) td{
+		        	border-bottom: 0;
+		        }
+		        .menu li{
+		        	cursor: pointer;
+		        	width:150px;
+		        	background: #FFCC99;
+		        }
+		        .menu li:hover{
+		        	background: #000;
+		        	color:#fff;
+		        }
+		</style>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" @click="hideMenu" v-cloak>
+			<hr class="bg-main" />
+			<div  class="panel admin-panel">
+				<div class="padding border-bottom">
+					<form id="listForm" method="post" enctype="multipart/form-data">
+						<ul class="search" style="padding-left:10px;">
+							<li>
+								<button type="button"  class="button input  "   @click="addModule" ><span class="icon-plus-square-o"></span>添加模块</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<table oncontextmenu="return false" class="ltable table   table-bordered" >
+					<thead>
+						<tr>
+							<th style="width: 50%;">模块</th>
+							<th>知识点</th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for="module in list">
+							<tr>
+								<td class="showname" @mousedown="moduleMenu($event,module.id)">{{module.name}}</td>
+								<td style="padding:0">
+									<template v-if="module.points.length==0">
+										&nbsp;
+									</template>
+									<template v-else>
+										<table class="mtable">
+											<tr v-for="point in module.points">
+												<td class="showname" @mousedown="pointMenu($event,point.id)">{{point.name}}</td>
+											</tr>
+										</table>
+									</template>
+								</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+			<ul oncontextmenu="return false" class="menu list-group" style="width: 80px;position: absolute;" :style="{'display':dis,'top':top+'px','left':left+'px'}">
+				<li v-if="type==1" @click="addPoint">添加知识点</li>
+				<li @click="edit">修改</li>
+				<li @click="del">删除</li>
+			</ul>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("id");
+				var url=path2+"module/list";
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						"list":getData({"lId":id},url),
+						dis:"none",
+						top:0,
+						left:0,
+						editUrl:"",
+						delUrl:"",
+						addUrl:"",
+						type:0
+					},
+					methods:{
+						addModule:function(){
+							dialogframe({
+								url:"pages/module/add.html?lId="+id,
+								title:"添加模块"
+							});
+						},
+						addPoint:function(){
+							dialogframe({
+								url:this.addUrl,
+								title:"添加知识点"
+							});
+						},
+						edit:function(){
+							if(this.type==1){
+								dialogframe({
+									url:this.editUrl,
+									title:"修改模块"
+								});
+							}else{
+								dialogframe({
+									url:this.editUrl,
+									title:"修改知识点"
+								});
+							}
+							
+						},
+						del:function(id){
+							if(confirm("确定要删除吗?")){
+								submitForm('listForm',this.delUrl,false);
+							}
+						},
+						moduleMenu:function(e,id){
+							if(e.which==3){
+								this.dis="block";
+								this.top=e.pageY||e.clientY;
+								this.left=e.pageX||e.clientX;
+								this.type=1;
+								this.editUrl="pages/module/edit.html?id="+id;
+								this.delUrl="module/del?id="+id;
+								this.addUrl="pages/point/add.html?mId="+id;
+							}
+						},
+						pointMenu:function(e,id){
+							if(e.which==3){
+								this.dis="block";
+								this.top=e.pageY||e.clientY;
+								this.left=e.pageX||e.clientX;
+								this.type=0;
+								this.editUrl="pages/point/edit.html?id="+id;
+								this.delUrl="point/del?id="+id
+							}
+						},
+						hideMenu:function(){
+							this.dis="none";
+						}
+					}
+				});
+			});
+			
+		</script>
+	</body>
+</html>

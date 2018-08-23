@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/kalendae.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/kalendae.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+						.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.s120{
+				width:120px; 
+				padding:5px 10px;
+			}
+			.kalendae .k-calendar {
+			    display: inline-block;
+			    zoom:1;
+			    *display:inline;
+			    /* width改为100% width:155px;*/ 
+			    width: 200px; 
+			    vertical-align:top;
+			}
+			.kalendae .k-title, 
+			.kalendae .k-header, 
+			.kalendae .k-days{
+				width:100%;
+				line-height: 1px;
+			}
+			
+			.kalendae .k-header span{
+				width:25px;
+			    height:25px;
+			    line-height:25px;
+			}
+			.kalendae .k-days span {
+			    /* 水平居中 */
+			    text-align:center;
+			    width:25px;
+			    /* 高度 4.5em效果比较好 height等于line-height就能垂直居中了 */
+			    height:25px;
+			    line-height:25px;
+			    padding:2px 3px 2px 2px;
+			    border:1px solid transparent;
+			    border-radius:3px;
+			    color:#999;
+			}
+			#sk-div dl{
+				border-bottom:1px solid gainsboro;
+				width:48%;
+				display: inline-block;
+			} 
+			#sk-div dl:nth-child(odd){
+				border-right:1px solid gainsboro;
+			}
+			#sk-div dl dt{
+				line-height:80px;
+			}
+		</style>
+	</head>
+	<body>
+		<form  id='fm' class="form-x" method="post">
+			<div class="panel" id="app" v-cloak>
+			<div class="panel-head">
+				<ul class="search">
+					<li>
+						<button type="button" id="add" @click="dateadd()" class="button">
+							选择日期<span class="icon-calendar text-big"></span>
+						</button>
+					</li>
+					<li><span id="fa">方案</span></li>
+					<li>
+						<input style="width:550px" name="note"  v-model="arrange.note" />
+					</li>
+					<li id="dateview" v-show="dv"></li>
+				</ul>	
+				<hr />
+				<ul class="search">
+					<li>
+						<button type="button"  @click="tp=1" class="button input s100 wy_t">
+							<span class="icon-archive text-big text-blue"></span>&nbsp;&nbsp;授课
+						</button>
+					</li>
+					<li>
+						<button type="button" @click="tp=0"  class="button input s100 wy_t">
+							<span class="icon-bank  text-big text-yellow"></span>&nbsp;&nbsp;小学期
+						</button>
+					</li>
+					<li>
+						<button type="button" @click="tp=2" class="button input s120 wy_t"  >
+							<span class="icon-keyboard-o text-big text-blue"></span>&nbsp;&nbsp;项目开发
+						</button>
+					</li>
+					<li>
+						<button type="button" @click="tp=4" class="button input s100 wy_t">
+							<span class="icon-briefcase text-big " style="color:rgb(128,128,128);"></span>&nbsp;&nbsp;就业期
+						</button>
+					</li>
+					<li>
+						<button   type="button"  @click="tp=3" class="button input s120 wy_t">
+							<span  class="icon-refresh text-big" style="color:#0000FF"></span>&nbsp;&nbsp;串讲复习
+						</button>
+					</li>
+				</ul>
+			</div>
+			<div class="panel-body">
+					<input   name="dates"  type="hidden" v-model="dates" />
+					<input   name="type"  type="hidden" v-model="tp" />
+					<input   name="id"    type="hidden" v-model="arrange.id" />
+					<div id="sk-div" v-if="tp==1">
+						<div class="field label-block">
+							<dl v-for="item in courses.list">
+								<dt @click="courses.selected=item.id">
+									<img :src="getImg(item.img)" width="80" height="80" class="img-border radius-circle">{{item.name}}
+								</dt>
+								<dd v-for="plan in item.plans" v-if="courses.selected==item.id">
+									<label><input type="radio" name="pId" :value="plan.id" :checked="arrange.pId==plan.id">{{plan.name}}</label>
+								</dd>
+							</dl>
+						</div>
+						 <button  class="button bg-main icon-check-square-o" type="button" @click="submitForm()" > 提交</button>
+					</div>
+					<div style="padding-left: 20px;" id="xxq-div"  v-if="tp==0">
+						<button   class="button bg-main icon-check-square-o" type="button" @click="submitForm()" > 提交</button>
+					</div>
+					<div id="xm-div" v-if="tp==2">
+						 <div class="form-group">
+					        <div class="label">
+					          <label>项目名称：</label>
+					        </div>
+					        <div class="field">
+					          <input type="text" class="input w50" value="" name="project" v-model="arrange.project"  />
+					          <div class="tips"></div>
+					        </div>
+					    </div>
+					    <div class="form-group">
+					        <div class="label">
+					          <label>github仓库名：</label>
+					        </div>
+					        <div class="field">
+					          <input type="text" class="input w50" value="" name="git" v-model="arrange.git" />
+					          <div class="tips"></div>
+					        </div>
+					    </div>
+					     <button id="btn3"  class="button bg-main icon-check-square-o" type="button" @click="submitForm()"> 提交</button>
+					</div>
+					<div style="padding-left: 20px;"  v-if="tp==3">
+						<button  class="button bg-main icon-check-square-o" type="button" @click="submitForm()"> 提交</button>
+					</div>
+					<div style="padding-left: 20px;" v-if="tp==4">
+						<button  class="button bg-main icon-check-square-o" type="button" @click="submitForm()"> 提交</button>
+					</div>
+			</div>
+		</div>
+		</form>
+		<script type="text/javascript">
+			var id=$.getUrlParam("aId");
+			var data=getData({"id":id},backPath+"arrange/edit");
+			var list=getData({},backPath+"course/getCourses");
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					dv:false,
+					dates:[],
+					tp:data.type,
+					courses:{
+						list:list,
+						selected:0
+					},
+					arrange:data
+				},
+				created:function(){
+					for(let i=0;i<data.arrangeLists.length;i++){
+						this.dates.push(data.arrangeLists[i].date);
+					}
+				},
+				methods:{
+					dateadd:function(){
+						this.dv=!this.dv;
+					},
+					getImg:function(img){
+						return resourcePath+img;
+					},
+					submitForm:function(){
+						if(this.dates.length==0){
+							alert("请选择日期");
+						}else{
+							submitForm('fm','arrange/edit',true);
+						}
+					}
+				}
+			});
+			new Kalendae({
+				attachTo:document.getElementById("dateview"),
+				months:2,
+				mode:'multiple',
+				selected:vue.dates.length==0?"":vue.dates,
+				subscribe:{
+						"date-clicked":function(dat){
+							var flag=true;
+							for(var i=0;i<vue.dates.length;i++){
+								if(vue.dates[i]==dat.format("YYYY-MM-DD")){
+									vue.dates.splice(i,1);
+									flag= false;
+									break;
+								}
+							}
+							if(flag){
+								vue.dates.push(dat.format("YYYY-MM-DD"));
+							}
+						}
+					}
+			});
+			$(function(){
+				/*var id=$.getUrlParam("aId");
+				$("#aId").val(id);
+				var data=getData({"id":id},backPath+"arrange/edit");
+				var dates=[];
+				for(var i=0;i<data.arrangeLists.length;i++){
+					dates.push(data.arrangeLists[i].date);
+				}*/
+				
+				
+
+			});
+		</script>
+	</body>
+</html>

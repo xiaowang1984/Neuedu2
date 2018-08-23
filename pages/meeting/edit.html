@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div class="panel">
+			<div class="panel-body">
+				<form id="fm" method="post">
+					<input name="id" id="id" type="hidden" />
+					<textarea id="problem" name="problem" class="input"></textarea>
+					<textarea id="solve" rows="10" name="solve" class="input" placeholder="解决办法"></textarea>
+					<br />
+					<div class="form-button">
+						<button id="btn" class="button border-main" type="button">
+							提交</button>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var id=$.getUrlParam("id");
+				$("#id").val(id);
+				var data=getData({"id":id},backPath+"meetingDetail/edit");
+				$("#problem").text(data.problem);
+				$("#solve").text(data.solve);
+				$("#btn").click(function(){
+					submitForm("fm","meetingDetail/edit",true);
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app"class="panel admin-panel" v-cloak >
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<select id="type" name="type" class="input s100" >
+								<option value="" selected="selected">教师类型</option>
+								<option value="0">实施</option>
+								<option value="1">讲师</option>
+							</select>
+				 	 	</li>
+				 	 	
+				 	 	<li>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="教师名" autocomplete="off" />
+				 	 	</li>
+				 	 	<li>
+				 	 		<button type="button"  @click="search" class="button input s100"><span class="icon-search"></span>搜索</button>
+				 	 	</li> 
+				 	 	<li>
+				 	 		<button type="button"  class="button input s100 dialogs" onclick="dialog(this)" data-title="添加教师" data-url="pages/Teacher/add.html"  ></span>创建教师</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <table id="tb"  class="table table-hover table-bordered">
+			 	<thead>
+		 			<tr>
+		 				<th>编号</th>
+		 				<th>姓名</th>
+		 				<th>类型</th>
+		 				<th>电话</th>
+		 				<th>状态</th>
+		 				<th>操作</th>
+		 			</tr>
+		 		</thead>
+		 		<tbody>
+		 			<tr v-for="teacher in entry.list">
+		 				<td>{{teacher.no}}</td>
+		 				<td>{{teacher.name}}</td>
+		 				<td>{{getTypeName(teacher.type)}}</td>
+		 				<td>{{teacher.phone}}</td>
+		 				<td>{{status(teacher.isDel)}}</td>
+		 				<td>
+		 					<button class="button button-little border-main" @click="edit(teacher.id)" >修改</button>&nbsp;&nbsp;
+		 					<button class="button button-little border-main" @click="isdel(teacher.id,teacher.isDel)"><span v-if="teacher.isDel==1">离职</span><span v-else>恢复</span></button></td>
+		 			</tr>
+		 		</tbody>
+			 </table>
+			 <div id="wy_page" class="wy_page">
+			 	<mypage :pageno="entry.pageNo" :totalpage="entry.totalPage" :callback="changepage"> </mypage>
+			 </div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=path2+"/teacher/list";
+				var path=basePath+"pages/Teacher/list.html";
+				var data=getData({"pageNo":1},url);
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						entry:data,
+						params:{
+							pageNo:1,
+							type:"",
+							name:""
+						}
+					},
+					methods:{
+						changepage:function(i){
+							this.params.pageNo=i
+							this.entry=getData(this.params,url);
+						},
+						getTypeName:function(typeid){
+							return typeid==0?"实施":"讲师";
+						},
+						edit:function(id){
+							dialogframe({
+								"title":"修改教师信息",
+								"url":"pages/Teacher/edit.html?id="+id
+							});
+						},
+						search:function(){
+							this.params.type=$("#type").val();
+							this.params.name=$("#name").val();
+							this.params.pageNo=1;
+							this.entry=getData(this.params,url);
+						},
+						status:function(isDel){
+							if(isDel==1)
+								return "在职";
+							else
+								return "离职";
+						},
+						isdel:function(id,isDel){
+							isDel=isDel==1?0:1;
+							var message=isDel==1?"确定该员工已经离职了吗":"确定要将该员工恢复为在职状态吗";
+							if(confirm("确定该员工已经离职了吗")){
+								
+								$.ajax({
+									url:path2+"teacher/isDel",
+									type:"post",
+									data:{id:id,isDel:isDel},
+									dataType:"json",
+									success:function(data){
+										alert(data.message);
+										vue.entry=getData(vue.params,url);
+									}
+								});	
+							}	
+						}
+					}
+				});
+			});
+			
+		</script>
+	</body>
+</html>

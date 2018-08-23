@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>班级列表</title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.wy_list li{
+				list-style: none;
+				width:340px;
+				height: 200px;
+				display: inline-block;
+				border:1px solid #bbb;
+				margin: 10px;
+				display: inline-block;
+			}
+			.wy_list li .wy_item{
+				display: flex;	
+				height: 100%;
+				width: 100%;
+			}
+			.wy_list li .wy_item .wy_left{
+				flex:5;
+				padding-left: 10px;
+			}
+			.wy_list li .wy_item .wy_left .title{
+				height:60px;
+				line-height: 40px;
+				font-size: 18px;
+				font-weight: bold;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.wy_list li .wy_item .wy_right{
+				flex:2;
+			}
+			.wy_list li .wy_item .wy_content{
+				display: flex;
+				height:40px;
+			}
+			.wy_list li .wy_item .wy_content div{
+				flex:1;
+				height: 40px;
+				line-height: 40px;
+			}
+			.text-big{
+				color: #585858;
+			}
+			.icon {
+				font-size:22px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.25em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		</style>
+
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak >
+			 <div class="padding border-bottom">
+			 	<form id="listForm" class="form-x">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<select v-model="attr.params.type" id="type" name="type" class="input s100" >
+								<option value="" selected="selected">班级类型</option>
+								<option value="0">招转</option>
+								<option value="1">小学期</option>
+								<option value="2">高校个体</option>
+								<option value="3">社会个体</option>
+								<option value="4">专业共建</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select  v-model="attr.params.lecturer" id="lecturer" name="lecturer" class="input s100">
+								<option value="" >讲师</option>
+								<option v-for="lecturer in attr.lecturer" :value="lecturer.id"  >{{lecturer.name}}</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select v-model="attr.params.manager" id="manager" name="manager" class="input s100">
+								<option value="" selected="selected">实施</option>
+								<option v-for="manager in attr.manager" :value="manager.id">{{manager.name}}</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select v-model="attr.params.isDel" id="isDel" name="isDel" class="input s100">
+				 	 			<option value="">全部</option>
+								<option value="1">正常</option>
+								<option value="0">归档</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="year" name="year" class="input s100">
+								<option value="" selected="selected">年份</option>
+								<option v-for="n in 20" :value="n+2016">{{n+2016}}</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<select id="month" name="month" class="input s100">
+								<option value="" selected="selected">月份</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+							</select>
+				 	 	</li>
+				 	 	<li>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="班级名称" :value="attr.params.name" />
+				 	 	</li>
+				 	 	<li>
+				 	 		<button type="button" id="query" class="button input s100"  @click="search"><span class="icon-search"></span>搜索</button>
+				 	 	</li> 
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100" onclick="dialog(this)" data-title="添加班级" data-url="pages/grade/add.html" ><span class="icon-plus-square-o"></span>创建班级</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <ul id="wy_list" class="wy_list">
+			 	<li v-for="item in list"  @contextmenu.prevent  >
+			 		<div class="wy_item">
+			 			<div class="wy_left">
+			 				<div @mousedown="mousedown(event,item.id)" class="title text-blue" :title="item.name">{{item.name}}</div>
+			 				<hr>
+			 				<div class="wy_content">
+			 					<div v-for="lecturer in attr.lecturer" v-if="item.lecturer==lecturer.id">
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiangshi"></use>
+			 						</svg>&nbsp;&nbsp;{{lecturer.name}}</div>
+			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-laoshi"></use>
+			 						</svg>&nbsp;&nbsp;{{manager.name}}</div>
+			 				</div>
+			 				<div class="wy_content">
+			 					<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuesheng--"></use>
+			 						</svg>&nbsp;&nbsp;{{item.stuCount}}</div>
+			 					<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offer"></use>
+			 						</svg>&nbsp;&nbsp;{{item.offer}}</div>
+			 				</div>
+			 				<div class="wy_content">
+			 					<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
+			 						</svg>&nbsp;&nbsp;{{getDays(item.startDate)}}</div>
+			 					<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-ai03"></use>
+			 						</svg>&nbsp;&nbsp;{{item.startDate}}</div>
+			 				</div>
+			 			</div>
+			 			<div class="wy_right">
+			 				<div style="height: 60px;line-height: 60px;text-align: center;"><img alt="logo" height="45" width="45" style="vertical-align:middle" :src="getImg(item.img)"></div>
+			 				<div style="height:50px;line-height: 50px;text-align:center">天津TTC</div>
+			 				<div style="height:50px;line-height: 50px;text-align:center">
+			 					<svg v-if="item.isDel==0" class="icon" aria-hidden="true" style="color:limegreen;font-size: 40px;">
+		 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-wancheng"></use>
+		 						</svg>
+			 				</div>
+			 				<div style="height:30px;text-align:center">
+			 					<svg @click="edit(item.id)" class="icon" aria-hidden="true" style="cursor: pointer;font-size: 26px;">
+		 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji"></use>
+		 						</svg>
+			 				</div>
+			 			</div>
+			 		</div>
+			 	</li>
+			 </ul>
+			
+		    <div id="wy_page" class="wy_page">
+		    </div>
+		</div>
+		<script type="text/javascript">
+			var url=backPath+"grade/list";
+			var path=basePath+"pages/grade/list.html";
+			var params=parseQueryString(window.location.href);
+			var pageNo=$.getUrlParam("pageNo");
+			if(pageNo==null){
+				pageNo=1;
+			}
+			params.pageNo=pageNo;
+			var data=getData(params,url);
+			if(data.attr.params.lecturer==null){
+				data.attr.params.lecturer="";
+			}
+			if(data.attr.params.manager==null){
+				data.attr.params.manager="";
+			}
+			if(data.attr.params.type==null){
+				data.attr.params.type="";
+			}
+			if(data.attr.params.isDel==null){
+				data.attr.params.isDel="";
+			}
+			var vue=new Vue({
+				el:"#app",
+				data:data,
+				methods:{
+					getDays:function(param){
+						var dat=new Date(param+" 00:00:00");
+					    return parseInt((new Date() - dat)/1000/60/60/24/7)+1;
+					},
+					getImg:function(param){
+						return param==""?resourcePath+"images/xxq.jpg":resourcePath+param;
+					},
+					mousedown:function(e,id){
+					    if(e.which==1){
+							parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");		
+						}
+					},
+					edit:function(id){
+						dialogframe({
+							"title":"修改班级",
+							"url":"pages/grade/edit.html?id="+id
+						});
+					},
+					search:function(){
+						 window.location.href= path+"?"+$("#listForm").serialize();
+					}
+				}
+			});
+			$(function(){
+				$("#wy_page").wy_page({"pageNo":pageNo,"params":data.attr.paramStr,"path":path,"totalPage":data.totalPage});
+			});
+			function closeAdd(){
+				layer.closeAll('iframe'); 
+			}
+		</script>
+	</body>
+</html>

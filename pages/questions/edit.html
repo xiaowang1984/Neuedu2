@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="body-content" v-cloak>
+			<form method="post" class="form-x" id='fm'>
+				<input type="hidden" name="id" v-model="question.id" />
+				<div class="form-group">
+					<div class="label">
+						<label>题库名称：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" v-model="question.name" name="name" data-validate="required:题库名称" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>关联语言：</label>
+					</div>
+					<div class="field">
+						<select v-model="question.lId" name="lId" class="input w50" data-validate="required:关联课程">
+							<option value="" disabled="disabled" selected="selected">请选择课程</option>
+							<option v-for="language in languages" :value="language.id">{{language.name}}</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>类型：</label>
+					</div>
+					<div class="field">
+						<select  v-model="question.type" name="type" class="input w50" data-validate="required:选择类型">
+							<option value="" disabled="disabled" selected="selected">选择类型</option>
+							<option v-for="type in types" :value="type.id">{{type.name}}</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label></label>
+					</div>
+					<div class="field">
+						<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','questions/edit',true)"> 提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var url = backPath + "language/getList";
+				var data = getData({}, url);
+				var id=$.getUrlParam("id");
+				var question=getData({"id":id},backPath+"questions/edit");
+				new Vue({
+					el:"#app",
+					data:{
+						languages:data,
+						question:question,
+						types:[{"id":1,"name":"常规验收"},
+							{"id":2,"name":"网络题库"},
+							{"id":3,"name":"企业题库"},
+							{"id":4,"name":"官方考试"},
+						]
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div class="bg"></div>
+		<div id="app" class="container">
+			<div class="line bouncein">
+				<div class="xs6 xm4 xs3-move xm4-move">
+					<div style="height:150px;"></div>
+					<div class="media media-y margin-big-bottom">
+					</div>
+					<form  method="post" id="fm">
+						<div class="panel loginbox">
+							<div class="text-center margin-big padding-big-top">
+								<h1>考试入口</h1></div>
+							<div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+								<div class="form-group">
+									<div class="field field-icon-right">
+										<input type="text" class="input input-big" name="id" placeholder="ID号" data-validate="required:请填写ID号" v-model="user" />
+										<span class="icon icon-user margin-small"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="field field-icon-right">
+										<input class="input input-big" name="no" placeholder="考试口令" data-validate="required:请填写考试口令" />
+										<span class="icon icon-key margin-small"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="field field-icon-right">
+										<select id="tp" v-model="selectIndex" class="input input-big" >
+											<option value="1">进入考场</option>
+											<option value="0">查看成绩</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div style="padding:30px;"><input type="button" class="button button-block bg-main text-big input-big" value="确定" @click="smt"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script>
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					user:"",
+					selectIndex:1
+				},
+				methods:{
+					smt:function(){
+						if(this.selectIndex==1){
+							$("#fm").ajaxSubmit({
+								url:backPath+"exam/getPaper",
+								dataType:"json",
+								success:function(data){
+									if(data.code==0){
+										alert(data.mess);
+									}else{
+										sessionStorage.removeItem('exam');
+										sessionStorage.removeItem('user');
+										sessionStorage.setItem('exam', JSON.stringify(data.mess));
+										sessionStorage.setItem("user",vue.user);
+										window.location.href=basePath+"pages/exam/exam.html";
+									}	
+								}
+							});
+						}else{
+							$("#fm").ajaxSubmit({
+								url:backPath+"exam/checkDetails",
+								dataType:"json",
+								success:function(data){
+									if(data.code==0){
+										alert(data.mess);
+									}else{
+										window.location.href=basePath+"pages/exam/look.html?id="+data.mess;
+									}	
+								}
+							});
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

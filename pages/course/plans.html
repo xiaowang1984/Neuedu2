@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel" id="app">
+			 <div class="padding border-bottom">
+			 	<ul class="search" style="padding-left:10px;">
+			 	 	<li>
+			 	 		<button type="button" @click="isAdd=true;selected=0" class="button input s100 dialogs" ></span>创建方案</button>
+			 	 	</li> 
+			 	</ul>
+			 </div>
+			 <hr class="bg-main" />
+			 <form id="editForm" class="form-x" method="post">
+				 <table id="tb"  class="table table-hover table-bordered">
+				 	<thead>
+			 			<tr>
+			 				<th>方案名称</th>
+			 				<th>URL连接地址</th>
+			 				<th style="width: 200px;">操作</th>
+			 			</tr>
+			 		</thead>
+			 		<tbody>
+			 			<template v-for="plan in list">
+			 				<tr v-if="selected!=plan.id">
+			 					<td>{{plan.name}}</td>
+			 					<td>{{plan.url}}</td>
+			 					<td >
+			 						<button  type="button" class="update button button-little border-main" @click="isAdd=false;selected=plan.id">修改</button>
+			 					</td>
+			 				</tr>
+			 				<tr v-else>
+			 					<td>
+				 					<div class="form-group">
+										<div class="field">
+											<input type="text" class="input" maxlength="20"   name="name" :value="plan.name" />
+											<div class="tips"></div>
+										</div>	
+									</div>
+				 				</td>
+				 				<td>
+				 					<div class="form-group">
+										<div class="field">
+											<input type="text" class="input" maxlength="200"  name="url" :value="plan.url" />
+											<div class="tips"></div>
+										</div>	
+									</div>
+				 				</td>
+				 				<td>
+				 					<div class="form-group">
+										<div class="field">
+											<button class="button  button-little bg-main  " type="button"  @click="update(plan.id)" > 保存</button>
+											<button class="button  button-little bg-main  " type="button"  @click="selected=0" > 取消</button>
+										</div>
+									</div>
+				 				</td>
+			 				</tr>
+			 			</template>
+			 			<tr v-if="isAdd">
+			 				<td>
+			 					<div class="form-group">
+									<div class="field">
+										<input type="text" class="input"  maxlength="20"   name="name" data-validate="required:方案名不能为空,length#<20:方案名字长度小于20" />
+										<div class="tips"></div>
+									</div>	
+								</div>
+			 				</td>
+			 				<td>
+			 					<div class="form-group">
+									<div class="field">
+										<input type="text" class="input"   name="url" maxlength="200" data-validate="length#<20:url长度小于20" />
+										<div class="tips"></div>
+									</div>	
+								</div>
+			 				</td>
+			 				<td>
+			 					<div class="form-group">
+									<div class="field">
+										<button class="button  button-little bg-main  " type="button"  @click="add" > 提交</button>
+										<button class="button  button-little bg-main  " type="button"  @click="isAdd=false" > 取消</button>
+									</div>
+								</div>
+			 				</td>
+			 				
+			 			</tr>
+			 		</tbody>
+				 </table>
+			 </form>
+		</div>
+		<script type="text/javascript">
+			
+			$(function(){
+				var cid=$.getUrlParam("cid");
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						isAdd:false,
+						selected:0,
+						list:getData({"cId":cid},path2+"plan/list"),
+					},
+					methods:{
+						update:function(id){
+							$("#editForm").ajaxSubmit({
+								url:path2+"plan/update",
+								dataType:"json",
+								data:{id:id},
+								success:function(data){
+									alert(data.message);
+									vue.selected=0;
+									vue.list=getData({"cId":cid},path2+"plan/list");
+								}
+							});
+						},
+						add:function(){
+							$("#editForm").ajaxSubmit({
+								url:path2+"plan/add",
+								dataType:"json",
+								data:{cId:cid},
+								success:function(data){
+									alert(data.message);
+									vue.isAdd=false;
+									vue.list=getData({"cId":cid},path2+"plan/list");
+								}
+							});
+						}
+					}
+				});
+				/**var data=getData({"cId":cid},backPath+"plan/list");
+				for(var i=0;i<data.list.length;i++){
+					var $tr=$('<tr></tr>');
+					$tr.append('<td class="field" data-name="name">'+data.list[i].name+'</td>');
+					$tr.append('<td class="field" data-name="url">'+data.list[i].url+'</td>');
+					$tr.append('<td data-id="'+data.list[i].id+'"><button  type="button" class="update button button-little border-main">修改');
+					$("#tb tbody").append($tr);
+				}
+				$("#tb").click(function(e){
+					if($(e.target).hasClass("del")){
+						$(e.target).parent().parent().removeClass("active");
+						$(e.target).parent().siblings().each(function(index,element){
+							var val= $(element).children("input").val();
+							$(element).text(val);
+							$(e.target).remove();
+						});
+					}else if($(e.target).hasClass("cancel")){
+						$(e.target).parent().parent().remove();
+					}else if($(e.target).hasClass("add")){
+						var flag=true;
+						$(e.target).parent().siblings().each(function(index,element){
+							var val= $(element).children("input").val();
+							if($.trim(val)==""){
+								flag=false;
+							}
+						});
+						if(flag==false){
+							alert("方案名和url必须写");
+						}else{
+							$("#editForm").ajaxSubmit({
+								"url":backPath+"plan/add",
+								"data":{"cId":cid},
+								"dataType":"json",
+								"success":function(data){
+									alert(data.mess);
+									if(data.code==1){
+										window.location=window.location;
+									}
+								}
+							});
+							
+						}
+					}
+				});
+				$(".update").click(function(){
+					if(!$(this).parent().parent().hasClass("active")){
+						if(!$(this).parent().parent().siblings().hasClass("active")){
+							$(this).parent().parent().addClass("active");
+							$(this).text("保存");
+							$(this).parent().append($('<button  class="del button button-little border-main" >取消</button></td>'))
+							$(this).parent().siblings().each(function(index,element){
+								var txt=$(element).text();
+								$(element).html('<input style="width: 100%;height:100%" name="'+$(element).data("name")+'" value="'+txt+'" />');
+							});
+						}
+					}else{
+						$(this).parent().parent().removeClass("active");
+						$("#editForm").ajaxSubmit({
+							"url":backPath+"plan/edit",
+							"data":{"id":$(this).parent().data("id")},
+							"dataType":"json",
+							"success":function(data){
+								alert(data.mess);
+								if(data.code==1){
+									window.location=window.location;
+								}
+							}
+						});
+					}
+				});
+				
+				$("#add").click(function(){
+					if($("#tb").children("tbody").children(".active").length==0){
+						var $tr=$('<tr class="active"></tr>');
+						$tr.append('<td class="field" data-name="name"><input style="width: 100%;height:100%" name="name" /></td>');
+						$tr.append('<td class="field" data-name="url"><input style="width: 100%;height:100%" name="url" /></td>');
+						$tr.append('<td><button  type="button" class="add button button-little border-main">保存</button>&nbsp;<button  type="button" class="cancel button button-little border-main">取消</button>');
+						$("#tb tbody").append($tr);
+					}
+				});*/
+			});
+		</script>
+	</body>
+</html>

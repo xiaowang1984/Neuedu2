@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<style>
+		ol li{
+			list-style: decimal;
+		}
+	</style>
+	<body>
+		<div id="app" class="body-content" v-cloak>
+			<form method="post" class="form-x" id='fm'>
+				<div  style="display: flex;flex-direction: row;width:100%">
+					<div style="flex:1;">
+						<div class="form-group">
+							<div class="label">
+								<label>试卷名称：</label>
+							</div>
+							<div class="field">
+								<input type="text" class="input w50" value="" name="name" data-validate="required:试卷名称" />
+								<div class="tips"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="label">
+								<label>创建者：</label>
+							</div>
+							<div class="field">
+								<select   name="owner" class="input w50" data-validate="required:选择类型">
+									<option value="" disabled="disabled" selected="selected">选择创建者</option>
+									<option v-for="teacher in teachers" :value="teacher.id">{{teacher.name}}</option>
+								</select>
+								<div class="tips"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="label">
+								<label>选择题库：</label>
+							</div>
+							<div class="field">
+								<input type="hidden" name="tIds" />
+								<select class="input w50" data-validate="required:关联课程" v-model="checkId" @change="change">
+									<option value="" disabled="disabled" selected="selected">请选择课程</option>
+									<option v-for="question in questions" :value="question.id">{{question.name}}</option>
+								</select>
+								<div class="tips"></div>
+							</div>
+						</div>
+						<div style="height:300px;border:1px solid #ccc;overflow:auto">
+							<input type="hidden" name="ids" v-model="checkArray"/>
+							<ol>
+								<li style="line-height:40px;min-height:40px;word-wrap:break-word" v-for="test in tests"><label><input type="checkbox"  :checked="ischecked(test.id)"  @click="check(test.id,test.name,$event)" ><span v-html="replace(test.name)"></span></label></li>
+							</ol>
+						</div>
+						<div class="form-group">
+							<div class="label">
+								<label></label>
+							</div>
+							<div class="field">
+								<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','paper/add',false)"> 提交</button>
+							</div>
+						</div>
+					</div>
+					<div style="flex: 1;">
+						<ol>
+							<li style="line-height:40px;min-height:40px;word-wrap:break-word" v-for="test in chk">{{test.name}}</li>
+						</ol>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var questions = getData({}, backPath+"paper/questions");
+				var teachers=getData({},backPath+"teacher/getTeachers");
+				var checkId=0;
+				new Vue({
+					el:"#app",
+					data:{
+						questions:questions,
+						checkId:checkId,
+						tests:[],
+						chk:[],
+						checkArray:[],
+						teachers:teachers.lecturer
+					},
+					methods:{
+						change:function(){
+							this.tests=getData({"qId":this.checkId}, backPath+"paper/tests");
+						},
+						replace:function(name){
+							return replacen(name);
+						},
+						check:function(id,name,e){
+							if(e.target.checked){
+								this.checkArray.push(id);
+								this.chk.push({"id":id,"name":name});
+							}else{
+								for(var i=0;i<this.chk.length;i++){
+									if(this.chk[i].id==id){
+										this.chk.splice(i,1);
+									}
+								}
+								for(var i=0;i<this.checkArray.length;i++){
+									if(this.checkArray[i]==id){
+										this.checkArray.splice(i,1);
+									}
+								}
+								
+							}
+						},
+						ischecked:function(id){
+							var flag=false;
+							for(var i=0;i<this.checkArray.length;i++){
+								if(this.checkArray[i]==id){
+									flag=true;
+									break;
+								}
+							}
+							return flag;
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

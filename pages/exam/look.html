@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			.test>li{
+				border-bottom: 1px solid #999;
+				padding: 25px 20px;
+				padding-left:30px;
+			}
+			.option{
+				padding-top:20px;
+				padding-left:10px;
+			}
+			.option>li{
+				line-height: 40px;
+				border-bottom: 2px solid #FFFFFF;
+				
+			}
+			.right{
+				color:#0000FF;
+				background-color: whitesmoke;
+			}
+			.ans{
+				color:#ff0000;
+				background-color: whitesmoke;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div class="padding border-bottom">
+				<div>
+					<strong>考生姓名：{{exam.sName}}</strong>
+				</div>
+			 	<ul class="search" style="padding-left:10px;">
+			 	 	<li>
+			 	 		<strong>总题数：<span style="color: #00ff00;">{{count.sum}}</span> 道</strong>
+			 	 	</li> 
+			 	 	<li>
+			 	 		<strong>答对：<span style="color: #0000ff;">{{count.right}}</span> 道</strong>
+			 	 	</li> 
+			 	 	<li>
+			 	 		<strong>答错：<span style="color: #ff0000;">{{count.wrong}}</span> 道</strong>
+			 	 	</li> 
+			 	 	<li>
+			 	 		<strong>得分：{{exam.score}} 分</strong>
+			 	 	</li> 
+			 	</ul>
+			 	
+			 </div>
+			 <hr class="bg-main" />
+			 <div class="body-content">
+			 	<ol class="test" >
+					<template v-for="(item,index) in exam.examStudentDetails">
+						<li ><h5 v-html="(index+1)+' . '+replace(item.tName)"></h5>
+							<ol class="option" >
+								<li :class="{right:option.isRight==1,ans:item.oId==option.id}" v-for="(option,no) in item.options" style="font-size: 14px;"><label >{{xulie(no)}} . {{option.name}}</label></li>
+							</ol>
+							<hr />
+							<div><strong>考生答案：{{ans(item).o}}</strong></div>
+							<hr />
+							<div><strong>正确答案：{{ans(item).r}}</strong></div>
+							<hr />
+							<div><strong>解析：{{replace(item.analysis)}}</strong></div>
+						</li>
+					</template>
+				</ol>
+			 </div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var edId = $.getUrlParam("id");
+				var data = getData({
+					"id":edId
+				}, backPath + "examDetails/get");
+				console.log(data);
+				new Vue({
+					el:"#app",
+					data:{
+						exam:data
+					},
+					computed:{
+						count:function(){
+							var right=0;
+							var wrong=0;
+							for(var i=0;i<this.exam.examStudentDetails.length;i++){
+								if(this.exam.examStudentDetails[i].rId==this.exam.examStudentDetails[i].oId)
+									right++;
+								else
+									wrong++;
+							}
+							return {"sum":this.exam.examStudentDetails.length,"right":right,"wrong":wrong};
+						}
+					},
+					methods:{
+						replace:function(name){
+							return replacen(name);
+						},
+						ans:function(item){
+							var s="0";
+							var r="0";
+							var dis={"1":"A","2":"B","3":"C","4":"D","0":"无"};
+							for(var i=1;i<=item.options.length;i++){
+								if(item.options[i-1].id==item.oId)
+									s=i;
+								if(item.options[i-1].id==item.rId)
+									r=i;
+							}
+							return {"o":dis[s],"r":dis[r]};
+						},
+						xulie:function(index){
+							var dis=["A","B","C","D"]
+							return dis[index];
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

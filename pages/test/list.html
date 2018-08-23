@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div class="panel admin-panel">
+				<div class="padding border-bottom">
+					<form id="listForm" method="post" enctype="multipart/form-data">
+						<ul class="search" style="padding-left:10px;">
+							<li>
+								<button type="button" class="button input s100" @click="add"><span class="icon-plus-square-o"></span>添加试题</button>
+							</li>
+							<li>
+								<button type="button" class="button input s100" @click="upload"><span class="icon-plus-square-o"></span>导入试题</button>
+								<input id="sfile" name="sfile" type="file" style="display: none;" @change="fileChange" />
+							</li>
+						</ul>
+					</form>
+				</div>
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="display: none;">编号</th>
+							<th style="width: 50%;">题干</th>
+							<th style="width:250px">知识点</th>
+							<th>难易度</th>
+							<th style="min-width: 150px;"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="tests in list">
+							<td style="display: none;">{{tests.id}}</td>
+							<td v-html="replace(tests.name)" @dblclick="bind(tests.id)"></td>
+							<td v-html="getpoint(tests)"></td>
+							<td>{{tests.facility}}</td>
+							<td>
+								<button class="button button-little border-main" @click="viewOption(tests.id)">查看选项</button>
+								<!--<button class="button button-little border-main" @click="update(tests.id)">修改</button>-->
+								<button class="button button-little border-main" @click="del(tests.id)">删除</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="wy_page" class="wy_page"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"tests/list";
+				var path=basePath+"pages/test/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				var qid=$.getUrlParam("id");
+			
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var data=getData({"pageNo":pageNo,"qId":qid},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"params":"&qId="+qid,"path":path,"totalPage":data.totalPage});
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						"qId":qid,
+						"list":data.list
+					},
+					methods:{
+						viewOption:function(id){
+							dialogframe({"title":"选项","url":"pages/test/options.html?tId="+id});
+						},
+						upload:function(){
+							$("#sfile").click();
+						},
+						add:function(){
+							dialogframe({"title":"添加试题","url":"pages/test/add.html?qId="+this.qId});
+						},
+						fileChange:function(){
+							submitForm('listForm',"tests/upload?qId="+qid,false);
+						},
+						replace:function(name){
+							return replacen(name);
+						},
+						del:function(id){
+							submitForm('listForm',"tests/del?id="+id,false);
+						},
+						bind:function(id){
+							dialogframe({"title":"绑定知识点","url":"pages/test/edit.html?id="+id,"width":"1000px"});
+						},
+						getpoint:function(test){
+							var arr=[];
+							for(var i=0;i<test.points.length;i++){
+								arr.push("<span style='display:inline-block;margin-bottom:2px;background:#8CADCA;color:#fff; padding:2px 5px;border-radius:3px'>"+test.points[i].name+"</span>");
+							}
+							
+							return arr.join(" ");
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

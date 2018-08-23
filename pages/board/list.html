@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			.panel{
+				margin-top:10px;
+			}
+			.panel .row-head{
+				padding-top: 12px;
+				text-align:right;
+				padding-right:10%;
+			}
+			.search li{
+				width:20%;
+			}
+			.wy_body{
+				padding:40px;
+			}
+			.wy_body .item{
+				border:1px solid #ccc;
+				margin-top:-1px;
+				padding-bottom: 40px;
+				position:relative;
+			}
+			.wy_body .item .wy_logo{
+				position:absolute;
+				left:-40px;
+				top:-40px;
+				background: #fff;
+				box-shadow: 0px 0px 10px lavender;
+			}
+			.wy_body .item .ihead{
+				margin-left: 80px;
+				padding-left:10px;
+				position:absolute;
+				top:-30px;
+			}
+			.wy_body .item .ibody{
+				margin-left: 80px;
+				padding-left:10px;
+			}
+			.wy_body .item .ibody li{
+				list-style:none;
+				width:120px;
+				height:130px;
+				background: #CBEEFF;
+				display: inline-block;
+				margin: 5px;
+			}
+			.wy_body  .item .ibody li .lhead{
+				height:25px;
+				line-height:25px;
+				text-align: center;
+				background: #66CCFF;
+			}
+			.wy_body  .item .ibody li .lbody{
+				padding: 10px;
+			}
+			.wy_body  .item .ibody li .lbody div{
+				height:30px;
+				line-height: 30px;
+				padding-left:10px;
+				cursor:pointer;
+			}
+			.wy_body  .item .ibody li .lbody .lrz{
+				background: #FFCC99;
+			}
+			.wy_body  .item .ibody li .lbody .lwk{
+				margin-top: 10px;
+				background: #F2F2F2;
+			}
+			.wy_body .item img{
+				cursor:pointer;
+			}
+			.icon {
+				font-size:16px;
+			   width: 1em; height: 1em;
+			   vertical-align: -0.15em;
+			   fill: currentColor;
+			   overflow: hidden;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" class="panel" v-cloak>
+			<form id="fm" method="post"></form>
+			<div class="row-head">
+				<span style="margin-right:100px;font-weight: bold;" id="gname">{{grade.name}}</span>
+				<span class="icon-user text-big "></span>
+				<span id="js">{{grade.lecturerName}}</span>
+				<span style="margin-left:40px" class="icon-users text-big "></span>
+				<span style="margin-left:5px" id="ss">{{grade.managerName}}</span>
+				<span style="margin-left:40px" class="icon-calendar text-big"></span>
+				<span style="margin-left:5px">{{getTime.days}}</span>
+				<span style="margin-left:40px" class="icon-sun-o text-big"></span>
+				<span style="margin-left:5px">{{getTime.atime+getTime.mtime}}</span>
+				<span style="margin-left:40px" class="icon-moon-o text-big"></span>
+				<span style="margin-left:5px">{{getTime.ntime}}</span>
+			</div>
+			<hr class="bg-main" />
+			<div class="panel-body">
+				<div class="wy_title">
+					<ul class="search" style="padding-left:10px; margin-left:120px;">
+						<li>
+							<button type="button" id="add" class="button text-blue" >
+								增加进度&nbsp;<span class="icon-plus-square-o"></span>
+							</button>
+						</li>
+					</ul>
+				</div>
+				<div class="wy_body">
+					<div class="item" v-for="arrange in arranges">
+						<img height="80" width="80" alt="logo" :src="getHead(arrange).img" @click="href(arrange)" class="wy_logo img-border" data-id="24">
+						<div class="ihead">
+							<span class="wytxt icon-tag text-big text-red" >{{getHead(arrange).name}}</span>
+							<span class="icon-calendar text-big" style="margin-left: 30px"></span>&nbsp;{{getHead(arrange).start}} ~ {{getHead(arrange).end}}
+							<span class="text-big" style="margin-left: 30px">
+								<button type="button" @click="update(arrange.id)"  class="button text-blue" style="padding:3px 10px" >
+									修改&nbsp;<span class="icon-plus-square-o"></span>
+								</button>
+							</span>
+							<span class="text-big" style="margin-left: 30px">
+								<button type="button" @click="del(arrange.id)"  class="button text-blue" style="padding:3px 10px" >
+									删除&nbsp;<span class="icon-plus-square-o"></span>
+								</button>
+							</span>
+						</div>
+						<ul class="ibody">
+							<li v-for="item in arrange.arrangeLists">
+								<div class="lhead">{{item.date}}</div>
+								<div class="lbody">
+									<div class="lrz" @click="addLog(item.id)"><span class="icon-calendar text-big"></span>&nbsp;课程日志<span v-if="item.morning!=''||item.afternoon!=''" class="icon-check-square-o text-blue"></span></div>
+									<div class="lwk" @click="addWork(item.id,item.date)">
+										<svg class="icon" aria-hidden="true">
+											<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-msnui-task"></use>
+										</svg>&nbsp;任务安排</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+/*			function init(data){
+				$("#js").text(data.grade.lecturerName);
+				$("#ss").text(data.grade.managerName);
+				$("#gname").text(data.grade.name);
+				$("#stime").text(data.grade.startDate);
+				for(var i=0;i<data.arranges.length;i++){
+					var $logo;
+					var $headname;
+					var $item=$("<div class='item'></div>");
+					if(data.arranges[i].type==1){
+						$logo=$('<img height="80" width="80" alt="logo" src="'+resourcePath+data.arranges[i].plan.course.img+'" class="wy_logo img-border" data-id="'+data.arranges[i].id+'"  />')
+						$headname=data.arranges[i].plan.name;
+					}else if(data.arranges[i].type==0){
+						
+						$logo=$('<img height="80" width="80" style="line-height: 80px;"  alt="小学期" src="'+resourcePath+'images/xxq.jpg"  class="wy_logo img-border" data-id="'+data.arranges[i].id+'"  />')
+						$headname="小学期";
+					}else if(data.arranges[i].type==2){
+						$logo=$('<img height="80" width="80" style="line-height: 80px;"  alt="项目" src="'+resourcePath+'images/project.png"  class="wy_logo img-border" data-id="'+data.arranges[i].id+'"  />')
+						$headname="项目阶段";
+					}
+					$logo.click(function(){
+						var aId=$(this).data("id");
+						var options={
+							"title":"修改进度",
+							"url":"pages/board/edit.html?aId="+aId,
+							"width":"1000px",
+							"height":"500px"
+						};
+						dialogframe(options);
+					});
+					var startDate=data.arranges[i].arrangeLists.length>0?data.arranges[i].arrangeLists[0].date:"";
+					var endDate=data.arranges[i].arrangeLists.length>0?data.arranges[i].arrangeLists[data.arranges[i].arrangeLists.length-1].date:"";
+					var $ihead=$('<div class="ihead"><span data-url="'+data.arranges[i].note+'" class="wytxt icon-tag text-big text-red" style="transform: rotate(0deg);cursor:pointer">'+$headname+'</span>'+
+									'<span class="icon-calendar text-big" style="margin-left: 30px;"></span>&nbsp;'+startDate+" ~ "+endDate+
+								'</div>');
+					var $ul=$('<ul class="ibody"></ul>');
+					for(var j=0;j<data.arranges[i].arrangeLists.length;j++){
+						var $li=$('<li></li>');
+						var $lhead=$('<div class="lhead">'+data.arranges[i].arrangeLists[j].date+'</div>');
+						var $lbody=$('<div class="lbody" data-id="'+data.arranges[i].arrangeLists[j].id+'"></div>');
+						var $lrz=$('<div class="lrz"><span class="icon-calendar text-big"></span>&nbsp;课程日志</div>');
+						if(data.arranges[i].arrangeLists[j].morning!=""||data.arranges[i].arrangeLists[j].afternoon!=""){
+							$lrz.append('<span class="icon-check-square-o text-blue"></span>');
+						}
+						var $lwk=$('<div class="lwk"><svg class="icon" aria-hidden="true"><use xlink:href="#icon-msnui-task"></use></svg></span>&nbsp;任务安排</div>');
+						$lbody.append($lrz).append($lwk);
+						$li.append($lhead).append($lbody);
+						$ul.append($li);
+						$lrz.click(function(){
+							dialogframe({
+								"title":"添加日志",
+								"url":"pages/board/rz.html?id="+$(this).parent().data("id")
+							});
+						});
+						$lwk.click(function(){
+							dialogframe({
+								"title":"添加任务",
+								"url":"pages/work/add.html?aId="+$(this).parent().data("id")+"&gId="+data.grade.id+"&dat="+$(this).parent().prev().text(),
+								"width":"1000px",
+								"height":"500px"
+							});
+						});
+					}
+					$item.append($logo).append($ihead).append($ul);
+					$(".wy_body").append($item);
+				}
+			}*/
+			$(function(){
+				var gId=$.getUrlParam("gId");
+				/*var data=getData({"gId":gId},backPath+"board/list");*/
+				var vue=new Vue({
+					el:"#app",
+					data:getData({"gId":gId},backPath+"board/list"),
+					computed:{
+						getTime:function(){
+							var mtime=0;
+							var atime=0;
+							var ntime=0;
+							var day;
+							var workDay=0;
+							if(this.grade.startDate!=null){
+								if(this.grade.end!=null){
+									day= parseInt((new Date(this.grade.end)-new Date(this.grade.startDate)) /1000/60/60/24);
+								}else{
+									 day=parseInt((new Date()-new Date(this.grade.startDate))/1000/60/60/24);
+								}
+							}
+							var week=parseInt(day/7)+"周"+day%7+"天"
+							for(let i=0;i<this.arranges.length;i++){
+								workDay+=this.arranges[i].length;
+								for(let j=0;j<this.arranges[i].arrangeLists.length;j++){
+									mtime+=this.arranges[i].arrangeLists[j].mtime;
+									atime+=this.arranges[i].arrangeLists[j].atime;
+									ntime+=this.arranges[i].arrangeLists[j].ntime;
+								}
+							}
+							return {
+								days:week,
+								mtime:mtime,
+								ntime:ntime,
+								atime:atime,
+								workday:workDay
+							}
+						}
+					},
+					methods:{
+						getHead:function(arrange){
+							var head={};
+							if(arrange.type==1){
+								head= {
+									img:resourcePath+arrange.plan.course.img,
+									name:arrange.plan.name
+								};
+							}else if(arrange.type==0){
+								head=  {
+									img:resourcePath+'images/xxq.jpg',
+									name:"小学期"	
+								};
+								
+							}else if(arrange.type==2){
+								head=  {
+									img:resourcePath+'images/project.png',
+									name:"项目阶段"
+								};
+							}
+							head.start=arrange.arrangeLists.length>0?arrange.arrangeLists[0].date:"";
+							head.end=arrange.arrangeLists.length>0?arrange.arrangeLists[arrange.arrangeLists.length-1].date:"";
+							return head;
+						},
+						href:function(arrange){
+							if(arrange.note!=""){
+								window.open(arrange.note);        
+							}
+						},
+						addLog:function(id){
+							dialogframe({
+								"title":"添加日志",
+								"url":"pages/board/rz.html?id="+id
+							});
+						},
+						addWork:function(aid,dat){
+							dialogframe({
+								"title":"添加任务",
+								"url":"pages/work/add.html?aId="+aid+"&gId="+gId+"&dat="+dat,
+								"width":"1000px",
+								"height":"500px"
+							});
+						},
+						update:function(id){
+							var options={
+								"title":"修改进度",
+								"url":"pages/board/edit.html?aId="+id,
+								"width":"1000px",
+								"height":"500px"
+							};
+							dialogframe(options);
+						},
+						del:function(id){
+							if(confirm("确定要删除吗")){
+								$('#fm').ajaxSubmit({
+									"url":backPath+'arrange/del?id='+id,
+									dataType:"json",
+									type:"get",
+									async:false,
+									error:function(request,message,obj){
+										alert(message);
+									},
+									success:function(data){
+										alert("删除完成");
+										window.location.reload();
+									}
+								});
+							}
+						}
+					}
+				});
+				$("#add").click(function(){
+					var options={
+						"title":"添加进度",
+						"url":"pages/board/add.html?gId="+gId,
+						"width":"1000px",
+						"height":"500px"
+					};
+					dialogframe(options);
+				});
+				
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<style type="text/css">
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			#items .item{
+				margin-bottom: 20px;
+				display: flex;
+			}
+			#items .item .left{
+				width:200px;
+			}
+			#items .item .right{
+				border:1px solid #585858;
+				flex:1;
+			}
+			#items .item .clear{
+				clear:both;
+			}
+			.search li{
+				margin-left:20px
+			}
+			.problem{
+				margin: 10px 10px ;
+				cursor:pointer;
+				
+			}
+			.appendbtn{
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100 dialogs" ></span>创建会议</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <ul id="items">
+			 	
+			 </ul>
+			 <div id="wy_page" class="wy_page"></div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var day={0:"周日",1:"周一",2:"周二",3:"周三",4:"周四",5:"周五",6:"周六"};
+				var gId=$.getUrlParam("gId");
+				$("#add").click(function(){
+					dialogframe({
+						"title":"创建会议",
+						"url":"pages/meeting/add.html?gId="+gId
+					});
+				});
+				var url=backPath+"meeting/list?gId="+gId;
+				var url2=backPath+"grade/edit";
+				var grade=getData({"id":gId},url2);
+				var path=basePath+"pages/meeting/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var data=getData({"pageNo":pageNo},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"path":path,"totalPage":data.totalPage});
+				for(var i=0;i<data.list.length;i++){
+					var $item=$('<li class="item"></li>');
+					var $left=$('<div class="left"></div>');
+					var $right=$('<div class="right"></div>');
+					var $date=$('<div></div>');
+					var $t_left=$('<div>'+data.list[i].date+'</div>');
+					var dat=new Date(data.list[i].date);
+					var $b_left=$('<div style="text-align:center;height:80px;line-height:80px">'+day[dat.getDay()]+'</div>');
+					$t_left.css({"text-align":"center","border-bottom":"1px solid #555","height":"39px","line-height":"39px"});
+					$date.css({"width":"120px","height":"120px","border":"1px solid #555","margin":"0 auto","border-radius":"10px"});
+					var $t_right=$('<div style="padding-top:20px;height:59px;border-bottom:1px solid #555"><ul class="search" style="padding-left:10px;">'+
+			 	 	'<li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-jiangshi"></use></svg>&nbsp;&nbsp;<span id="lecturerName">'+grade.lecturerName+'</span></li>'+
+			 	 	'<li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-laoshi"></use></svg>&nbsp;&nbsp;<span id="managerName">'+grade.managerName+'</span></li>'+
+			 		'<li><svg class="icon" aria-hidden="true"><use xlink:href="#icon-xuesheng--"></use></svg>&nbsp;&nbsp;<span id="managerName">'+data.list[i].count+'</span></li>'+
+			 		'<li><span data-id="'+data.list[i].id+'" class="appendbtn icon-plus-square-o text-green text-large"></li>'+
+			 		'</ul></div>');
+			 		var $ul=$('<ul></ul>');
+					for(var j=0;j<data.list[i].detail.length;j++){
+						var $li=$('<li><div class="problem text-blue" data-id="'+data.list[i].detail[j].id+'">'+data.list[i].detail[j].problem+'</div><div class="solve" style="padding-left:30px;color:#666">'+data.list[i].detail[j].solve.replace(/\n|\r\n/g,"<br/>")+'</div></li>');
+						$ul.append($li);
+						if(data.list[i].detail[j].solve!=""){
+							$li.children(".problem").append('&nbsp;&nbsp;<span class="icon-check"></span>');
+						}
+					}
+					$right.append($t_right);
+					$right.append($ul);
+					$date.append($t_left).append($b_left);
+					$left.append($date);
+					$item.append($left).append($right);
+					$("#items").append($item);
+				}
+				$(".problem").click(function(){
+					$(this).next(".solve").toggle();
+				});
+				$(".problem").dblclick(function(){
+					dialogframe({
+						"title":"解决方案",
+						"url":"pages/meeting/edit.html?id="+$(this).data("id")
+					});
+				});
+				$(".appendbtn").click(function(){
+					dialogframe({
+						"title":"追加问题",
+						"url":"pages/meeting/append.html?mId="+$(this).data("id")
+					});
+				});
+			});
+			
+		</script>
+	</body>
+</html>

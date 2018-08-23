@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/echarts.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        .sid{
+		        	display:none;
+		        }
+		        .panel{
+		        	border:0;
+		        }
+		        .tarr>li{
+		        	list-style: none;
+		        	border-bottom: 1px solid #ccc;
+		        	display: flex;
+		        	overflow:hidden;
+		        }
+		        .small{
+		        	height: 26px;
+		        }
+		        ol li{
+		        	list-style: upper-alpha;
+		        }
+		        .check{
+		        	color:#00ff00
+		        }
+		        .rleft{
+		        	padding-left:20%;
+		        }
+		        .rleft li{
+		        	line-height:60px
+		        }
+		</style>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div style="display: flex;height: 300px;">
+				<div style="flex: 1; display: flex;align-items: center;">
+					<ul style="flex:3" class="rleft">
+						<li>
+							<svg class="icon" aria-hidden="true">
+	 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
+	 						</svg>&nbsp;&nbsp;{{getDate(data.startTime)}}
+						</li>
+						<li>
+							<svg class="icon" aria-hidden="true">
+	 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-time"></use>
+	 						</svg>&nbsp;&nbsp;{{tongji.avgtime}} min 
+						</li>
+						<li>
+							<svg class="icon" aria-hidden="true">
+	 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-kaoshi"></use>
+	 						</svg>&nbsp;&nbsp;{{tongji.avg}}
+						</li>
+					</ul>
+					<div style="flex: 1;line-height: ;">
+						{{typeName}}
+					</div>
+				</div>
+				
+				<div id="container" style="flex: 2;" ></div>
+			</div>
+			
+			<div class="panel admin-panel">
+				<table id="tb" class="table table-hover table-bordered" v-cloak>
+					<thead>
+						<tr>
+							<th>学号</th>
+							<th>姓名</th>
+							<th>成绩</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for="entry in exam.examDetails">
+							<tr>
+								<td>{{entry.sId}}</td>
+								<td>{{entry.sName}}</td>
+								<td>{{entry.score}}</td>
+								<td><button  class="button button-little border-main" @click="getrep(entry.id)">查看详情</button></td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+			<div class="panel-head" style="margin-top: 20px;">
+				<strong>考试分析</strong>
+			</div>
+			<div class="panel-body">
+				<ul class="tarr">
+					<template v-for="(entry,index) in report">
+						<li :class="{small:selected!=index}" style="padding:5px 0px" @click="open(index)" >
+							<div style="flex:5" >
+								<div style="width: 500px;word-wrap: break-word;" v-html="(index+1)+' . '+replace(entry.name)"></div>
+								<ol>
+									<li v-for="opt in entry.options" :class="{check:opt.isRight==1}">{{opt.name}}</li>
+								</ol>
+								
+							</div>
+							<div style="flex:2;" v-html="getpoint(entry.skills)"></div>
+							<div style="flex:1;">{{(entry.r/entry.total*100).toFixed(2)+'%'}}</div>
+						</li>
+					</template>
+				</ul>
+				
+			</div>
+		</div>
+		<script type="text/javascript">
+			var id=$.getUrlParam("id");
+			var data = getData({
+					"id":id
+				}, backPath + "exam/get");
+			
+			var report = getData({
+				"id":id
+			}, backPath + "exam/getReport");
+			console.log(report);
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					exam:data,
+					selected:-1,
+					report:report
+				},
+				computed:{
+					tongji:function(){
+						var sum=0;
+						var sumtime=0;
+						var count=0;
+						var a1=0;
+						var a2=0;
+						var a3=0;
+						var a4=0;
+						var a5=0;
+						var a6=0;
+						for(var i=0;i<this.exam.examDetails.length;i++){
+							sum+=this.exam.examDetails[i].score;
+							sumtime+=this.exam.examDetails[i].time;
+							count++;
+							if(this.exam.examDetails[i].score>=90)
+								a1++;
+							else if(this.exam.examDetails[i].score>=80)
+								a2++;
+							else if(this.exam.examDetails[i].score>=70)
+								a3++;
+							else if(this.exam.examDetails[i].score>=60)
+								a4++;
+							else if(this.exam.examDetails[i].score>=40)
+								a5++;
+							else
+								a6++;
+						}
+						return {
+							"avg":Math.floor(sum/count * 100) / 100,
+							"avgtime":parseInt(sumtime/count/60),
+							"a1":a1,
+							"a2":a2,	
+							"a3":a3,
+							"a4":a4,
+							"a5":a5,
+							"a6":a6,
+							"count":count
+						}
+					},
+					typeName:function(){
+						var names={1:"一般考试",2:"阶段性考试"};
+						return names[this.exam.status];
+					}
+				
+				},
+				methods:{
+					replace:function(name){
+						return replacen(name);
+					},
+					getrep:function(id){
+						window.open(basePath+"pages/exam/look.html?id="+id);
+					},
+					getDate:function(dat){
+						return dat.substring(0,10);
+					},
+					getpoint:function(arr){
+						var arr2=[];
+						for(var i=0;i<arr.length;i++){
+							arr2.push("<span style='display:inline-block;margin-bottom:2px;background:#8CADCA;color:#fff; padding:2px 5px;border-radius:3px'>"+arr[i].name+"</span>");
+						}
+						return arr2.join(" ");
+					},
+					open:function(index){
+						if(index==this.selected)
+							this.selected=-1;
+						else
+							this.selected=index;
+					}
+				}
+			});
+
+			var dom = document.getElementById("container");
+			var myChart = echarts.init(dom);
+			var app = {};
+			option = null;
+			option = {
+			    title : {
+			       
+			        subtext: '成绩占比',
+			        x:'center'
+			    },
+			    tooltip : {
+			        trigger: 'item',
+			        formatter: "{a} <br/>{b} : {c} ({d}%)"
+			    },
+			    legend: {
+			        orient: 'vertical',
+			        right:40,
+			        top:100,
+			        data: ['90-100','80-89','70-79','60-69','40-59','0-39'],
+			        formatter:function(name){
+			        	if(name=='90-100')
+			        		return '90-100  '+(vue.tongji["a1"]/vue.tongji.count*100).toFixed(2)+"%";
+			        	else if(name=='80-89')
+			        		return '80-89    '+(vue.tongji["a2"]/vue.tongji.count*100).toFixed(2)+"%";
+			        	else if(name=='70-79')
+			        		return '70-79    '+(vue.tongji["a3"]/vue.tongji.count*100).toFixed(2)+"%";
+			        	else if(name=='60-69')
+			        		return '60-69    '+(vue.tongji["a4"]/vue.tongji.count*100).toFixed(2)+"%";
+			        	else if(name=='40-59')
+			        		return '40-59    '+(vue.tongji["a5"]/vue.tongji.count*100).toFixed(2)+"%";
+			        	else
+			        		return '0-39      '+(vue.tongji["a6"]/vue.tongji.count*100).toFixed(2)+"%";
+			        }
+			    },
+			    series : [
+			        {
+			            name: '',
+			            type: 'pie',
+			            radius : '55%',
+			            center: ['55%', '60%'],
+			            label: {
+			            	 normal:{
+			            	 	 formatter: '{b}：{c}',
+			            	 }
+			            },
+			            data:[
+			                {value:vue.tongji.a1, name:'90-100'},
+			                {value:vue.tongji.a2, name:'80-89'},
+			                {value:vue.tongji.a3, name:'70-79'},
+			                {value:vue.tongji.a4, name:'60-69'},
+			                {value:vue.tongji.a5, name:'40-59'},
+			                {value:vue.tongji.a6, name:'0-39'}
+			            ],
+			            itemStyle: {
+			                emphasis: {
+			                    shadowBlur: 10,
+			                    shadowOffsetX: 0,
+			                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+			                }
+			            }
+			        }
+			    ]
+			};
+			if (option && typeof option === "object") {
+			    myChart.setOption(option, true);
+			}
+		</script>
+	</body>
+</html>

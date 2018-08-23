@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="body-content" v-cloak>
+			<form method="post" class="form-x" id='fm'>
+				<input type="hidden" name="gId" v-model="gId" />
+				<div class="form-group">
+					<div class="label">
+						<label>考试名称：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" name="name" data-validate="required:考试名称" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>试卷：</label>
+					</div>
+					<div class="field">
+						<select name="pId" class="input w50" data-validate="required:请选择试卷">
+							<option value="" disabled="disabled" selected="selected">请选择试卷</option>
+							<option v-for="paper in list" :value="paper.id">{{paper.name}}</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>开始时间：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" value="" name="startTime" data-validate="required:开始时间" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>考试时长(分钟)：</label>
+					</div>
+					<div class="field">
+						<input type="number" class="input w50"  name="length" data-validate="required:考试时长" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>考试类型：</label>
+					</div>
+					<div class="field">
+						<select name="status" class="input w50" data-validate="required:请选择考试类型">
+							<option value="" disabled="disabled" selected="selected">请选择考试类型</option>
+							<option  value="1">一般考试</option>
+							<option  value="0">阶段性考试</option>
+						</select>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label></label>
+					</div>
+					<div class="field">
+						<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','exam/add',true)"> 提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var gId = $.getUrlParam("gId");
+				var url=backPath+"exam/papers";
+				var data=getData({},url);
+				new Vue({
+					el:"#app",
+					data:{
+						list:data,
+						gId:gId
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

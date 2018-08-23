@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="body-content" v-cloak>
+			<form method="post" class="form-x" id='fm' enctype="multipart/form-data">
+				<input type="hidden" name="id" v-model="point.id" />
+				<div class="form-group">
+					<div class="label">
+						<label>知识点名称：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" v-model="point.name" name="name" data-validate="required:知识点名称不能为空,length#<20:知识点名称长度小于20" />
+						<div class="tips"></div>
+					</div>	
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>选择模块:</label>
+					</div>
+					<div class="field">
+						<select v-model="point.mId" name="mId" name="type" class="input w50" data-validate="required:请选择模块">
+							<option v-for="module in modules" :value="module.id">{{module.name}}</option>
+						</select>
+						<div class="tips"></div>
+					</div>	
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>等级：</label>
+					</div>
+					<div class="field">
+						<input class="input w50" type="number" max="3" min="1" :value="point.level" name="level" data-validate="required:等级不能为空,compare# <4:数值须在1-3之间"  />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>排序：</label>
+					</div>
+					<div class="field">
+						<input class="input w50" type="number" min="1" value="1" name="sort" :value="point.sort" data-validate="required:排序不能为空" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>知识点描述：</label>
+					</div>
+					<div class="field">
+						<textarea v-model="point.description" name="description" class="input" style="height:150px; border:1px solid #ddd;"  data-validate="required:知识点不能为空,length#<100:知识点名称长度小于100"></textarea>
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="form-group">
+					<div class="label">
+						<label></label>
+					</div>
+					<div class="field">
+						<button class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','point/edit',true)"> 提交</button>
+					</div>
+				</div>
+				
+			</form>
+		</div>
+		<script>
+			var id=$.getUrlParam("id");
+			new Vue({
+				el:"#app",
+				data:{
+					point:getData({"id":id},path2+"point/edit")
+				},
+				computed:{
+					modules:function(){
+						return getData({id:this.point.mId},path2+"module/getModules");
+					}
+				}
+			})
+		</script>
+	</body>
+</html>

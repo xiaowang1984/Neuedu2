@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app"  class="panel admin-panel" v-cloak>
+			 <div class="panel admin-panel">
+			 	<div class="padding border-bottom">
+			 		<form id="listForm" method="post" enctype="multipart/form-data">
+			 			<ul class="search" style="padding-left:10px;">
+			 				<li>
+			 					<button type="button" id="add" class="button input s100" @click="createPaper"><span class="icon-plus-square-o"></span>创建试卷</button>
+			 				</li>
+			 				<li>
+					 	 		<select v-model="owner" name="type" class="input s100" >
+									<option  value="" selected="selected">选择创建人</option>
+									<option v-for="teacher in teachers" :value="teacher.id">{{teacher.name}}</option>
+								</select>
+					 	 	</li>
+					 	 	<li>
+					 	 		<button type="button" id="query" class="button input s100"  @click="search"><span class="icon-search"></span>搜索</button>
+					 	 	</li> 
+			 			</ul>
+			 		</form>
+			 	</div>
+			 	<table  class="table table-hover table-bordered" >
+			 	<thead>
+		 			<tr>
+		 				<th style="display: none;">编号</th>
+		 				<th>考试名称</th>
+		 				<th>创建人</th>
+		 				<th></th>
+		 			</tr>
+		 		</thead>
+		 		<tbody >
+		 			<tr v-for="paper in list">
+		 				<td style="display: none;">{{paper.id}}</td>
+		 				<td>{{paper.name}}</td>
+		 				<td>{{paper.tName}}</td>
+		 				<td>
+		 					<button  class="button button-little border-main" @click="test(paper.id)">查看试题</button>
+		 					<!--<button  class="button button-little border-main" @click="update(question.id)">修改</button>
+		 					<button  class="button button-little border-main" @click="del(question.id)">删除</button>-->
+		 				</td>
+		 			</tr>
+		 		</tbody>
+			 </table>
+				<div id="wy_page" class="wy_page"></div>
+			</div>		
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"paper/list";
+				var path=basePath+"pages/paper/list.html";
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var data=getData({"pageNo":pageNo},url);
+				var teachers=getData({},backPath+"teacher/getTeachers");
+				$("#wy_page").wy_page({"pageNo":pageNo,"path":path,"totalPage":data.totalPage});
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						"list":data.list,
+						teachers:teachers.lecturer,
+						owner:""
+					},
+					methods:{
+						createPaper:function(){
+							parent.addTab("pages/paper/add.html","26","添加试卷");
+						},
+						update:function(id){
+							dialogframe({"title":"修改题库","url":"pages/paper/edit.html?id="+id});
+						},
+						del:function(id){
+							alert("危险操作,过后再加");
+						},
+						test:function(id){
+							parent.addTab("pages/paper/details.html?id="+id,"27","查看试题");
+						},
+						search:function(){
+							this.list=getData({"pageNo":pageNo,"owner":this.owner},url).list;
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

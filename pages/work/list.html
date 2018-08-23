@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			.s100 {
+				width: 100px;
+				padding: 5px 10px;
+			}
+			.icon {
+				font-size: 20px;
+				/* 通过设置 font-size 来改变图标大小 */
+				width: 1em;
+				height: 1em;
+				/* 图标和文字相邻时，垂直对齐 */
+				vertical-align: -0.15em;
+				/* 通过设置 color 来改变 SVG 的颜色/fill */
+				fill: currentColor;
+				/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+				overflow: hidden;
+				color: #585858;
+			}
+			
+			#tb tr td {
+				border: 0;
+			}
+			#tb tr .first{
+				width:100px;
+				border-right: 1px dashed #ccc;
+			}
+			#tb ul li{
+				float: left;
+				margin-left:20px;
+				width:100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app" class="panel admin-panel">
+			<div class="padding border-bottom">
+				<ul class="search" style="padding-left:10px;">
+					<li>
+						<strong>{{grade.name}}</strong>
+					</li>
+					<li>
+						<strong  v-if="grade.type==0">招转</strong>
+						<strong  v-else-if="grade.type==1">小学期</strong>
+						<strong  v-else-if="grade.type==2">高校个体</strong>
+						<strong  v-else-if="grade.type==3">社会个体</strong>
+						<strong  v-else>专业共建</strong>
+					</li>
+				</ul>
+			</div>
+			<hr class="bg-main" />
+			<div class="admin-panel">
+				<ul style="margin-top: 20px;">
+					<li v-for="work in works.list">
+						<div><span class="icon icon-building-o"></span>&nbsp;&nbsp;{{work.name}}</div>
+						<table id="tb" class="table table-hover" style="border:1px solid #585858">
+							<tbody>
+								<tr>
+									<td class="first">
+										<div><span class="icon icon-users"></span>&nbsp;&nbsp;{{grade.stuCount}}</div>
+										<div><span class="icon icon-signal"></span>&nbsp;&nbsp;{{work.workGrade.count}}</div>
+										<div><span class="icon icon-database"></span>&nbsp;&nbsp;</div>
+									</td>
+									<td>
+										<ul>
+											<li v-for="detail in work.workGrade.workGradeDetails" >
+												<div style="width:100%;height:75px;border:1px solid #BBBBBB;background: #CCCCCC;">
+													<h4 style="text-align: center;border-bottom: 1px dashed #141417;">{{week[getDay(detail.dat)]}}</h4>
+													<div style="text-align: center;line-height: 52px;">{{detail.dat}}</div>
+												</div>
+												<div style="margin-top:10px ;">
+													<div style="height: 40px;width:60px;background:#CBEEFF;float:left;font-size: 18px;text-align: center;line-height: 40px;">
+														{{detail.count}}
+													</div>
+													<div style="height: 40px;width:30px;float:left;background:#009900;margin-left:10px"></div>
+												</div>
+											</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</li>
+				</ul>
+				<div id="wy_page" class="wy_page"></div>
+			</div>
+			<script type="text/javascript">
+				$(function() {
+					var gId = $.getUrlParam("gId");
+					var data = getData({
+						"gId": gId
+					}, backPath + "work/list");
+					new Vue({
+						el:"#app",
+						data:{
+							grade:data.grade,
+							works:data.works,
+							week:{0:"周日",1:"周一",2:"周二",3:"周三",4:"周四",5:"周五",6:"周六"}
+						},
+						methods:{
+							getDay:function(dat){
+								var date=new Date(dat);
+								return date.getDay();
+							}
+						},
+						ccomputed:{
+							
+						}
+						
+					});
+					
+				});
+			</script>
+	</body>
+
+</html>

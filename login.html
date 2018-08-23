@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>教学过程可视化系统</title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			html,body{
+				height:100%;
+				
+			}
+			.content{
+				height:100%;
+				display: flex;
+			}
+			.content .left{
+				width:700px;
+				background: url('http://47.94.95.151:8080/images/banner_u1.jpg') no-repeat 0px center;
+				background-size:979px 412px;
+				
+			}
+			.content .right{
+				flex:1;
+				display: flex;
+				flex-direction: column;
+				
+			}
+			.content .right .top{
+				height:300px;
+				background: url('http://47.94.95.151:8080/images/logo_u2.png') no-repeat 0px center;
+				background-size:344px 125px;
+			}
+			.content .right .center{
+				flex:1;
+			}
+			.panel-body .form-group{
+				width:400px;
+			}
+			.panel-body input{
+				outline: none;
+				border:0;
+				border-bottom: 1px solid #585858;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content" id="app">
+			<div class="left"></div>
+			<div class="right">
+				<div class="top"></div>
+				<div class="center">
+					<form id="fm" action="index.html" method="post">
+						<div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+		                    <div class="form-group">
+		                        <div class="field field-icon-right">
+		                            <input type="text"  class="input input-big" v-model="name" name="no" placeholder="登录账号" />
+		                            <span class="icon icon-user margin-small"></span>
+		                        </div>
+		                    </div>
+		                    <div class="form-group">
+		                        <div class="field field-icon-right">
+		                            <input type="password" class="input input-big" v-model="password" name="password" placeholder="登录密码"  />
+		                            <span class="icon icon-key margin-small"></span>
+		                        </div>
+		                    </div>
+		                    <div class="form-group text-red">{{message}}</div>
+		                    <div class="form-group">
+		                        <div class="field field-icon-right">
+		                           <button type="button" class="button button-block bg-main text-big input-big" @click="login">登录</button>
+		                        </div>
+		                    </div>
+		                </div>
+		            </form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					name:"",
+					password:"",
+					message:""
+				},
+				methods:{			
+					login:function(){
+						$('#fm').ajaxSubmit({
+							url:path2+"login",
+							type:"post",
+							async:false,
+							dataType:"json",
+							xhrFields:{
+							    withCredentials:true
+							},
+							success:function(data){
+								if(data.code==1)
+									window.location.href=basePath+"/index.html";
+								else
+									vue.message=data.message;
+							}
+						});
+					}
+				}
+			});
+			
+		</script>
+	</body>
+</html>

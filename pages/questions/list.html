@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app"  class="panel admin-panel" v-cloak>
+			 <div class="panel admin-panel">
+			 	<div class="padding border-bottom">
+			 		<form id="listForm" method="post" enctype="multipart/form-data">
+			 			<ul class="search" style="padding-left:10px;">
+			 				<li>
+			 					<button type="button" id="add" class="button input s100 " onclick="dialog(this)"  data-title="创建题库" data-url="pages/questions/add.html" ><span class="icon-plus-square-o"></span>创建题库</button>
+			 				</li>
+			 				<li>
+					 	 		<select v-model="lId" name="lId" class="input s100" >
+									<option  selected="selected" value="">选择语言</option>
+									<option v-for="language in languages" :value="language.id">{{language.name}}</option>
+								</select>
+					 	 	</li>
+					 	 	<li>
+					 	 		<select v-model="ltype" name="type" class="input s100" >
+									<option  value="" selected="selected">选择类型</option>
+									<option v-for="type in types" :value="type.id">{{type.name}}</option>
+								</select>
+					 	 	</li>
+					 	 	<li>
+					 	 		<button type="button" id="query" class="button input s100"  @click="search"><span class="icon-search"></span>搜索</button>
+					 	 	</li> 
+			 			</ul>
+			 		</form>
+			 	</div>
+			 	<table  class="table table-hover table-bordered" >
+			 	<thead>
+		 			<tr>
+		 				<th style="display: none;">编号</th>
+		 				<th>题库名</th>
+		 				<th>语言</th>
+		 				<th>类型</th>
+		 				<th></th>
+		 			</tr>
+		 		</thead>
+		 		<tbody >
+		 			<tr v-for="question in list">
+		 				<td style="display: none;">{{question.id}}</td>
+		 				<td>{{question.name}}</td>
+		 				<td>{{question.lName}}</td>
+		 				<td>{{typeName(question.type)}}</td>
+		 				<td>
+		 					<button  class="button button-little border-main" @click="test(question.id)">查看试题</button>
+		 					<button  class="button button-little border-main" @click="update(question.id)">修改</button>
+		 					<button  class="button button-little border-main" @click="del(question.id)">删除</button>
+		 				</td>
+		 			</tr>
+		 		</tbody>
+			 </table>
+				<div id="wy_page" class="wy_page"></div>
+			</div>		
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"questions/list";
+				var path=basePath+"pages/questions/list.html";
+				var languages = getData({}, backPath + "language/getList");
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var questions=getData({"pageNo":pageNo},url);
+				$("#wy_page").wy_page({"pageNo":pageNo,"path":path,"totalPage":questions.totalPage});
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						"list":questions.list,
+						languages:languages,
+						types:[{"id":1,"name":"常规验收"},
+							{"id":2,"name":"网络题库"},
+							{"id":3,"name":"企业题库"},
+							{"id":4,"name":"官方考试"},
+						],
+						lId:"",
+						ltype:""
+					},
+					methods:{
+						update:function(id){
+							dialogframe({"title":"修改题库","url":"pages/questions/edit.html?id="+id});
+						},
+						del:function(id){
+							alert("危险操作,过后再加");
+						},
+						test:function(id){
+							parent.addTab("pages/test/list.html?id="+id,"24","试题");
+						},
+						typeName:function(id){
+							for(var i=0;i<this.types.length;i++){
+								if(this.types[i].id==id){
+									return this.types[i].name;
+								}	
+							}
+						},
+						search:function(){
+							this.list=getData({"pageNo":pageNo,"type":this.ltype,"lId":this.lId},url).list;
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

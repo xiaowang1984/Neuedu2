@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div class="panel admin-panel">
+				<div class="padding border-bottom">
+					<form id="listForm" method="post" enctype="multipart/form-data">
+						<ul class="search" style="padding-left:10px;">
+							<li>
+								<button type="button" class="button input s100" @click="add(gId)"><span class="icon-plus-square-o"></span>添加考试</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="display: none;">编号</th>
+							<th>名称</th>
+							<th>试卷</th>
+							<th>随机码</th>
+							<!--<th>状态</th>-->
+							<th>开始时间</th>
+							<th>结束时间</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="exam in list">
+							<td style="display: none;">{{exam.id}}</td>
+							<td>{{exam.name}}</td>
+							<td>{{exam.pName}}</td>
+							<td>{{exam.no}}</td>
+							<!--<td>{{exam.status}}</td>-->
+							<td>{{exam.startTime}}</td>
+							<td>{{exam.endTime}}</td>
+							<td>
+								<button  class="button button-little border-main" @click="test(exam.pId)">查看试题</button>
+								<button class="button button-little border-main" @click="score(question.id)">查看成绩</button>
+								<!--<button class="button button-little border-main" @click="del(question.id)">删除</button>-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="wy_page" class="wy_page"></div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var url = backPath + "exam/list";
+				var path = basePath + "pages/exam/list.html";
+				var pageNo = $.getUrlParam("pageNo");
+				var gId = $.getUrlParam("gId");
+				if(pageNo == null) {
+					pageNo = 1;
+				}
+				var data = getData({
+					"pageNo": pageNo,
+					"gId": gId
+				}, url);
+				$("#wy_page").wy_page({
+					"pageNo": pageNo,
+					"params": "&gId=" + gId,
+					"path": path,
+					"totalPage": data.totalPage
+				});
+				var vue = new Vue({
+					el: "#app",
+					data: {
+						"list": data.list,
+						"gId":gId
+					},
+					methods: {
+						add: function(id) {
+							dialogframe({
+								"title": "添加考试",
+								"url": "pages/exam/add.html?gId=" + id
+							});
+						},
+						test:function(id){
+							parent.addTab("pages/paper/details.html?id="+id,"26","查看试题");
+						},
+						fileChange: function() {
+							submitForm('listForm', "tests/upload?qId=" + qid, false);
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

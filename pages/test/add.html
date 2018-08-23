@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	</head>
+	<body>
+		<div id="app" class="panel admin-panel">
+		  	<div class="body-content">
+		    	<form id="fm" method="post" class="form-x">
+		    		<input type="hidden" name="qId" v-model="qId" />
+		    		<div class="form-group">
+        				<div class="label">
+          					<label>题干：</label>
+        				</div>
+        				<div class="field">
+          					<textarea name="name" class="input" style="height:100px; border:1px solid #ddd;overflow: auto;"  data-validate="required:题干不能为空" ></textarea>
+      						<div class="tips"></div>
+        				</div>
+      				</div>
+      				<div class="clear"></div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>选项A：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="a" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>选项B：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="b" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>选项C：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="c" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>选项D：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="d" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>选项E：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="e" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>正确选项：</label>
+      					</div>
+      					<div class="field">
+      						<select name="right" class="input w50"  data-validate="required:正确选项不能为空">
+      							<option value="">请选择正确选项</option>
+      							<option value="a">A</option>
+      							<option value="b">B</option>
+      							<option value="c">C</option>
+      							<option value="d">D</option>
+      							<option value="e">E</option>
+      						</select>
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>技能：</label>
+      					</div>
+      					<div class="field">
+      						<input type="text" class="input " value="" name="skill" />
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>难易度：</label>
+      					</div>
+      					<div class="field">
+      						<select name="facility" class="input w50" >
+      							<option value="">请选择难易度</option>
+      							<option value="易">易</option>
+      							<option value="中">中</option>
+      							<option value="难">难</option>
+      						</select>
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label>解析：</label>
+      					</div>
+      					<div class="field">
+      						<textarea name="analysis" class="input" style="height:100px; border:1px solid #ddd;overflow: auto;"></textarea>
+      						<div class="tips"></div>
+      					</div>
+      				</div>
+      				<div class="clear"></div>
+      				<div class="form-group">
+      					<div class="label">
+      						<label></label>
+      					</div>
+      					<div class="field">
+      						<button  class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','tests/add',true)"> 提交</button>
+      					</div>
+      				</div>
+		    	</form>
+			</div>
+		</div>
+		<script>
+			var qId=$.getUrlParam("qId");
+			new Vue({
+				el:"#app",
+				data:{
+					qId:qId
+				}
+			})
+		</script>
+	</body>
+</html>

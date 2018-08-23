@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			*{
+				margin:0;padding:0;
+			}
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        .sid{
+		        	display:none;
+		        }
+		        .mtable{
+		        	border:0;
+		        }
+		        .mtable tbody tr td{
+		        	border:0;
+		            border-right: 1px solid #ccc;
+		        	border-bottom: 1px solid #ccc;
+		        }
+		        .mtable tbody tr td:nth-last-child(1) {
+		        	border-right: 0;
+		        }
+		        .mtable tbody tr:nth-last-child(1) td{
+		        	border-bottom: 0;
+		        }
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			<hr class="bg-main" />
+			<div id="app" class="panel admin-panel">
+				<div class="padding border-bottom">
+					<form id="listForm" method="post" enctype="multipart/form-data">
+						<ul class="search" style="padding-left:10px;">
+							<li>
+					 	 		<input autocomplete="off"  id="name" type="text" class="input s100" placeholder="语言名称" />
+					 	 	</li>
+					 	 	<li>
+					 	 		<button type="button" @click="query"  class="button input s100"><span class="icon-search"></span>搜索</button>
+					 	 	</li> 
+							<li>
+								<button type="button"  class="button input  s100 dialogs"   @click="addLanguage" ><span class="icon-plus-square-o"></span>添加语言</button>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<table class="ltable table table-hover table-bordered" v-cloak>
+					<thead>
+						<tr>
+							<th>语言名称</th>
+							<th>状态</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<template v-for="language in list">
+							<tr>
+								<td style="width: 50%;">{{language.name}}</td>
+								<td>
+									<span v-if="language.isDel==1">有效</span>
+									<span v-else style="color:#ff0000">已删除</span>
+								</td>
+								<td>
+									<button class="button button-little border-main" @click="details(language.id)">查看详情</button>
+									<button class="button button-little border-main" @click="edit(language.id)">修改</button>
+									<button class="button button-little border-main" type="button" @click="del(language.id,language.isDel)">
+										<span v-if="language.isDel==1">删除</span> 
+										<span v-else>恢复</span>
+									</button>
+								</td>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=path2+"language/list";
+				var vue=new Vue({
+					el:"#app",
+					data:{
+						name:"",
+						list:getData({name:this.name},url)
+					},
+					methods:{
+						query:function(){
+							this.name=$("#name").val();
+							console.log(this.name);
+							this.list=getData({name:this.name},url);
+						},
+						addLanguage:function(){
+							dialogframe({
+								url:"pages/language/add.html",
+								title:"添加语言"
+							});
+						},
+						edit:function(id){
+							dialogframe({
+								url:"pages/language/edit.html?id="+id,
+								title:"修改语言"
+							});
+						},
+						del:function(id,isdel){
+							if(confirm(isdel==1?"确定要删除吗?":"确定要恢复吗?")){
+								isdel=isdel==1?0:1;
+								submitForm('listForm',"language/del?id="+id+"&isDel="+isdel,false);
+							}
+							
+						},
+						details:function(id){
+							parent.addTab("pages/module/list.html?id="+id,"32","模块管理");
+						}
+					}
+				});
+			});
+			
+		</script>
+	</body>
+</html>

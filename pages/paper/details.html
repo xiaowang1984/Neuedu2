@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			.test>li{
+				list-style:decimal;
+				border-bottom: 1px solid #999;
+				padding: 25px 20px;
+			}
+			.option>li{
+				list-style: upper-alpha;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="app" class="panel admin-panel" v-cloak>
+			<div class="body-content">
+				<ol class="test">
+					<li v-for="item in list" ><span v-html="replace(item.tName)"></span>
+						<ol class="option">
+							<li v-for="option in item.options">{{option.name}}</li>
+						</ol>
+					</li>
+				</ol>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function() {
+				var url = backPath + "paperDetails/list";
+				var path = basePath + "pages/paperDetails/list.html";
+				var pId = $.getUrlParam("id");
+				var data = getData({
+					"pId":pId
+				}, url);
+				var vue = new Vue({
+					el: "#app",
+					data: {
+						"list": data
+					},
+					methods: {
+						viewOption: function(id) {
+							dialogframe({
+								"title": "选项",
+								"url": "pages/test/options.html?tId=" + id
+							});
+						},
+						replace:function(name){
+							return replacen(name);
+						},
+						upload: function() {
+							$("#sfile").click();
+						},
+						fileChange: function() {
+							submitForm('listForm', "tests/upload?qId=" + qid, false);
+						}
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        #tb ul li{
+		        	float:left;
+		        	padding:0px 10px;
+		        }
+		        .topDat{
+		        	font-size:80%;
+		        	color:#585858;
+		        }
+		</style>
+	</head>
+	<body>
+		<div class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<ul class="search" style="padding-left:10px;">
+			 	 	<li>
+			 	 		<strong id='name'></strong>
+			 	 	</li>
+			 	 	<li>
+			 	 		<strong id="type"></strong>
+			 	 	</li> 
+			 	</ul>
+			 </div>
+			 <hr class="bg-main" />
+				 <table id="tb"  class="table table-hover table-bordered">
+			 		<tbody>
+			 			
+			 		</tbody>
+				 </table>
+			 <!--<div id="wy_page" class="wy_page"></div>-->
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				var url=backPath+"talk/list";
+				var url2=backPath+"grade/edit";
+				var path=basePath+"pages/talk/list.html";
+				var gId=$.getUrlParam("gId");
+				var pageNo=$.getUrlParam("pageNo");
+				if(pageNo==null){
+					pageNo=1;
+				}
+				var grade=getData({"id":gId},url2);
+				$("#name").text(grade.name);
+				var type={"0":"招转","1":"小学期","2":"高校个体","3":"社会个体","4":"专业共建"};
+				$("#type").text(type[grade.type]);
+				var data=getData({"pageNo":pageNo,"gId":gId},url);
+			/*	$("#wy_page").wy_page({"pageNo":pageNo,"params":"gId="+gId,"path":path,"totalPage":data.totalPage});*/
+				for(var i=0;i<data.list.length;i++){
+					var $tr=$('<tr></tr>');
+					var $detail=$('<td><ul style="width:100%"></ul></td>');
+					for(var j=0;j<data.list[i].talks.length;j++){
+						var $li=$('<li></li>');
+						var $top=$('<div class="topDat">'+data.list[i].talks[j].dat+'</div>')
+						var $span=$('<span data-id="'+data.list[i].talks[j].id+'">'+data.list[i].talks[j].tName+'</span>');
+						if(data.list[i].talks[j].assess==1){
+							$span.addClass("icon-arrow-up").addClass("text-green");
+						}else if(data.list[i].talks[j].assess==2){
+							$span.addClass("icon-arrow-right").addClass("text-blue");
+						}else if(data.list[i].talks[j].assess==3){
+							$span.addClass("icon-arrow-down").addClass("text-red");
+						}else{
+							$span.addClass("icon-exclamation-triangle").addClass("text-red");
+						}
+						$li.css({"border-right":"1px solid #999"});
+						$li.append($top);
+						$li.append($span);
+						$detail.children("ul").append($li);
+					}
+					$tr.append('<td style="display:none">'+data.list[i].id+'</td>');
+					$tr.append('<td style="width:100px">'+data.list[i].name+'</td>');
+					$tr.append($detail);
+					$tr.append('<td style="width:100px"><button  class="button button-little border-main" onclick="dialog(this)" data-title="添加沟通记录" data-url="pages/talk/add.html?sId='+data.list[i].id+'&gId='+data.list[i].gId+'" >添加沟通</button></td>');
+					$("#tb tbody").append($tr);
+				}
+				$("#tb").dblclick(function(e){
+					if(e.target.tagName=='SPAN'){
+						var id= $(e.target).data("id");
+						dialogframe({
+							"title":"更新沟通记录",
+							"url":"pages/talk/edit.html?id="+id
+						});
+					}
+					
+				});
+				
+			});
+			
+		</script>
+	</body>
+</html>
