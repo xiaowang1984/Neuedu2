@@ -7,31 +7,31 @@
 		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		
 	</head>
 	<body>
-		<div class="body-content">
+		<div class="body-content" id="app">
 			<form method="post" class="form-x" id='fm'>
-				<input type="hidden" id="id" name="id" />
-				<input type="hidden" id="gId" name="gId" />
-				<div class="form-group">
-					<div class="label">
-						<label>学生姓名：</label>
-					</div>
-					<div class="field">
-						<input type="text" class="input w50" value="" id="name" name="name" data-validate="required:学生姓名" />
-						<div class="tips"></div>
-					</div>
-				</div>
+				<input type="hidden" name="id" v-model="student.id"  />
+				<input type="hidden" name="gId" v-model="student.gId" />
 				<div class="form-group">
 					<div class="label">
 						<label>序号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="no" name="no" data-validate="required:序号" />
+						<input type="text" v-model="student.no" class="input w50" name="no" data-validate="required:序号不能为空,plusinteger:序号只能是整数" />
+						<div class="tips"></div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="label">
+						<label>学生姓名：</label>
+					</div>
+					<div class="field">
+						<input type="text" class="input w50" v-model="student.name" name="name" data-validate="required:学生姓名不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -40,7 +40,7 @@
 						<label>性别：</label>
 					</div>
 					<div class="field">
-						<select id="gender" name="gender" class="input w50" data-validate="required:请选择性别">
+						<select name="gender" class="input w50" v-model="student.gender" data-validate="required:请选择性别">
 							<option value="" disabled="disabled" selected="selected">请选择性别</option>
 							<option value="1">男</option>
 							<option value="0">女</option>
@@ -53,7 +53,7 @@
 						<label>民族：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="nation" name="nation" data-validate="required:民族" />
+						<input type="text" class="input w50" v-model="student.nation" name="nation" data-validate="required:民族不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -62,7 +62,7 @@
 						<label>对应销售：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="sale" name="sale" data-validate="required:对应销售" />
+						<input type="text" class="input w50"  v-model="student.sale" name="sale"  />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 						<label>毕业院校：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="school" name="school" data-validate="required:毕业院校" />
+						<input type="text" class="input w50" v-model="student.school" name="school" data-validate="required:毕业院校不能为空,length#<100:字符长度小于100位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -80,7 +80,7 @@
 						<label>专业：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value=""  id="specialty" name="specialty" data-validate="required:专业" />
+						<input type="text" class="input w50" v-model="student.specialty" name="specialty" data-validate="required:专业不能为空,length#<100:字符长度小于100位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -89,7 +89,7 @@
 						<label>学历：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="education" name="education" data-validate="required:学历" />
+						<input type="text" class="input w50" v-model="student.education" name="education" data-validate="required:学历不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -98,7 +98,7 @@
 						<label>QQ号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="qq" name="qq" data-validate="required:QQ号" />
+						<input type="text" class="input w50" v-model="student.qq" name="qq" data-validate="required:QQ号不能为空,length#<20:字符长度小于20位,plusinteger:QQ号必须是数字并不能以0开头" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -107,7 +107,7 @@
 						<label>地址：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="address" name="address" data-validate="required:地址" />
+						<input type="text" class="input w50" v-model="student.address" name="address" data-validate="required:不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -116,7 +116,7 @@
 						<label>email：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="email" name="email"  />
+						<input type="text" class="input w50" v-model="student.email" name="email"  />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -125,7 +125,7 @@
 						<label>房间号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="roomNo" name="roomNo" />
+						<input type="text" class="input w50"  v-model="student.roomNo" name="roomNo" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -134,7 +134,7 @@
 						<label>培训周期：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="cycle" name="cycle" data-validate="required:培训周期" />
+						<input type="text" class="input w50"  v-model="student.cycle" name="cycle" data-validate="required:培训周期不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -143,7 +143,7 @@
 						<label>是否退款：</label>
 					</div>
 					<div class="field">
-						<select id="refund" name="refund" class="input w50" data-validate="required:是否退款">
+						<select name="refund" v-model="student.refund" class="input w50" data-validate="required:是否退款">
 							<option value="" disabled="disabled" selected="selected">请选择是否退款</option>
 							<option value="1">是</option>
 							<option value="0">否</option>
@@ -156,7 +156,7 @@
 						<label>电话：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="phone" name="phone" data-validate="required:电话" />
+						<input type="text" class="input w50" v-model="student.phone" name="phone" data-validate="required:电话不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -165,7 +165,7 @@
 						<label>家长电话：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="weChar" name="weChar" data-validate="required:家长电话" />
+						<input type="text" class="input w50" v-model="student.weChar" name="weChar" data-validate="required:家长电话不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -174,7 +174,7 @@
 						<label>身份证号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" id="idCard" name="idCard" data-validate="required:身份证号" />
+						<input type="text" class="input w50" v-model="student.idCard" name="idCard" data-validate="required:身份证号不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -183,7 +183,7 @@
 						<label>状态：</label>
 					</div>
 					<div class="field">
-						<select id="status" name="status" class="input w50" data-validate="required:选择状态">
+						<select name="status" v-model="student.status" class="input w50" data-validate="required:选择状态">
 							<option value="" disabled="disabled" selected="selected">请选择状态</option>
 							<option value="0">待学</option>
 							<option value="1">在学</option>
@@ -206,34 +206,14 @@
 			</form>
 		</div>
 		<script type="text/javascript">
-			$(function(){
 				var id=$.getUrlParam("id");
-				var url=backPath+"student/edit"
-				var entry=getData({"id":id},url);
-				init(entry);
-				function init(entry){
-					$("#id").val(entry.id);
-					$("#no").val(entry.no);
-					$("#name").val(entry.name);
-					$("#gender").val(entry.gender);
-					$("#nation").val(entry.nation);
-					$("#sale").val(entry.sale);
-					$("#school").val(entry.school);
-					$("#specialty").val(entry.specialty);
-					$("#education").val(entry.education);
-					$("#qq").val(entry.qq);
-					$("#address").val(entry.address);
-					$("#email").val(entry.email);
-					$("#roomNo").val(entry.roomNo);
-					$("#cycle").val(entry.cycle);
-					$("#refund").val(entry.refund);
-					$("#phone").val(entry.phone);
-					$("#idCard").val(entry.idCard);
-					$("#weChar").val(entry.weChar);
-					$("#status").val(entry.status);
-					$("#gId").val(entry.gId);
-				}
-			});
+				var student=getData({id:id},path2+"student/edit");
+				new Vue({
+					el:"#app",
+					data:{
+						student:student
+					}
+				});
 		</script>
 	</body>
 </html>

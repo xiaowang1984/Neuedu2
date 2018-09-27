@@ -8,9 +8,7 @@
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
 	</head>
 	<body>
 		<div class="body-content">
@@ -21,7 +19,7 @@
 						<label>序号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="no" data-validate="required:序号" />
+						<input type="text" class="input w50" value="" name="no" data-validate="required:序号不能为空,plusinteger:序号只能是整数" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -30,7 +28,7 @@
 						<label>学生姓名：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="name" data-validate="required:学生姓名" />
+						<input type="text" class="input w50" value="" name="name" data-validate="required:学生姓名不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -52,7 +50,7 @@
 						<label>民族：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="nation" data-validate="required:民族" />
+						<input type="text" class="input w50" value="" name="nation" data-validate="required:民族不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -61,7 +59,7 @@
 						<label>对应销售：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="sale" data-validate="required:对应销售" />
+						<input type="text" class="input w50" value="" name="sale"  />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -70,7 +68,7 @@
 						<label>毕业院校：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="school" data-validate="required:毕业院校" />
+						<input type="text" class="input w50" value="" name="school" data-validate="required:毕业院校不能为空,length#<100:字符长度小于100位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -79,7 +77,7 @@
 						<label>专业：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="specialty" data-validate="required:专业" />
+						<input type="text" class="input w50" value="" name="specialty" data-validate="required:专业不能为空,length#<100:字符长度小于100位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -88,7 +86,7 @@
 						<label>学历：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="education" data-validate="required:学历" />
+						<input type="text" class="input w50" value="" name="education" data-validate="required:学历不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -97,7 +95,7 @@
 						<label>QQ号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="qq" data-validate="required:QQ号" />
+						<input type="text" class="input w50" value="" name="qq" data-validate="required:QQ号不能为空,length#<20:字符长度小于20位,plusinteger:QQ号必须是数字并不能以0开头" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -106,7 +104,7 @@
 						<label>地址：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="address" data-validate="required:地址" />
+						<input type="text" class="input w50" value="" name="address" data-validate="required:不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -133,7 +131,7 @@
 						<label>培训周期：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="cycle" data-validate="required:培训周期" />
+						<input type="text" class="input w50" value="" name="cycle" data-validate="required:培训周期不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -155,7 +153,7 @@
 						<label>电话：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="phone" data-validate="required:电话" />
+						<input type="text" class="input w50" value="" name="phone" data-validate="required:电话不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -164,7 +162,7 @@
 						<label>家长电话：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="weChar" data-validate="required:家长电话" />
+						<input type="text" class="input w50" value="" name="weChar" data-validate="required:家长电话不能为空,length#<32:字符长度小于32位" />
 						<div class="tips"></div>
 					</div>
 				</div>
@@ -173,7 +171,7 @@
 						<label>身份证号：</label>
 					</div>
 					<div class="field">
-						<input type="text" class="input w50" value="" name="idCard" data-validate="required:身份证号" />
+						<input type="text" class="input w50" value="" name="idCard" data-validate="required:身份证号不能为空,length#<32:字符长度小于32位,ajax#student/checkIdCard?idCard=:身份证号已经存在" />
 						<div class="tips"></div>
 					</div>
 				</div>

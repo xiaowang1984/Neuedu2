@@ -8,7 +8,7 @@
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
 		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
 		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
@@ -33,14 +33,27 @@
 				color: #585858;
 		          
 		        }
-		        .sid{
-		        	display:none;
-		        }
+	        .sid{
+	        	display:none;
+	        }
+	        #tb tr td{
+	        	white-space: nowrap;
+	        	overflow: hidden;
+	        	text-overflow:ellipsis;
+	        }
+	        #tb{
+	        	  table-layout: fixed; 
+	        }
+	        #tb tbody tr:hover{
+	        	background: #000000;
+	        	color: #ffffff;
+	        	
+	        }
 		</style>
 	</head>
 	<body>
-		<div class="panel admin-panel">
-			 <div class="padding border-bottom">
+		<div id="app" class="panel admin-panel" v-cloak >
+			<div class="padding border-bottom">
 			 	<ul class="search" style="padding-left:10px;">
 			 	 	<li>
 			 	 		<strong id='name'></strong>
@@ -52,138 +65,144 @@
 			 	 		<svg class="icon" aria-hidden="true">
 							<use xlink:href="#icon-jiangshi"></use>
 						</svg>&nbsp;
-			 	 		<span id="lecturerName"></span>
+			 	 		<span id="lecturerName">{{entry.lecturerName}}</span>
 			 	 	</li>
 			 	 	<li>
 			 	 		<svg class="icon" aria-hidden="true">
 							<use xlink:href="#icon-laoshi"></use>
 						</svg>&nbsp;
-			 	 		<span id="managerName"></span>
+			 	 		<span id="managerName">{{entry.managerName}}</span>
 			 	 	</li> 
 			 	 	<li>
 			 	 		<svg class="icon" aria-hidden="true">
 							<use xlink:href="#icon-xuesheng--"></use>
 						</svg>&nbsp;
-			 	 		<span id="count"></span>
+			 	 		{{entry.count}}
 			 	 	</li> 
-			 	 	
 			 	</ul>
-			 </div>
-			 <hr class="bg-main" />
-			 <div class="panel admin-panel">
+			</div>
+			<hr class="bg-main" />
+			<div class="panel admin-panel">
 			 	<div class="padding border-bottom">
-			 		<form id="listForm" method="post" enctype="multipart/form-data">
-			 			<ul class="search" style="padding-left:10px;">
+			 		<ul class="search" style="padding-left:10px;">
+		 				<li>
+		 					<input  v-model="student.name" type="text" class="input s100" placeholder="学生姓名"  />
+		 				</li>
+		 				<li>
+		 					<select id="month" name="month" class="input s100" v-model="student.gender">
+								<option value="">请选择性别</option>
+								<option value="1">男</option>
+								<option value="0">女</option>
+							</select>
+		 				</li>
+		 				<li>
+		 					<select id="month" name="month" class="input s100" v-model="student.status">
+								<option value="">请选择状态</option>
+								<option value="0">待学</option>
+								<option value="1">在学</option>
+								<option value="2">毕业</option>
+								<option value="3">就业</option>
+								<option value="4">放弃</option>
+								<option value="5">休学</option>
+							</select>
+		 				</li>
+		 				<li>
+		 					<button type="button" class="button input s100"  @click="search"><span class="icon-search"></span>搜索</button>
+		 				</li>
+		 			</ul>
+		 			<form id="listForm" method="post" enctype="multipart/form-data">
+			 			<ul class="search" style="padding-left:10px;margin-top: 5px;">
 			 				<li>
-			 					<button type="button" id="add" class="button input s100 "  data-title="添加学生" data-url="pages/student/add.html" ><span class="icon-plus-square-o"></span>创建学生</button>
+			 					<button type="button" class="button input s100 " @click="add()"><span class="icon-plus-square-o"></span>创建学生</button>
 			 				</li>
 			 				<li>
-			 					<button type="button" id="file" class="button input s100 " style="width:120px"></span>批量添加 xls</button>
-			 					<input id="sfile" name="sfile" type="file" style="display: none;" />
+			 					<button type="button" @click="batch" class="button input s100 " style="width:120px"></span>批量添加 xls</button>
+			 					<input id="sfile" @change="changeFile" name="sfile" type="file" accept="application/vnd.ms-excel" style="display: none;" />
 			 				</li>
 			 			</ul>
-			 		</form>
+		 			</form>
 			 	</div>
-			 <table id="tb"  class="table table-hover table-bordered" v-cloak>
-			 	<thead>
-		 			<tr>
-		 				<th>考试ID</th>
-		 				<th>序号</th>
-		 				<th>姓名</th>
-		 				<th>性别</th>
-		 				<th>电话</th>
-		 				<th>民族</th>
-		 				<th>学校</th>
-		 				<th>专业</th>
-		 				<th>负责人</th>
-		 			</tr>
-		 		</thead>
-		 		<tbody >
-		 			<template  v-for="student in list">
-			 			<tr @dblclick="edit(student.id)">
-			 				<td>{{student.id}}</td>
-			 				<td>{{student.no}}</td>
-			 				<td>{{student.name}}</td>
-			 				<td><span v-if="student.gender==1">男</span> <span v-if="student.gender==0">女</span></td>
-			 				<td>{{student.phone}}</td>
-			 				<td>{{student.nation}}</td>
-			 				<td>{{student.school}}</td>
-			 				<td>{{student.specialty}}</td>
-			 				<td>{{student.sale}}</td>
+			 	<table id="tb"  class="table table-bordered" >
+				 	<thead>
+			 			<tr>
+			 				<th width="80px">考试ID</th>
+			 				<th width="50px">序号</th>
+			 				<th width="100px">姓名</th>
+			 				<th width="50px">性别</th>
+			 				<th width="110px">电话</th>
+			 				<th width="50px">民族</th>
+			 				<th width="200px">学校</th>
+			 				<th width="150px">专业</th>
+			 				<th width="80">学历</th>
+			 				<th>操作</th>
 			 			</tr>
-		 			</template>
-		 		</tbody>
-			 </table>
-			 <!--<div id="wy_page" class="wy_page"></div>-->
+			 		</thead>
+			 		<tbody>
+			 			<tr v-for="(stu,index) in entry.students">
+			 				<td>{{stu.id}}</td>
+			 				<td>{{stu.no}}</td>
+			 				<td>{{stu.name}}</td>
+			 				<td>
+			 					<span v-if="stu.gender==1">男</span>
+			 					<span v-else>女</span>
+			 				</td>
+			 				<td>{{stu.phone}}</td>
+			 				<td>{{stu.nation}}</td>
+			 				<td>{{stu.school}}</td>
+			 				<td>{{stu.specialty}}</td>
+			 				<td>{{stu.education}}</td>
+			 				<td>
+			 					<button class="button button-little border-main" @click="edit(stu.id)" >修改</button>&nbsp;&nbsp;
+			 					<button class="button button-little border-main" @click="del(stu.id)" >删除</button></td>
+			 				</td>
+			 			</tr>
+			 		</tbody>
+			 	</table>
+			</div>
 		</div>
-		<script type="text/javascript">
-			$(function(){
-				var url=backPath+"student/list";
-				var url2=backPath+"grade/edit";
-				var path=basePath+"pages/student/list.html";
-				var gId=$.getUrlParam("gId");
-				var pageNo=$.getUrlParam("pageNo");
-				if(pageNo==null){
-					pageNo=1;
-				}
-				var grade=getData({"id":gId},url2);
-				$("#name").text(grade.name);
-				$("#lecturerName").text(grade.lecturerName);
-				$("#managerName").text(grade.managerName);
-				var type={"0":"招转","1":"小学期","2":"高校个体","3":"社会个体","4":"专业共建"};
-				$("#type").text(type[grade.type]);
-				var data=getData({"pageNo":pageNo,"gId":gId},url);
-			/*	$("#wy_page").wy_page({"pageNo":pageNo,"params":"gId="+gId,"path":path,"totalPage":data.totalPage});*/
-				$("#count").text(data.count);
-				var vue=new Vue({
-					el:"#tb",
-					data:{
-						"list":data.list
+		<script>
+			var gId=$.getUrlParam("gId");
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					student:{
+						gId:gId,
+						name:"",
+						gender:"",
+						status:""
 					},
-					methods:{
-						edit:function(id){
-							dialogframe({
-								url:"pages/student/edit.html?id="+id,
-								title:"修改学生信息"
-							});
+					entry:getData({gId:gId},path2+"student/list")
+				},
+				methods:{
+					search(){
+						this.entry=getData(this.student,path2+"student/list")
+					},
+					add(){
+						dialogframe({
+							url:"pages/student/add.html?gId="+this.student.gId,
+							title:"添加学生"
+						});
+					},
+					del(id){
+						if(confirm("学生信息一旦删除不可恢复只能重新添加,确认要删除吗?")){
+							var m=getData({id:id},path2+"student/del");
+							alert(m.message);
+							this.entry=getData({gId:gId},path2+"student/list")
 						}
+					},
+					edit(id){
+						dialogframe({
+							url:"pages/student/edit.html?id="+id,
+							title:"修改学生信息"
+						});
+					},
+					batch(){
+						$("#sfile").click();
+					},
+					changeFile(){
+						submitForm('listForm',"student/upload?gid="+this.gId,false);
 					}
-				});
-				/*for(var i=0;i<data.list.length;i++){
-					var gender=data.list[i].gender==0?"女":"男";
-					var $tr=$('<tr></tr>');
-					$tr.append('<td class="sid">'+data.list[i].id+'</td>');
-					$tr.append('<td>'+data.list[i].no+'</td>');
-					$tr.append('<td>'+data.list[i].name+'</td>');
-					$tr.append('<td>'+gender+'</td>');
-					$tr.append('<td>'+data.list[i].phone+'</td>');
-					$tr.append('<td>'+data.list[i].nation+'</td>');
-					$tr.append('<td>'+data.list[i].school+'</td>');
-					$tr.append('<td>'+data.list[i].specialty+'</td>');
-					$tr.append('<td>'+data.list[i].sale+'</td>');
-					$("#tb tbody").append($tr);
-				}*/
-				$("#sfile").change(function(){
-					submitForm('listForm',"student/upload?gid="+gId,false);
-				});
-				$("#file").click(function(){
-					$("#sfile").click();
-				});
-				$("#add").click(function(){
-					dialogframe({
-						url:"pages/student/add.html?gId="+gId,
-						title:"添加学生"
-					});
-				});
-				document.getElementById("tb").oncontextmenu = function(){
-				    return false;
 				}
-				/*$("#tb").dblclick(function(e){
-					if(e.target.tagName=="TD"){
-						var sId=$(e.target).parent("tr").children(".sid").text();
-						
-					}
-				});*/
 			});
 			
 		</script>

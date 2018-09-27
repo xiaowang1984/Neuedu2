@@ -122,7 +122,7 @@
 				</div>
 				<div class="wy_body">
 					<div class="item" v-for="arrange in arranges">
-						<img height="80" width="80" alt="logo" :src="getHead(arrange).img" @click="href(arrange)" class="wy_logo img-border" data-id="24">
+						<img height="80" width="80" alt="logo" :src="getHead(arrange).img" @click="href(arrange)" class="wy_logo img-border" data-id="arrange.id">
 						<div class="ihead">
 							<span class="wytxt icon-tag text-big text-red" >{{getHead(arrange).name}}</span>
 							<span class="icon-calendar text-big" style="margin-left: 30px"></span>&nbsp;{{getHead(arrange).start}} ~ {{getHead(arrange).end}}
@@ -314,12 +314,12 @@
 						del:function(id){
 							if(confirm("确定要删除吗")){
 								$('#fm').ajaxSubmit({
-									"url":backPath+'arrange/del?id='+id,
+									"url":path2+'/arrange/del?id='+id,
 									dataType:"json",
 									type:"get",
 									async:false,
 									error:function(request,message,obj){
-										alert(message);
+										console.log(request);
 									},
 									success:function(data){
 										alert("删除完成");

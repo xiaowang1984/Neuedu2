@@ -14,53 +14,13 @@
 		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
 		<style type="text/css">
+			
 			.s100{
 				width:100px;
 				padding:5px 10px;
 			}
-			.wy_list li{
-				list-style: none;
-				width:340px;
-				height: 200px;
-				display: inline-block;
-				border:1px solid #bbb;
-				margin: 10px;
-				display: inline-block;
-			}
-			.wy_list li .wy_item{
-				display: flex;	
-				height: 100%;
-				width: 100%;
-			}
-			.wy_list li .wy_item .wy_left{
-				flex:5;
-				padding-left: 10px;
-			}
-			.wy_list li .wy_item .wy_left .title{
-				height:60px;
-				line-height: 40px;
-				font-size: 18px;
-				font-weight: bold;
-				overflow: hidden;
-				text-overflow: ellipsis;
-			}
-			.wy_list li .wy_item .wy_right{
-				flex:2;
-			}
-			.wy_list li .wy_item .wy_content{
-				display: flex;
-				height:40px;
-			}
-			.wy_list li .wy_item .wy_content div{
-				flex:1;
-				height: 40px;
-				line-height: 40px;
-			}
-			.text-big{
-				color: #585858;
-			}
 			.icon {
-				font-size:22px;
+				font-size:18px;
 		          /* 通过设置 font-size 来改变图标大小 */
 		        width: 1em; 
 		        height: 1em;
@@ -72,8 +32,63 @@
 		             normalize.css 中也包含这行 */
 		        overflow: hidden;
 				color: #585858;
-		          
-		        }
+			}
+			.wy_list{
+				background: #C5CACD;
+			}
+			.wy_list li{
+				list-style: none;
+				width:300px;
+				height: 440px;
+				padding:0px 40px;
+				display:inline-flex;
+				border-top:2px solid #FF8000;
+				background: #FFFFFF;
+				margin: 10px;
+				flex-direction: column;
+			}
+			.wy_list li .wy_top{
+				height:149px;
+				border-bottom: 1px solid #C5CACD;
+				display:flex;
+	            justify-content:center;
+	            align-items:center;
+			}		
+			.wy_list li .wy_content{
+				flex: 1;
+			}
+			.wy_list li .wy_content .wy_title{
+				height: 55px;
+				line-height: 55px;
+				text-align: center;
+				overflow: hidden;
+			}
+			.wy_list li .wy_content .wy_center{
+				height:125px;
+				display: flex;
+			}
+			.wy_list li .wy_content .wy_center>div{
+				flex: 1;
+				display: flex;
+				flex-direction:column;
+			}
+			.wy_list li .wy_content .wy_center>div>div{
+				flex: 1;
+				height:41px;
+				line-height: 33px;
+			}
+			.wy_list li .wy_btns{
+				line-height:60px;
+				text-align: center;
+			}
+			.wy_list li .wy_btns .icon{
+				cursor: pointer;
+				font-size:24px;
+			}
+			.wy_list li .wy_btns .icon:hover{
+				background:#0000FF;
+				color:#fff;
+			}
 		</style>
 
 	</head>
@@ -148,8 +163,61 @@
 			 </div>
 			 <hr class="bg-main" />
 			 <ul id="wy_list" class="wy_list">
-			 	<li v-for="item in list"  @contextmenu.prevent  >
-			 		<div class="wy_item">
+			 	<li v-for="item in list">
+			 		<div class="wy_top">
+			 			<div>
+			 				<img width="56" height="56" alt="logo" :src="getImg(item.img)" />
+			 				<p style="position: relative; top:10px;color:#585858">天津TTC</p>
+			 			</div>
+			 		</div>
+			 		<div class="wy_content">
+			 			<div class="wy_title">{{item.name}}</div>
+			 			<div class="wy_center">
+			 				<div class="wy_left">
+		 						<div v-for="lecturer in attr.lecturer" v-if="item.lecturer==lecturer.id">
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiangshi"></use>
+			 						</svg>&nbsp;&nbsp;{{lecturer.name}}
+		 						</div>
+		 						<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuesheng--"></use>
+			 						</svg>&nbsp;&nbsp;{{item.stuCount}}
+		 						</div>
+		 						<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
+			 						</svg>&nbsp;&nbsp;{{getDays(item.startDate)}}
+		 						</div>
+			 				</div>
+			 				<div class="wy_right">
+			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-laoshi"></use>
+			 						</svg>&nbsp;&nbsp;{{manager.name}}
+			 					</div>
+			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offer"></use>
+			 						</svg>&nbsp;&nbsp;{{item.offer}}
+			 					</div>
+			 					<div>
+			 						<svg class="icon" aria-hidden="true">
+			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-ai03"></use>
+			 						</svg>&nbsp;&nbsp;{{item.startDate}}
+			 					</div>
+			 				</div>
+			 			</div>
+			 			<div class="wy_btns"> 
+			 				<svg class="icon" aria-hidden="true" @click="edit(item.id)">
+		                        <use xlink:href="#icon-bianji"></use>
+		      				</svg>
+		      				<svg class="icon" aria-hidden="true" style="margin-left: 50px;" @click="main(item.id)">
+		                        <use xlink:href="#icon-shezhi"></use>
+		                    </svg>
+			 			</div>
+			 		</div>
+			 		<!--<div class="wy_item">
 			 			<div class="wy_left">
 			 				<div @mousedown="mousedown(event,item.id)" class="title text-blue" :title="item.name">{{item.name}}</div>
 			 				<hr>
@@ -198,10 +266,9 @@
 		 						</svg>
 			 				</div>
 			 			</div>
-			 		</div>
+			 		</div>-->
 			 	</li>
 			 </ul>
-			
 		    <div id="wy_page" class="wy_page">
 		    </div>
 		</div>
@@ -238,10 +305,8 @@
 					getImg:function(param){
 						return param==""?resourcePath+"images/xxq.jpg":resourcePath+param;
 					},
-					mousedown:function(e,id){
-					    if(e.which==1){
-							parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");		
-						}
+					main:function(id){
+						parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");		
 					},
 					edit:function(id){
 						dialogframe({

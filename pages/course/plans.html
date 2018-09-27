@@ -47,7 +47,7 @@
 			 					<td>
 				 					<div class="form-group">
 										<div class="field">
-											<input type="text" class="input" maxlength="20"   name="name" :value="plan.name" />
+											<input type="text" class="input" maxlength="20"   name="name" :value="plan.name"  data-validate="required:方案名不能为空,length#<20:方案名字长度小于20" />
 											<div class="tips"></div>
 										</div>	
 									</div>
@@ -55,7 +55,7 @@
 				 				<td>
 				 					<div class="form-group">
 										<div class="field">
-											<input type="text" class="input" maxlength="200"  name="url" :value="plan.url" />
+											<input type="text" class="input" maxlength="200"  name="url" :value="plan.url" data-validate="url:必须是一个url地址,length#<20:url长度小于20" />
 											<div class="tips"></div>
 										</div>	
 									</div>
@@ -82,7 +82,7 @@
 			 				<td>
 			 					<div class="form-group">
 									<div class="field">
-										<input type="text" class="input"   name="url" maxlength="200" data-validate="length#<20:url长度小于20" />
+										<input type="text" class="input"   name="url" maxlength="200" data-validate="url:必须是一个url地址,length#<20:url长度小于20" />
 										<div class="tips"></div>
 									</div>	
 								</div>

@@ -84,19 +84,17 @@
 			</form>
 		</div>
 		<script type="text/javascript">
-			$(function() {
-				var url = path2 + "teacher/edit";
-				var id = $.getUrlParam("id");
-				var data = getData({
-					"id": id
-				}, url);
-				console.log(data);
-				new Vue({
-					el:"#app",
-					data:{
-						teacher:data
-					}
-				})
+			var url = path2 + "teacher/edit";
+			var id = $.getUrlParam("id");
+			var data = getData({
+				"id": id
+			}, url);
+			console.log(data);
+			new Vue({
+				el:"#app",
+				data:{
+					teacher:data
+				}
 			});
 		</script>
 	</body>
