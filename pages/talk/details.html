@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+			.icon {
+				font-size:24px;
+		          /* 通过设置 font-size 来改变图标大小 */
+		        width: 1em; 
+		        height: 1em;
+		          /* 图标和文字相邻时，垂直对齐 */
+		        vertical-align: -0.15em;
+		          /* 通过设置 color 来改变 SVG 的颜色/fill */
+		        fill: currentColor;
+		          /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+		             normalize.css 中也包含这行 */
+		        overflow: hidden;
+				color: #585858;
+		          
+		        }
+		        #tb ul li{
+		        	float:left;
+		        	padding:0px 10px;
+		        }
+		        .topDat{
+		        	font-size:80%;
+		        	color:#585858;
+		        }
+		        
+		</style>
+	</head>
+	<body>
+		<div id="app" class="padding-big" v-cloak>
+			<div class="height-large bold">
+				{{sname}}
+			</div>
+			 <table id="tb"  class="table table-bordered">
+			 	<thead>
+			 		<tr>
+			 			<th style="width:100px">日期</th>
+			 			<th style="width:100px">评级</th>
+			 			<th style="width:100px">评价人</th>
+			 			<th style="width:100px">内容</th>
+			 		</tr>
+			 	</thead>
+		 		<tbody>
+		 			<tr v-for="item in list">
+		 				<td>{{item.dat}}</td>
+		 				<td>
+		 					<span v-if="item.assess==1" class="icon-arrow-up text-green"></span>
+		 					<span v-else-if="item.assess==2" class="icon-arrow-right text-blue"></span>
+		 					<span v-else-if="item.assess==3" class="icon-arrow-down text-red"></span>
+		 					<span v-else class="icon-exclamation-triangle text-red"></span>
+		 				</td>
+		 				<td>
+		 					{{tname(item.tId)}}
+		 				</td>
+		 				<td>
+		 					{{item.txt}}
+		 				</td>
+		 			</tr>
+		 		</tbody>
+			 </table>
+			
+		</div>
+		<script type="text/javascript">
+			var sid=$.getUrlParam("sid");
+			var sname=$.getUrlParam("sname");
+			new Vue({
+				el:"#app",
+				data(){
+					return {
+						sname:sname,
+						list:getData({"sId":sid},path2+"talk/details"),
+						teachers: getData({isDel: 1, withPage: 0}, path2 + "teacher/list").list
+					};
+				},
+				mounted(){
+				},
+				methods:{
+					tname(tid){
+						for(var i=0;i<this.teachers.length;i++){
+							if(tid==this.teachers[i].id)
+								return this.teachers[i].name;
+						}
+						return "";
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak class="panel admin-panel">
+			 <div class="padding border-bottom">
+			 	<form id="listForm" method="post">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		<button type="button" id="add" class="button input s100 dialogs" onclick="dialog(this)" data-title="添加企业" data-url="pages/company/add.html"  ></span>创建企业</button>
+				 	 	</li> 
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			 <table id="tb"  class="table table-hover table-bordered">
+			 	<thead>
+		 			<tr>
+		 				<th>公司名称</th>
+		 				<th style="width:100px">是否有效</th>
+		 				<th style="width:220px">操作</th>
+		 			</tr>
+		 		</thead>
+		 		<tbody>
+		 			<tr v-for="company in entry.list">
+		 				<td>{{company.name}}</td>
+		 				<td>
+		 					<span v-if="company.isDel==1">有效</span>
+		 					<span v-else>失效</span>
+		 				</td>
+		 				<td>
+		 					<button  class="button button-little border-main" @click="edit(company.id)">修改</button>&nbsp;&nbsp;
+							<button  v-if="company.isDel==1" class="button button-little border-main" @click="del(company.id,0)" >删除</button>
+							<button  v-else class="button button-little border-main" @click="del(company.id,1)" >恢復</button>
+		 				</td>
+		 			</tr>
+		 		</tbody>
+			 </table>
+			 <div id="wy_page" class="wy_page">
+			 	<mypage :pageno="entry.pageNo" :totalpage="entry.totalPage" :callback="changepage"> </mypage>
+			 </div>
+		</div>
+		<script>
+			var vue=new Vue({
+				el:"#app",
+				data:{
+					name:"",
+					entry:getData({"pageNo":1,"withPage":1},path2+"company/list"),
+					params:{
+						pageNo:1,
+						withPage:1
+					}
+				},
+				methods:{
+					changepage:function(i){
+						this.params.pageNo=i
+						this.entry=getData(this.params,path2+"company/list");
+					},
+					edit:function(id){
+						dialogframe({
+							"title":"企业信息修改",
+							"url":"pages/company/edit.html?id="+id
+						});
+					},
+					del:function(id,isDel){
+						if(confirm(isDel==0?"确定要删除该企业吗?":"确定要恢复该企业吗?")){
+							$.ajax({
+								url:path2+"company/edit",
+								type:"post",
+								data:{id:id,isDel:isDel},
+								dataType:"json",
+								xhrFields:{
+								    withCredentials:true
+								},
+								success:function(data){
+									alert(data.message);
+									vue.entry=getData(this.params,path2+"company/list");
+								}
+							});
+							
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

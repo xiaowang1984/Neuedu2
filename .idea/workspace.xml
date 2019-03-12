@@ -1,0 +1,844 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="8cdd3afa-e8a1-4267-aa26-905025ea981e" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/case/redirect.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/computer/edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/computer/score.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/storehouse/add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/storehouse/details.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/storehouse/edit.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/storehouse/list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/work/gradedetails.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/work/studentlist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/work/timerpt.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/work/workstudentdetails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Neuedu.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Neuedu.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/Teacher/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/Teacher/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/board/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/board/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/board/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/board/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/board/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/board/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/case/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/case/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/case/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/case/details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/case/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/case/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/case/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/case/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/computer/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/computer/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/computer/details.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/computer/details.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/computer/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/computer/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/computer/report.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/computer/report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/grade/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/grade/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/grade/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/grade/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/grade/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/grade/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/grade/log.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/grade/log.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/grade/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/grade/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/interview/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/interview/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/interview/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/interview/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/student/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/student/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/talk/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/talk/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/work/add.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/work/add.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/work/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/pages/work/list.html" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="score.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/computer/score.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="502">
+              <caret line="52" column="53" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="53" />
+              <folding>
+                <element signature="n#style#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="gradedetails.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/work/gradedetails.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="169" column="36" selection-start-line="166" selection-start-column="24" selection-end-line="175" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="report.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pages/computer/report.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="176">
+              <caret line="114" column="21" lean-forward="true" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/computer/list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5130">
+              <caret line="190" column="13" lean-forward="true" selection-start-line="166" selection-start-column="10" selection-end-line="190" selection-end-column="13" />
+              <folding>
+                <element signature="n#style#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#1670#1676#0" expanded="true" />
+                <element signature="e#1676#1682#0" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#2;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#4;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#2526#2532#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="details.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/computer/details.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4482">
+              <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>autocomplete</find>
+      <find>hidden</find>
+      <find>description</find>
+      <find>pointstr</find>
+      <find>point</find>
+      <find>points</find>
+      <find>conso</find>
+      <find>click</find>
+      <find>gId</find>
+      <find>cases</find>
+      <find>icon</find>
+      <find>cname</find>
+      <find>series</find>
+      <find>str</find>
+      <find>wy_list</find>
+      <find>list-body</find>
+      <find />
+      <find>students</find>
+      <find>split</find>
+      <find>console</find>
+      <find>name</find>
+      <find>datarr</find>
+      <find>languages</find>
+      <find>callBackPath</find>
+      <find>create</find>
+      <find>edit</find>
+      <find>wy_content</find>
+      <find>K.create</find>
+      <find>store</find>
+      <find>data</find>
+    </findStrings>
+    <dirStrings>
+      <dir>C:\Users\wangyu\Documents\HBuilderProject\Neuedu\pages</dir>
+    </dirStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode />
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/pages/student/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/Teacher/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/report.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/studentlist.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/workstudentdetails.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/interview/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/case/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/interview/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/case/edit.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/case/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/case/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/gradedetails.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/board/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/grade/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/grade/log.html" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/score.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/edit.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/edit.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/timerpt.html" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/pages/grade/log.html" />
+        <option value="$PROJECT_DIR$/pages/talk/add.html" />
+        <option value="$PROJECT_DIR$/pages/interview/add.html" />
+        <option value="$PROJECT_DIR$/login.html" />
+        <option value="$PROJECT_DIR$/pages/grade/add.html" />
+        <option value="$PROJECT_DIR$/pages/student/list.html" />
+        <option value="$PROJECT_DIR$/pages/grade/edit.html" />
+        <option value="$PROJECT_DIR$/pages/board/edit.html" />
+        <option value="$PROJECT_DIR$/pages/board/list.html" />
+        <option value="$PROJECT_DIR$/pages/case/redirect.html" />
+        <option value="$PROJECT_DIR$/pages/Teacher/list.html" />
+        <option value="$PROJECT_DIR$/pages/case/edit.html" />
+        <option value="$PROJECT_DIR$/pages/case/details.html" />
+        <option value="$PROJECT_DIR$/pages/work/add.html" />
+        <option value="$PROJECT_DIR$/pages/board/add.html" />
+        <option value="$PROJECT_DIR$/pages/work/workstudentdetails.html" />
+        <option value="$PROJECT_DIR$/pages/grade/main.html" />
+        <option value="$PROJECT_DIR$/pages/work/gradedetails.html" />
+        <option value="$PROJECT_DIR$/pages/work/list.html" />
+        <option value="$PROJECT_DIR$/pages/work/timerpt.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/pages/storehouse/add.html" />
+        <option value="$PROJECT_DIR$/pages/storehouse/edit.html" />
+        <option value="$PROJECT_DIR$/pages/storehouse/details.html" />
+        <option value="$PROJECT_DIR$/pages/case/list.html" />
+        <option value="$PROJECT_DIR$/pages/work/studentlist.html" />
+        <option value="$PROJECT_DIR$/pages/storehouse/list.html" />
+        <option value="$PROJECT_DIR$/pages/case/add.html" />
+        <option value="$PROJECT_DIR$/pages/computer/add.html" />
+        <option value="$PROJECT_DIR$/pages/computer/edit.html" />
+        <option value="$PROJECT_DIR$/pages/computer/details.html" />
+        <option value="$PROJECT_DIR$/pages/interview/list.html" />
+        <option value="$PROJECT_DIR$/pages/grade/list.html" />
+        <option value="$PROJECT_DIR$/pages/computer/list.html" />
+        <option value="$PROJECT_DIR$/pages/computer/score.html" />
+        <option value="$PROJECT_DIR$/pages/computer/report.html" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBowerSettings">
+    <node-interpreter value="project" />
+    <bower-package value="" />
+    <bower.json value="" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="40" />
+    <option name="width" value="1346" />
+    <option name="height" value="688" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="computer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="work" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/wangyu/Documents/HBuilderProject/Neuedu/pages/storehouse/edit.html" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.jscs" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.jscs" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.selected.package.eslint" value="" />
+    <property name="node.js.selected.package.jscs" value="" />
+    <property name="node.js.selected.package.standard" value="" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\wangyu\Documents\HBuilderProject\Neuedu\pages\storehouse" />
+      <recent name="C:\Users\wangyu\Documents\HBuilderProject\Neuedu" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="login.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://127.0.0.1:8020/Neuedu/login.html" />
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.login.html" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8cdd3afa-e8a1-4267-aa26-905025ea981e" name="Default" comment="" />
+      <created>1534986671930</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1534986671930</updated>
+      <workItem from="1534986673442" duration="4547000" />
+      <workItem from="1535766972131" duration="36000" />
+      <workItem from="1538013286719" duration="9600000" />
+      <workItem from="1538488532040" duration="5000" />
+      <workItem from="1538921809570" duration="4000" />
+      <workItem from="1538956213222" duration="16174000" />
+      <workItem from="1539046684234" duration="13387000" />
+      <workItem from="1539133386409" duration="6707000" />
+      <workItem from="1539222174169" duration="15966000" />
+      <workItem from="1539498667932" duration="22726000" />
+      <workItem from="1539567449961" duration="1453000" />
+      <workItem from="1539591067660" duration="5860000" />
+      <workItem from="1539649053650" duration="3635000" />
+      <workItem from="1539670560335" duration="5019000" />
+      <workItem from="1539696837427" duration="8039000" />
+      <workItem from="1539730016468" duration="8222000" />
+      <workItem from="1539753689743" duration="5101000" />
+      <workItem from="1539823049302" duration="15834000" />
+      <workItem from="1539917733289" duration="5130000" />
+      <workItem from="1540094616080" duration="6536000" />
+      <workItem from="1540165133534" duration="10962000" />
+      <workItem from="1540197419678" duration="5413000" />
+      <workItem from="1540254904402" duration="5067000" />
+      <workItem from="1540341760576" duration="9720000" />
+      <workItem from="1540421664404" duration="1948000" />
+      <workItem from="1540427664318" duration="10688000" />
+      <workItem from="1540448148367" duration="5076000" />
+      <workItem from="1540454586574" duration="308000" />
+      <workItem from="1540872724587" duration="9614000" />
+      <workItem from="1540947164215" duration="9971000" />
+      <workItem from="1540991304632" duration="18000" />
+      <workItem from="1541378663378" duration="9663000" />
+      <workItem from="1541465801259" duration="12734000" />
+      <workItem from="1541553419628" duration="13540000" />
+      <workItem from="1541637390045" duration="12525000" />
+      <workItem from="1541985023058" duration="12710000" />
+      <workItem from="1542070968588" duration="16799000" />
+      <workItem from="1542161216158" duration="5412000" />
+      <workItem from="1542246173744" duration="392000" />
+    </task>
+    <task id="LOCAL-00001" summary="上传">
+      <created>1534986869519</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1534986869519</updated>
+    </task>
+    <task id="LOCAL-00002" summary="上传">
+      <created>1534987459585</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1534987459585</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Merge branch 'master' of https://github.com/xiaowang1984/Neuedu&#10;&#10;# Conflicts:&#10;#&#9;.project&#10;#&#9;index.html&#10;#&#9;pages/Teacher/add.html&#10;#&#9;pages/Teacher/edit.html&#10;#&#9;pages/Teacher/list.html&#10;#&#9;pages/board/add.html&#10;#&#9;pages/board/edit.html&#10;#&#9;pages/board/list.html&#10;#&#9;pages/board/rz.html&#10;#&#9;pages/case/add.html&#10;#&#9;pages/case/details.html&#10;#&#9;pages/case/edit.html&#10;#&#9;pages/case/list.html&#10;#&#9;pages/course/add.html&#10;#&#9;pages/course/edit.html&#10;#&#9;pages/course/list.html&#10;#&#9;pages/course/plans.html&#10;#&#9;pages/grade/add.html&#10;#&#9;pages/grade/edit.html&#10;#&#9;pages/grade/list.html&#10;#&#9;pages/grade/log.html&#10;#&#9;pages/grade/main.html&#10;#&#9;pages/meeting/add.html&#10;#&#9;pages/meeting/edit.html&#10;#&#9;pages/meeting/list.html&#10;#&#9;pages/student/add.html&#10;#&#9;pages/student/edit.html&#10;#&#9;pages/student/list.html&#10;#&#9;pages/talk/add.html&#10;#&#9;pages/talk/edit.html&#10;#&#9;pages/talk/list.html&#10;#&#9;pages/work/add.html&#10;#&#9;pages/work/list.html">
+      <created>1534989035301</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1534989035301</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Merge branch 'master' of https://github.com/xiaowang1984/Neuedu&#10;&#10;# Conflicts:&#10;#&#9;.project&#10;#&#9;index.html&#10;#&#9;pages/Teacher/add.html&#10;#&#9;pages/Teacher/edit.html&#10;#&#9;pages/Teacher/list.html&#10;#&#9;pages/board/add.html&#10;#&#9;pages/board/edit.html&#10;#&#9;pages/board/list.html&#10;#&#9;pages/board/rz.html&#10;#&#9;pages/case/add.html&#10;#&#9;pages/case/details.html&#10;#&#9;pages/case/edit.html&#10;#&#9;pages/case/list.html&#10;#&#9;pages/course/add.html&#10;#&#9;pages/course/edit.html&#10;#&#9;pages/course/list.html&#10;#&#9;pages/course/plans.html&#10;#&#9;pages/grade/add.html&#10;#&#9;pages/grade/edit.html&#10;#&#9;pages/grade/list.html&#10;#&#9;pages/grade/log.html&#10;#&#9;pages/grade/main.html&#10;#&#9;pages/meeting/add.html&#10;#&#9;pages/meeting/edit.html&#10;#&#9;pages/meeting/list.html&#10;#&#9;pages/student/add.html&#10;#&#9;pages/student/edit.html&#10;#&#9;pages/student/list.html&#10;#&#9;pages/talk/add.html&#10;#&#9;pages/talk/edit.html&#10;#&#9;pages/talk/list.html&#10;#&#9;pages/work/add.html&#10;#&#9;pages/work/list.html">
+      <created>1538013349471</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1538013349471</updated>
+    </task>
+    <task id="LOCAL-00005" summary="update">
+      <created>1538014031408</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1538014031408</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="306541000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49753696" visible="true" weight="0.12648809" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50074404" side_tool="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3289256" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" sideWeight="0.50246304" side_tool="true" weight="0.12648809" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49925596" weight="0.20991735" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" visible="true" weight="0.054545455" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3289256" />
+    </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13020833" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.3289256" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49925596" weight="0.20991735" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50074404" side_tool="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.054545455" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="上传" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/xiaowang1984/Neuedu&#10;&#10;# Conflicts:&#10;#&#9;.project&#10;#&#9;index.html&#10;#&#9;pages/Teacher/add.html&#10;#&#9;pages/Teacher/edit.html&#10;#&#9;pages/Teacher/list.html&#10;#&#9;pages/board/add.html&#10;#&#9;pages/board/edit.html&#10;#&#9;pages/board/list.html&#10;#&#9;pages/board/rz.html&#10;#&#9;pages/case/add.html&#10;#&#9;pages/case/details.html&#10;#&#9;pages/case/edit.html&#10;#&#9;pages/case/list.html&#10;#&#9;pages/course/add.html&#10;#&#9;pages/course/edit.html&#10;#&#9;pages/course/list.html&#10;#&#9;pages/course/plans.html&#10;#&#9;pages/grade/add.html&#10;#&#9;pages/grade/edit.html&#10;#&#9;pages/grade/list.html&#10;#&#9;pages/grade/log.html&#10;#&#9;pages/grade/main.html&#10;#&#9;pages/meeting/add.html&#10;#&#9;pages/meeting/edit.html&#10;#&#9;pages/meeting/list.html&#10;#&#9;pages/student/add.html&#10;#&#9;pages/student/edit.html&#10;#&#9;pages/student/list.html&#10;#&#9;pages/talk/add.html&#10;#&#9;pages/talk/edit.html&#10;#&#9;pages/talk/list.html&#10;#&#9;pages/work/add.html&#10;#&#9;pages/work/list.html" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="7" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/pages/Teacher/pwd.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/test/options.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.project">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/test/add.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/test/edit.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/test/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1134" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/interview/report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-567" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/grade/log.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1755">
+          <caret line="65" column="28" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/talk/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="30" column="48" lean-forward="true" selection-start-line="30" selection-start-column="48" selection-end-line="30" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/webstorm.jar!/resources/html5-schema/html5/web-forms2.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="737" column="22" selection-start-line="737" selection-start-column="22" selection-end-line="737" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kindeditor/lang/ar.js" />
+    <entry file="file://$PROJECT_DIR$/pages/case/details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="976">
+          <caret line="167" column="14" selection-start-line="167" selection-start-column="14" selection-end-line="167" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/grade/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="132" column="31" selection-start-line="132" selection-start-column="31" selection-end-line="132" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/course/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-268">
+          <caret line="20" column="9" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/Teacher/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-12">
+          <caret line="105" column="20" selection-start-line="105" selection-start-column="20" selection-end-line="105" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1847">
+          <caret line="15" column="13" lean-forward="true" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/student/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="182" column="44" selection-start-line="182" selection-start-column="38" selection-end-line="182" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/board/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="268" column="40" lean-forward="true" selection-start-line="254" selection-start-column="23" selection-end-line="268" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/board/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="636">
+          <caret line="204" column="47" selection-start-line="204" selection-start-column="47" selection-end-line="204" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/board/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2213">
+          <caret line="166" column="41" lean-forward="true" selection-start-line="166" selection-start-column="12" selection-end-line="166" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/student/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3348">
+          <caret line="124" column="40" selection-start-line="124" selection-start-column="16" selection-end-line="124" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/workstudentdetails.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2592">
+          <caret line="96" column="138" selection-start-line="96" selection-start-column="138" selection-end-line="96" selection-end-column="138" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/timerpt.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2418">
+          <caret line="91" column="11" selection-start-line="91" selection-start-column="11" selection-end-line="91" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1324">
+          <caret line="153" column="7" selection-start-line="153" selection-start-column="7" selection-end-line="153" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="446">
+          <caret line="224" column="61" selection-start-line="224" selection-start-column="61" selection-end-line="224" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/case/redirect.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="444">
+          <caret line="28" column="29" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/storehouse/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="117" column="124" selection-start-line="117" selection-start-column="124" selection-end-line="117" selection-end-column="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/case/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="72" column="45" lean-forward="true" selection-start-line="72" selection-start-column="45" selection-end-line="72" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/studentlist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="379">
+          <caret line="124" column="55" lean-forward="true" selection-start-line="124" selection-start-column="55" selection-end-line="124" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/case/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2132">
+          <caret line="148" column="50" lean-forward="true" selection-end-line="250" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/case/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1204">
+          <caret line="144" column="30" selection-start-line="144" selection-start-column="30" selection-end-line="144" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/storehouse/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="95" column="46" selection-start-line="95" selection-start-column="46" selection-end-line="95" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/storehouse/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="131" column="34" lean-forward="true" selection-start-line="131" selection-start-column="34" selection-end-line="131" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="148" column="14" selection-start-line="140" selection-start-column="8" selection-end-line="148" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/Teacher/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2348" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/grade/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="12" column="86" selection-start-line="12" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="156" column="72" lean-forward="true" selection-start-line="156" selection-start-column="72" selection-end-line="156" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/grade/main.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="138" column="70" selection-start-line="138" selection-start-column="20" selection-end-line="138" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/score/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="82">
+          <caret line="39" column="28" lean-forward="true" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/score" />
+    <entry file="file://$PROJECT_DIR$/pages/storehouse/details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-204">
+          <caret line="108" column="73" selection-start-line="108" selection-start-column="15" selection-end-line="108" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/interview/details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="38" column="34" lean-forward="true" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3672">
+          <caret line="136" column="53" selection-start-line="136" selection-start-column="4" selection-end-line="136" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/interview/add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-971">
+          <caret line="10" column="56" selection-start-line="10" selection-start-column="56" selection-end-line="10" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/grade/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="144" column="191" lean-forward="true" selection-start-line="144" selection-start-column="173" selection-end-line="144" selection-end-column="191" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/interview/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2160">
+          <caret line="84" column="48" lean-forward="true" selection-start-line="84" selection-start-column="48" selection-end-line="84" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/details.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4482">
+          <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5130">
+          <caret line="190" column="13" lean-forward="true" selection-start-line="166" selection-start-column="10" selection-end-line="190" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#ul#0;n#form#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#1670#1676#0" expanded="true" />
+            <element signature="e#1676#1682#0" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#2;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#4;n#tr#0;n#thead#0;n#table#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="e#2526#2532#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/score.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="52" column="53" selection-start-line="52" selection-start-column="53" selection-end-line="52" selection-end-column="53" />
+          <folding>
+            <element signature="n#style#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/work/gradedetails.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="169" column="36" selection-start-line="166" selection-start-column="24" selection-end-line="175" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/computer/report.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="114" column="21" lean-forward="true" selection-start-line="114" selection-start-column="21" selection-end-line="114" selection-end-column="21" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

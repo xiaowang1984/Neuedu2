@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/echarts.min.js"></script>
+		<style>
+			#app{
+				width:90%;
+				margin:0 auto;
+				padding-bottom: 10px;
+				
+			}
+			.reportcontent{
+				margin:10px 0;
+				box-shadow: 0 0 4px #999999;
+			}
+			.report{
+				
+				height:300px;
+			}
+			.reporttile{
+				padding-left:5%;
+				height:40px;
+				line-height:40px;
+			}
+			.item{
+				display: inline-block;
+				box-shadow: 0 0 4px #999999;
+				width:220px;
+			}
+			.tab a{
+				padding:5px 10px;
+			}
+			.tab .active{
+				color:#FFFFFF;
+				background:#F8A326;
+			}
+			.tab .work{
+				color:#FFFFFF;
+				background:#F04664;
+			}
+			.midreport{
+				height:200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="reportcontent">
+				<div class="reporttile float-left">心情指数</div>
+				<div class="float-left padding-large-left height-large">日志提交比率:&nbsp;{{tijiaolv}}%</div>
+				<div class="clear"></div>
+				<div id="moodreport" class="report"></div>
+			</div>
+			<div class="reportcontent margin-top">
+				<div class="reporttile">总代码数 : {{sumcode}}</div>
+				<div id="codereport" class="report"></div>
+			</div>
+			<div class="line">
+				<div class="xm3">
+					<div class="item">
+						<div class="height-large border-bottom bold text-white padding-big-left" style="background: #14C1C3;">留言</div>
+						<div class="padding-big">
+							<div class="height-large">讲师</div>
+							<div class="height-large text-large bold">804</div>
+							<div style="height:60px;display:flex;align-items: center;" class="border-bottom" >
+								<div class="progress" style="flex:1">
+							        <div class="progress-bar"  style="width: 50%;background: #14C1C3;">
+							        	&nbsp;
+							        </div>
+							    </div>
+							</div>
+							<div class="height-large">
+								留言增加&nbsp;&nbsp;14
+							</div>
+						</div>
+						
+					</div>
+				</div>
+				<div class="xm3 xm-center">
+					<div class="item text-left">
+						<div class="height-large border-bottom bold text-white padding-big-left" style="background: #F34642;">留言</div>
+						<div class="padding-big">
+							<div class="height-large">实施</div>
+							<div class="height-large text-large bold">804</div>
+							<div style="height:60px;display:flex;align-items: center;" class="border-bottom" >
+								<div class="progress" style="flex:1">
+							        <div class="progress-bar" style="width: 50%;background: #F34642;">
+							        	&nbsp;
+							        </div>
+							    </div>
+							</div>
+							<div class="height-large">
+								留言增加&nbsp;&nbsp;14
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="xm3 xm-center">
+					<div class="item text-left">
+						<div class="height-large border-bottom bold text-white padding-big-left" style="background: #9060DA;">问答</div>
+						<div class="padding-big">
+							<div class="height-large">总计</div>
+							<div class="height-large text-large bold">804</div>
+							<div id="askreport" class="border-bottom" style="height:60px;"></div>
+							<div class="height-large">
+								留言增加&nbsp;&nbsp;14
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="xm3 xm-right">
+					<div class="item" style="text-align:left">
+						<div class="height-large border-bottom bold text-white padding-big-left" style="background: #00ACEC;">模拟面试</div>
+						<div class="padding-big">
+							<div id="interfacereport"  class="border-bottom" style="height:180px;"></div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="line line-middle margin-big-top">
+				<div class="xm6">
+					<div class="box-shadow">
+						<div class="height-large padding-big-left bold ">
+							<div class="float-left" v-if="this.selectType==1">班级沟通覆盖率：&nbsp;{{classarr.gailv}}%</div>
+							<div class="float-left" v-else>班会问题解决率：&nbsp;{{classarr.gailv}}%</div>
+							<div class="float-right">
+								<div class="margin-big-right tab">
+									<a href="javascript:void(0)" @click="changeType(1)" class="border" :class="{active:selectType==1}">沟通</a><a href="javascript:void(0)" @click="changeType(2)" class="border" :class="{active:selectType==2}">会议</a>
+								</div>
+							</div> 
+							<div class="clear"></div>
+						</div>
+						<div class="midreport">
+							<div id="classreport" style="height:100%"></div>
+						</div>
+					</div>
+				</div>
+				<div class="xm6">
+					<div class="box-shadow">
+						<div class="height-large padding-big-left bold ">
+							<div class="float-left">面试占比</div>
+							<div class="float-right">
+								<div class="margin-big-right tab">
+									<a href="javascript:void(0)" @click="selectwork=1" class="border" :class="{work:selectwork==1}">就业</a><a href="javascript:void(0)" @click="selectwork=2" class="border" :class="{work:selectwork==2}">薪资</a>
+								</div>
+							</div> 
+							<div class="clear"></div>
+						</div>
+						<div class="midreport">
+							<div id="workreport" style="height:100%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="line line-middle margin-big-top">
+				<div class="xm6">
+					<div class="box-shadow">
+						<div class="height-large padding-big-left bold ">
+							<div class="float-left">笔试</div>
+							<div class="float-right">
+								<div class="margin-big-right tab">
+								</div>
+							</div> 
+							<div class="clear"></div>
+						</div>
+						<div class="midreport">
+							<div id="bishireport" style="height:100%"></div>
+						</div>
+					</div>
+				</div>
+				<div class="xm6">
+					<div class="box-shadow">
+						<div class="height-large padding-big-left bold ">
+							<div class="float-left">上机考试</div>
+							<div class="float-right">
+								<div class="margin-big-right tab">
+								</div>
+							</div> 
+							<div class="clear"></div>
+						</div>
+						<div class="midreport">
+							<div id="jishireport" style="height:100%"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			var gid=$.getUrlParam("gId");
+			var vue = new Vue({
+				el:"#app",
+				data(){
+					return {
+						today:new Date(),
+						selectType:1,
+						selectwork:1,
+						entry:{}
+					};
+				},
+				computed:{
+					enddat(){
+						var week=this.today.getDay();
+						week=week==0?7:week;
+						return dateAdd(this.today,7-week);
+					},
+					stardat(){
+						return dateAdd(this.enddat,-6);
+					},
+					datarr(){
+						var arr=[];
+			            for(var i=0;i<=6;i++){
+			            	var d=dateAdd(this.stardat,i);
+			            	arr.push(this.getmd(d));
+			            }
+			            return arr;
+					},
+					moodarr(){
+						var result=[0,0,0,0,0,0,0];
+						for(var i=0;i<this.entry.thismood.length;i++){
+							for(var j=0;j<=6;j++){
+								var d=getDateStr(dateAdd(this.stardat,j));
+								if(d==this.entry.thismood[i].dat){
+									result[j]=this.entry.thismood[i].val;
+									break;
+								}
+							}
+						}
+						return result;
+					},
+					codearr(){
+						var result=[0,0,0,0,0,0,0];
+						for(var i=0;i<this.entry.thisWorkGrade.length;i++){
+							for(var j=0;j<=6;j++){
+								var d=getDateStr(dateAdd(this.stardat,j));
+								if(d==this.entry.thisWorkGrade[i].dat){
+									result[j]+=parseInt(this.entry.thisWorkGrade[i].adds/this.entry.thisWorkGrade[i].stucount);
+									result[j]-=parseInt(this.entry.thisWorkGrade[i].dels/this.entry.thisWorkGrade[i].stucount);
+								}
+							}
+						}
+						
+						return result;
+					},
+					sumcode(){
+						var result=0;
+						for(var i=0;i<this.codearr.length;i++){
+							result+=this.codearr[i];
+						}
+						return result;
+					},
+					interview(){
+						var data=[];
+						var skill=[];
+						var express=[];
+						for(var i=0;i<this.entry.interview.length;i++){
+							data.push(this.entry.interview[i].dat.substring(5));
+							var sumskill=0;
+							var sumexpress=0;
+							var count=0;
+							for(var j=0;j<this.entry.interview[i].interviewDetailsList.length;j++){
+								sumskill+=this.entry.interview[i].interviewDetailsList[j].skill;
+								sumexpress+=this.entry.interview[i].interviewDetailsList[j].express;
+								count++;
+							}
+							skill.push(parseInt(sumskill*100/count)/100);
+							express.push(parseInt(sumexpress*100/count)/100)
+						}
+						return {
+							data:data,
+							skill:skill,
+							express:express
+						}
+					},
+					tijiaolv(){
+						var comit=0;
+						var student=0;
+						for(var i=0;i<this.entry.thismood.length;i++){
+							comit+=this.entry.thismood[i].comcount;
+							student+=this.entry.thismood[i].stucount;
+						}
+						return comit*10000/student/100;
+					},
+					classarr(){
+						var val=[];
+						var color=[];
+						var title=[];
+						var gailv=0;
+						if(this.selectType==1){
+							title=['沟通较好','沟通适中','沟通较差','沟通异常'];
+							color=['#12C1BF','#FBCA15','#2CC25B','#EF4864'];
+							val=[
+								{value:0, name:'沟通较好'},
+						        {value:0, name:'沟通适中'},
+						        {value:0, name:'沟通较差'},
+						        {value:0, name:'沟通异常'}
+							];
+							for(var i=0;i<this.entry.talks.length;i++){
+								if(this.entry.talks[i].assess==1)
+									val[0].value++;
+								else if(this.entry.talks[i].assess==2)
+									val[1].value++;
+								else if(this.entry.talks[i].assess==3)
+									val[2].value++;
+								else
+									val[3].value++;
+							}
+							gailv=parseInt(this.entry.talks.length/this.entry.studentcount*10000) /100;
+						}else{
+							color=['#2FC25A','#F04764'];
+							title=['已解决','待解决'];
+							val=[
+								{value:0, name:'已解决'},
+						        {value:0, name:'待解决'}
+							];
+							for(var i=0;i<this.entry.meetings.length;i++){
+								for(var j=0;j<this.entry.meetings[i].meetingDetails.length;j++){
+									if(this.entry.meetings[i].meetingDetails[j].solve!=""){
+										val[0].value++;
+									}else{
+										val[1].value++;
+									}
+								}
+							}
+							gailv=parseInt(val[0].value*10000/(val[0].value+val[1].value))/100;
+						}
+						return {
+							val:val,
+							color:color,
+							title:title,
+							gailv:gailv
+						};
+					}
+				},
+				created(){
+					this.entry=getData({"dat":getDateStr(this.stardat),"grade":gid},path2+"report/all");
+				},
+				mounted(){
+					this.moodreort();
+					this.codereort();
+					this.askreort();
+					this.interfacereport();
+					this.classreport();
+					this.workreport();
+					this.bishireport();
+					this.jishireport();
+					
+				},
+				methods:{
+					moodreort(){
+						let mycharts=echarts.init(document.getElementById("moodreport"));
+						option = {
+							 tooltip: {
+						        trigger: 'axis'
+						    },
+							grid:{
+								left:'8%',
+								top:'20',
+								bottom:'30'
+							},
+						    xAxis: {
+						        type: 'category',
+						        data: this.datarr
+						    },
+						    yAxis: {
+						    	min:0,
+						    	max:5,
+						        type: 'value'
+						    },
+						    series: [{
+						    	name:"心情指数",
+						        data: this.moodarr,
+						        type: 'line'
+						    }]
+						};
+						mycharts.setOption(option);
+							
+					},
+					codereort(){
+						let mycharts=echarts.init(document.getElementById("codereport"));
+						option = {
+							tooltip: {
+						        trigger: 'axis'
+						    },
+							grid:{
+								left:'8%',
+								top:'20',
+								bottom:'30'
+							},
+						    xAxis: {
+						        type: 'category',
+						        data: this.datarr
+						    },
+						    yAxis: {
+						        type: 'value'
+						    },
+						    series: [{
+						    	name:"代码量",
+						        data: this.codearr,
+						        type: 'line'
+						    }]
+						};
+						mycharts.setOption(option);
+							
+					},
+					askreort(){
+						let mycharts=echarts.init(document.getElementById("askreport"));
+						option = {
+							grid:{
+								top:'0',
+								left:'0',
+								bottom:'0'
+							},
+						    xAxis: {
+						        type: 'category',
+						        boundaryGap: false,
+						        data: ['', '', '', '', '', '', '']
+						    },
+						    yAxis: {
+						        type: 'value'
+						    },
+						    series: [{
+						        data: [820, 932, 901, 934, 1290, 1330, 1320],
+						        type: 'line',
+						        areaStyle: {
+						        		normal:{
+						        		color:'#9060DA'
+						       	 	},
+						      	},
+						      	itemStyle : { 
+	                                normal : {  
+	                                	color:'#fff',  
+	                                    lineStyle:{  
+	                                        color:'#fff'  
+	                                    }  
+	                                }  
+	                           }
+						    }]
+						};
+
+						mycharts.setOption(option);
+							
+					},
+					interfacereport(){
+						let mycharts=echarts.init(document.getElementById("interfacereport"));
+						option = {
+							tooltip: {
+						        trigger: 'axis'
+						    },
+							grid:{
+								top:'0',
+								left:'0',
+								bottom:'20',
+							},
+						    xAxis: {
+						        type: 'category',
+						        data: this.interview.data
+						    },
+						    yAxis: {
+						    	min:0,
+						    	max:5,
+						        type: 'value'
+						    },
+						    series: [{
+						    	name:"技术分",
+						        data: this.interview.skill,
+						        type: 'bar',
+						        barWidth:'15',
+						      	itemStyle : { 
+	                                normal : {  
+	                                	color:'#00ACEC',
+	                                }  
+	                           }
+						    },
+						    {
+						    	name:"表达分",
+						        data: this.interview.express,
+						        type: 'bar',
+						        barWidth:'15',
+						      	itemStyle : { 
+	                                normal : {  
+	                                	color:'#f9913c',
+	                                }  
+	                           }
+						    }]
+						};
+						mycharts.setOption(option);
+					},
+					classreport(){
+						let mycharts=echarts.init(document.getElementById("classreport"));
+						option = {
+							 tooltip: {
+						        trigger: 'item',
+						        formatter: "{a} <br/>{b}: {c} ({d}%)"
+						    },
+						    legend: {
+						        orient: 'vertical',
+						        right:20,
+						        y:'center',
+						        data:this.classarr.title,
+						        formatter:'{name}'
+						    },
+						    series: [
+						        {
+						            type:'pie',
+						            radius: ['50%', '70%'],
+						            avoidLabelOverlap: false,
+						            label: {
+						                normal: {
+						                    show: false,
+						                    position: 'center'
+						                },
+						                emphasis: {
+						                    show: true,
+						                    textStyle: {
+						                        fontSize: '12',
+						                        fontWeight: 'bold'
+						                    }
+						                }
+						            },
+						            labelLine: {
+						                normal: {
+						                    show: false
+						                }
+						            },
+						            data:this.classarr.val,
+						            color:this.classarr.color
+						        }
+						    ]
+						};
+						mycharts.setOption(option);
+					},
+					workreport(){
+						var mycharts=echarts.init(document.getElementById("workreport"));
+						option = {
+						    legend: {
+						        orient: 'vertical',
+						        right:20,
+						        y:'center',
+						        data:['薪资<1999','薪资 2000-3999','薪资 4000-5999','薪资 6000-7999','薪资 >8000'],
+						        formatter:'{name}'
+						    },
+						    series: [
+						        {
+						            type:'pie',
+						            radius: ['50%', '70%'],
+						            avoidLabelOverlap: false,
+						            label: {
+						                normal: {
+						                    show: false,
+						                    position: 'center'
+						                },
+						                emphasis: {
+						                    show: true,
+						                    textStyle: {
+						                        fontSize: '12',
+						                        fontWeight: 'bold'
+						                    }
+						                }
+						            },
+						            labelLine: {
+						                normal: {
+						                    show: false
+						                }
+						            },
+						            data:[
+						                {value:10, name:'薪资<1999'},
+						                {value:20, name:'薪资 2000-3999'},
+						                {value:25, name:'薪资 4000-5999'},
+						                {value:25, name:'薪资 6000-7999'},
+						                {value:25, name:'薪资 >8000'}
+						            ],
+						            color:['#2FC25A','#F04764','#12C3C0','#9564E2','#FACC14']
+						        }
+						    ]
+						};
+						mycharts.setOption(option);
+					},
+					bishireport(){
+						let mycharts=echarts.init(document.getElementById("bishireport"));
+						option = {
+							grid:{
+								top:'0',
+								left:'0',
+								bottom:'0',
+							},
+						    xAxis: {
+						        type: 'category',
+						        data: ['', '', '', '', '', '', '']
+						    },
+						    yAxis: {
+						        type: 'value'
+						    },
+						    series: [{
+						        data: [820, 932, 901, 934, 1290, 1330, 1320],
+						        type: 'bar',
+						        barWidth:'20',
+						      	itemStyle : { 
+	                                normal : {  
+	                                	color: function(params) { 
+						                    var colorList = ['#FACC14','#F04764','#13C2C1','#2FC25A','#FACC14','#C814FB','#2FC25A'];
+						                    return colorList[params.dataIndex] 
+						                }
+	                                }  
+	                           }
+						    }]
+						};
+						mycharts.setOption(option);
+					},
+					jishireport(){
+						let mycharts=echarts.init(document.getElementById("jishireport"));
+						option = {
+							grid:{
+								top:'0',
+								left:'0',
+								bottom:'0',
+							},
+						    xAxis: {
+						        type: 'category',
+						        data: ['', '', '', '', '', '', '']
+						    },
+						    yAxis: {
+						        type: 'value'
+						    },
+						    series: [{
+						        data: [820, 932, 901, 934, 1290, 1330, 1320],
+						        type: 'bar',
+						        barWidth:'20',
+						      	itemStyle : { 
+	                                normal : {  
+	                                	color: function(params) { 
+						                    var colorList = ['#FACC14','#F04764','#14C2C3','#2FC25A','#FACC14','#C814FB','#2FC25A'];
+						                    return colorList[params.dataIndex] 
+						                }
+	                                }  
+	                           }
+						    }]
+						};
+						mycharts.setOption(option);
+					},
+					getmd(dat){
+						return (dat.getMonth()+1)+"-"+(dat.getDate()<10?"0"+dat.getDate():dat.getDate());
+					},
+					changeType(typeid){
+						if(this.selectType!=typeid){
+							this.selectType=typeid;
+							this.classreport();
+						}
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

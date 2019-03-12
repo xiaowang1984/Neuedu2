@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/echarts.min.js"></script>
+		<style>
+			.xl1{
+				cursor: pointer;
+			}
+			.xl1:hover{
+				color: #FF8000;
+			}
+			.selected{
+				font-weight: bold;
+				color:#333;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak >
+			<div id="charts" style="height:400px;padding-left: 20px;"></div>
+			<div class="line padding height-large" >
+				<div class="xl2-move xl1" @click="change(-7)"><span  class="icon-angle-double-left text-large"></span></div>
+				<div class="xl1" v-for="item in datarr" :class="{selected:selectDat==item}" @click="setDat(item)">{{getmd(item)}}</div>
+				<div class="xl1" @click="change(7)"><span  class="icon-angle-double-right text-large"></span></div>
+			</div>
+			<table class="border table">
+				<thead>
+					<tr>
+						<th style="width:100px;min-width: 100px;">姓名</th>
+						<th style="width:50%">日志内容</th>
+						<th style="width:100px;min-width: 100px;">心情</th>
+						<th style="width:30%">心情内容</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="stu in logs">
+						<td>{{stu.name}}</td>
+						<td>{{getItem(stu).wtxt}}</td>
+						<td>{{getItem(stu).moodcode}}</td>
+						<td v-html="replacen(getItem(stu).moodtxt)"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<script>
+			var gId=$.getUrlParam("gId");
+			var vue=new Vue({
+				el:"#app",
+				data(){
+					return {
+						today:new Date(),
+						selectDat:""
+					};
+				},
+				computed:{
+					enddat(){
+						var week=this.today.getDay();
+						week=week==0?7:week;
+						return dateAdd(this.today,7-week);
+					},
+					stardat(){
+						return dateAdd(this.enddat,-6);
+					},
+					datarr(){
+						var arr=[];
+			            for(var i=6;i>=0;i--){
+			            	var d=dateAdd(this.enddat,0-i);
+			            	arr.push(this.getDataStr(d));
+			            }
+			            return arr;
+					},
+					reportx(){
+						var arr=[];
+			            for(var i=6;i>=0;i--){
+			            	var d=dateAdd(this.enddat,0-i);
+			            	arr.push(this.getmd(this.getDataStr(d)));
+			            }
+			            return arr;
+					},
+					logs(){
+						return getData({"start": getDateStr(this.stardat), "end": getDateStr(this.enddat), "gId": gId}, path2 + "student/getLogsByGid");
+					},
+					list(){
+						var list =this.logs;
+						var a=[];
+						var b=[];
+						var c=[];
+						var d=[];
+						var e=[];			
+						for(var i=0;i<this.reportx.length;i++){
+							a.push(0);
+							b.push(0);
+							c.push(0);
+							d.push(0);
+							e.push(0);
+							for(var j=0;j<list.length;j++){
+								for(var k=0;k<list[j].studentlogs.length;k++){
+									var strarr=list[j].studentlogs[k].dat.split("-");
+									var ym=strarr[1]+"-"+strarr[2];
+									if(ym==this.reportx[i]){
+										if(list[j].studentlogs[k].moodcode==5)
+											a[i]++;
+										else if(list[j].studentlogs[k].moodcode==4)
+											b[i]++;
+										else if(list[j].studentlogs[k].moodcode==3)
+											c[i]++;
+										else if(list[j].studentlogs[k].moodcode==2)
+											d[i]++;
+										else if(list[j].studentlogs[k].moodcode==1)
+											e[i]++;
+									}
+								}
+							}
+						}
+						return {
+							a:a,
+							b:b,
+							c:c,
+							d:d,
+							e:e
+						}
+					},
+					
+				},
+				mounted(){
+					this.selectDat=getDateStr(this.today);
+		            this.drawLine();
+		        },
+				methods:{
+					drawLine(){
+		                var myChart = echarts.init(document.getElementById('charts'));
+						option = {
+							tooltip : {
+								trigger: 'axis',
+								axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+									type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+								}
+							},
+							toolbox: {
+								show : true,
+								feature : {
+									dataView : {show: true, readOnly: false},
+									magicType : {show: true, type: ['line', 'bar']},
+									restore : {show: true},
+									saveAsImage : {show: true},
+			
+								}
+							},
+							legend: {
+								data:['A(SO EASY)','B(赞)','C(还好)','D(坚强)','E(晕)']
+							},
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+							xAxis : [
+								{
+									type : 'category',
+									data : this.reportx
+								}
+							],
+							yAxis : [
+								{
+									type : 'value'
+								}
+							],
+							series : [
+								{
+									name:'A(SO EASY)',
+									type:'bar',
+			                        barWidth : 20,
+									data:this.list.a
+								},
+								{
+									name:'B(赞)',
+									type:'bar',
+									barWidth : 20,
+									data:this.list.b
+								},
+								{
+									name:'C(还好)',
+									type:'bar',
+									barWidth : 20,
+									data:this.list.c
+								},
+								{
+									name:'D(坚强)',
+									type:'bar',
+									barWidth : 20,
+									data:this.list.d
+								},
+			                    {
+			                        name: 'E(晕)',
+			                        type: 'bar',
+			                        barWidth : 20,
+			                        data: this.list.e
+			                    }
+							],
+							color:["#3FFFAC","#4181FF","#9D40FF","#FFDB41","#FE4C88"]
+						};
+		                myChart.setOption(option);
+	           	 	},
+					getmd(dat){
+						var arr=dat.split("-");
+						return arr[1]+"-"+arr[2];
+					},
+					change(day){
+						this.today=dateAdd(this.today,day);
+						this.drawLine();
+						this.selectDat=getDateStr(this.today);
+					},
+					setDat(item){
+						this.selectDat=item;
+					},
+					getItem(stu){
+						for(var i=0;i<stu.studentlogs.length;i++){
+							if(this.selectDat==stu.studentlogs[i].dat){
+								return stu.studentlogs[i];
+							}
+						}
+						return {"wtxt":"","moodtxt":"","moodcode":""};
+					},
+					getDataStr(dat){
+						var year=dat.getFullYear();
+						var month=(dat.getMonth()+1).toString();
+						if(dat.getMonth()<10)
+							month="0"+(dat.getMonth()+1);
+						var dates = dat.getDate();
+							if(dat.getDate()<10)
+							dates="0"+dat.getDate();
+						return year+"-"+month+"-"+dates;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
