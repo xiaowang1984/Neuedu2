@@ -9,14 +9,15 @@
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
 		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
 		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+		<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+		<script src="http://47.94.95.151:8080/js/rgbaster.js"></script>
 		<style type="text/css">
 			
 			.s100{
-				width:100px;
+				min-width:100px;
 				padding:5px 10px;
 			}
 			.icon {
@@ -33,27 +34,29 @@
 		        overflow: hidden;
 				color: #585858;
 			}
-			.wy_list{
-				background: #C5CACD;
-			}
 			.wy_list li{
 				list-style: none;
 				width:300px;
-				height: 440px;
+				height: 370px;
 				padding:0px 40px;
 				display:inline-flex;
-				border-top:2px solid #FF8000;
 				background: #FFFFFF;
 				margin: 10px;
 				flex-direction: column;
+				box-shadow: 0px 0px 6px #aaa;
+
 			}
 			.wy_list li .wy_top{
 				height:149px;
-				border-bottom: 1px solid #C5CACD;
 				display:flex;
 	            justify-content:center;
 	            align-items:center;
-			}		
+				cursor: pointer;
+				flex-direction: column;
+			}
+			.wy_list li .wy_top .logo{
+				display: block;
+			}
 			.wy_list li .wy_content{
 				flex: 1;
 			}
@@ -62,6 +65,9 @@
 				line-height: 55px;
 				text-align: center;
 				overflow: hidden;
+				font-weight: bold;
+				font-size: 20px;
+				cursor: pointer;
 			}
 			.wy_list li .wy_content .wy_center{
 				height:125px;
@@ -78,27 +84,30 @@
 				line-height: 33px;
 			}
 			.wy_list li .wy_btns{
-				line-height:60px;
-				text-align: center;
+				border-radius: 8px;
+				display:flex;
 			}
-			.wy_list li .wy_btns .icon{
-				cursor: pointer;
-				font-size:24px;
+			.wy_list li .wy_btns .progress{
+				height: 5px;
+				background: #eee;
+				border-radius: 8px;
+				flex: 1;
+				align-self:center;
 			}
-			.wy_list li .wy_btns .icon:hover{
-				background:#0000FF;
-				color:#fff;
+			.wy_list li .wy_btns .font{
+				text-align: right;
+				width: 20px;
 			}
 		</style>
 
 	</head>
 	<body>
-		<div id="app" class="panel admin-panel" v-cloak >
+		<div id="app" class="panel admin-panel"  v-cloak >
 			 <div class="padding border-bottom">
 			 	<form id="listForm" class="form-x">
 				 	<ul class="search" style="padding-left:10px;">
 				 	 	<li>
-				 	 		<select v-model="attr.params.type" id="type" name="type" class="input s100" >
+				 	 		<select v-model="params.type" id="type" name="type" class="input s100" >
 								<option value="" selected="selected">班级类型</option>
 								<option value="0">招转</option>
 								<option value="1">小学期</option>
@@ -108,223 +117,166 @@
 							</select>
 				 	 	</li>
 				 	 	<li>
-				 	 		<select  v-model="attr.params.lecturer" id="lecturer" name="lecturer" class="input s100">
+				 	 		<select  id="lecturer" name="lecturer" class="input s100">
 								<option value="" >讲师</option>
-								<option v-for="lecturer in attr.lecturer" :value="lecturer.id"  >{{lecturer.name}}</option>
+								<option v-for="lecturer in lecturers" :value="lecturer.id"  >{{lecturer.name}}</option>
 							</select>
 				 	 	</li>
 				 	 	<li>
-				 	 		<select v-model="attr.params.manager" id="manager" name="manager" class="input s100">
+				 	 		<select  id="manager" name="manager" class="input s100">
 								<option value="" selected="selected">实施</option>
-								<option v-for="manager in attr.manager" :value="manager.id">{{manager.name}}</option>
+								<option v-for="manager in managers" :value="manager.id">{{manager.name}}</option>
 							</select>
 				 	 	</li>
 				 	 	<li>
-				 	 		<select v-model="attr.params.isDel" id="isDel" name="isDel" class="input s100">
+				 	 		<select  id="isDel" name="isDel" class="input s100">
 				 	 			<option value="">全部</option>
 								<option value="1">正常</option>
 								<option value="0">归档</option>
 							</select>
 				 	 	</li>
 				 	 	<li>
-				 	 		<select id="year" name="year" class="input s100">
-								<option value="" selected="selected">年份</option>
-								<option v-for="n in 20" :value="n+2016">{{n+2016}}</option>
-							</select>
+				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="班级名称" />
 				 	 	</li>
 				 	 	<li>
-				 	 		<select id="month" name="month" class="input s100">
-								<option value="" selected="selected">月份</option>
-								<option value="1">1</option>
-								<option value="2">2</option>
-								<option value="3">3</option>
-								<option value="4">4</option>
-								<option value="5">5</option>
-								<option value="6">6</option>
-								<option value="7">7</option>
-								<option value="8">8</option>
-								<option value="9">9</option>
-								<option value="10">10</option>
-								<option value="11">11</option>
-								<option value="12">12</option>
-							</select>
-				 	 	</li>
-				 	 	<li>
-				 	 		<input name="name" id="name" type="text" class="input s100" placeholder="班级名称" :value="attr.params.name" />
-				 	 	</li>
-				 	 	<li>
-				 	 		<button type="button" id="query" class="button input s100"  @click="search"><span class="icon-search"></span>搜索</button>
+				 	 		<button type="button" id="query" class="button input s100"  @click="search"><span class="icon-search"></span>&nbsp;&nbsp;搜索</button>
 				 	 	</li> 
 				 	 	<li>
-				 	 		<button type="button" id="add" class="button input s100" onclick="dialog(this)" data-title="添加班级" data-url="pages/grade/add.html" ><span class="icon-plus-square-o"></span>创建班级</button>
-				 	 	</li> 
+				 	 		<button type="button" id="add" class="button input s100"  onclick="dialog(this)" data-title="添加班级" data-url="pages/grade/add.html" ><span class="icon-plus-square-o"></span>&nbsp;&nbsp;创建班级</button>
+				 	 	</li>
 				 	 </ul>
 			 	 </form>
 			 </div>
 			 <hr class="bg-main" />
 			 <ul id="wy_list" class="wy_list">
-			 	<li v-for="item in list">
-			 		<div class="wy_top">
-			 			<div>
-			 				<img width="56" height="56" alt="logo" :src="getImg(item.img)" />
+			 	<li v-for="item in entry.list">
+			 		<div class="wy_top" @click="edit(item.id)" >
+			 				<img class="logo"  width="56" height="56" alt="logo" :src="item.planImg"  />
 			 				<p style="position: relative; top:10px;color:#585858">天津TTC</p>
-			 			</div>
 			 		</div>
+					<div class="wy_btns">
+						<div class="progress"><div style="background: #4983FE;height: 100%;" :style="{'width':getProgess(item.startDate,item.end)+'%'}"></div></div>
+						<div class="font">{{getProgess(item.startDate,item.end)}}%</div>
+					</div>
 			 		<div class="wy_content">
-			 			<div class="wy_title">{{item.name}}</div>
+			 			<div class="wy_title" @click="main(item.id)">{{item.name}}</div>
 			 			<div class="wy_center">
 			 				<div class="wy_left">
-		 						<div v-for="lecturer in attr.lecturer" v-if="item.lecturer==lecturer.id">
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiangshi"></use>
-			 						</svg>&nbsp;&nbsp;{{lecturer.name}}
-		 						</div>
-		 						<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuesheng--"></use>
-			 						</svg>&nbsp;&nbsp;{{item.stuCount}}
-		 						</div>
-		 						<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
-			 						</svg>&nbsp;&nbsp;{{getDays(item.startDate)}}
-		 						</div>
+								<div>
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiangshi"></use>
+									</svg>&nbsp;&nbsp;{{item.lecturerName}}
+								</div>
+								<div>
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuesheng--"></use>
+									</svg>&nbsp;&nbsp;{{item.count}}
+								</div>
+								<div>
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
+									</svg>&nbsp;&nbsp;{{getDays(item.startDate)}}
+								</div>
 			 				</div>
 			 				<div class="wy_right">
-			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-laoshi"></use>
-			 						</svg>&nbsp;&nbsp;{{manager.name}}
-			 					</div>
-			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offer"></use>
-			 						</svg>&nbsp;&nbsp;{{item.offer}}
-			 					</div>
-			 					<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-ai03"></use>
-			 						</svg>&nbsp;&nbsp;{{item.startDate}}
-			 					</div>
+								<div>
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-laoshi"></use>
+									</svg>&nbsp;&nbsp;{{item.managerName}}
+								</div>
+								<div>
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offer"></use>
+									</svg>&nbsp;&nbsp;{{item.offer}}
+								</div>
+								<div style="overflow: hidden">
+									<svg class="icon" aria-hidden="true">
+										<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-ai03"></use>
+									</svg>&nbsp;&nbsp;{{item.startDate}}
+								</div>
 			 				</div>
-			 			</div>
-			 			<div class="wy_btns"> 
-			 				<svg class="icon" aria-hidden="true" @click="edit(item.id)">
-		                        <use xlink:href="#icon-bianji"></use>
-		      				</svg>
-		      				<svg class="icon" aria-hidden="true" style="margin-left: 50px;" @click="main(item.id)">
-		                        <use xlink:href="#icon-shezhi"></use>
-		                    </svg>
 			 			</div>
 			 		</div>
-			 		<!--<div class="wy_item">
-			 			<div class="wy_left">
-			 				<div @mousedown="mousedown(event,item.id)" class="title text-blue" :title="item.name">{{item.name}}</div>
-			 				<hr>
-			 				<div class="wy_content">
-			 					<div v-for="lecturer in attr.lecturer" v-if="item.lecturer==lecturer.id">
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-jiangshi"></use>
-			 						</svg>&nbsp;&nbsp;{{lecturer.name}}</div>
-			 					<div v-for="manager in attr.manager" v-if="item.manager==manager.id">
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-laoshi"></use>
-			 						</svg>&nbsp;&nbsp;{{manager.name}}</div>
-			 				</div>
-			 				<div class="wy_content">
-			 					<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-xuesheng--"></use>
-			 						</svg>&nbsp;&nbsp;{{item.stuCount}}</div>
-			 					<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-offer"></use>
-			 						</svg>&nbsp;&nbsp;{{item.offer}}</div>
-			 				</div>
-			 				<div class="wy_content">
-			 					<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-rili"></use>
-			 						</svg>&nbsp;&nbsp;{{getDays(item.startDate)}}</div>
-			 					<div>
-			 						<svg class="icon" aria-hidden="true">
-			 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-ai03"></use>
-			 						</svg>&nbsp;&nbsp;{{item.startDate}}</div>
-			 				</div>
-			 			</div>
-			 			<div class="wy_right">
-			 				<div style="height: 60px;line-height: 60px;text-align: center;"><img alt="logo" height="45" width="45" style="vertical-align:middle" :src="getImg(item.img)"></div>
-			 				<div style="height:50px;line-height: 50px;text-align:center">天津TTC</div>
-			 				<div style="height:50px;line-height: 50px;text-align:center">
-			 					<svg v-if="item.isDel==0" class="icon" aria-hidden="true" style="color:limegreen;font-size: 40px;">
-		 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-wancheng"></use>
-		 						</svg>
-			 				</div>
-			 				<div style="height:30px;text-align:center">
-			 					<svg @click="edit(item.id)" class="icon" aria-hidden="true" style="cursor: pointer;font-size: 26px;">
-		 							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-bianji"></use>
-		 						</svg>
-			 				</div>
-			 			</div>
-			 		</div>-->
 			 	</li>
 			 </ul>
-		    <div id="wy_page" class="wy_page">
-		    </div>
+			<div id="wy_page" class="wy_page">
+				<mypage :pageno="entry.pageNo" :totalpage="entry.totalPage" :callback="changepage"> </mypage>
+			</div>
 		</div>
 		<script type="text/javascript">
-			var url=backPath+"grade/list";
-			var path=basePath+"pages/grade/list.html";
-			var params=parseQueryString(window.location.href);
-			var pageNo=$.getUrlParam("pageNo");
-			if(pageNo==null){
-				pageNo=1;
-			}
-			params.pageNo=pageNo;
-			var data=getData(params,url);
-			if(data.attr.params.lecturer==null){
-				data.attr.params.lecturer="";
-			}
-			if(data.attr.params.manager==null){
-				data.attr.params.manager="";
-			}
-			if(data.attr.params.type==null){
-				data.attr.params.type="";
-			}
-			if(data.attr.params.isDel==null){
-				data.attr.params.isDel="";
-			}
-			var vue=new Vue({
-				el:"#app",
-				data:data,
+			var vue = new Vue({
+				el:"#app" ,
+				data:{
+				    entry : getData({pageNo:1,isDel:1},path2+"grade/list"),
+                    teachers:getData({withPage:0,isDel:1},path2+"/teacher/listforgrade"),
+					params:{
+				        pageNo:1,
+				        type:"",
+                        lecturer:"",
+						manager:"",
+						name:"",
+						isDel:1
+					}
+				},
+				computed:{
+                    lecturers(){
+						var arr=[];
+						for(let i=0;i<this.teachers.length;i++){
+						    if(this.teachers[i].type==1)
+						        arr.push(this.teachers[i]);
+						}
+						return arr;
+					},
+					managers(){
+                        var arr=[];
+                        for(let i=0;i<this.teachers.length;i++){
+                            if(this.teachers[i].type==0)
+                                arr.push(this.teachers[i]);
+                        }
+                        return arr;
+					}
+				},
 				methods:{
-					getDays:function(param){
-						var dat=new Date(param+" 00:00:00");
-					    return parseInt((new Date() - dat)/1000/60/60/24/7)+1;
+                    getDays(dat){
+                        return parseInt((new Date() - new Date(dat+" 00:00:00"))/1000/60/60/24/7)+1;
 					},
-					getImg:function(param){
-						return param==""?resourcePath+"images/xxq.jpg":resourcePath+param;
+                    changepage(i){
+                        this.params.pageNo=i
+                        this.entry=getData(this.params,path2+"grade/list");
 					},
-					main:function(id){
-						parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");		
+                    search(){
+                        this.params.type=$("#type").val();
+                        this.params.lecturer=$("#lecturer").val();
+                        this.params.manager=$("#manager").val();
+                        this.params.name=$("#name").val();
+                        this.params.isDel=$("#isDel").val();
+                        this.entry=getData(this.params,path2+"grade/list");
 					},
-					edit:function(id){
-						dialogframe({
-							"title":"修改班级",
-							"url":"pages/grade/edit.html?id="+id
-						});
+                    main(id){
+                        parent.addTab("pages/grade/main.html?id="+id,"18","班级主页");
+                    },
+                    edit(id){
+                        dialogframe({
+                            "title":"修改班级",
+                            "url":"pages/grade/edit.html?id="+id
+                        });
+                    },
+					getColor(item,event){
 					},
-					search:function(){
-						 window.location.href= path+"?"+$("#listForm").serialize();
+					getProgess(start,end){
+						var now=new Date();
+						var startstr=start.split("-");
+						var endstr=end.split("-");
+						var sdate=new Date(startstr[0],(startstr[1]-1),startstr[2]);
+                        var edate=new Date(endstr[0],(endstr[1]-1),endstr[2]);
+                        if(now.getTime()-edate.getTime()>0)
+                            now=edate;
+                        var sum=Math.floor((edate.getTime()-sdate.getTime())/(1000*60*60*24));
+						var current=Math.floor((now.getTime()-sdate.getTime())/(1000*60*60*24));
+						return parseInt(current*100/sum);
 					}
 				}
 			});
-			$(function(){
-				$("#wy_page").wy_page({"pageNo":pageNo,"params":data.attr.paramStr,"path":path,"totalPage":data.totalPage});
-			});
-			function closeAdd(){
-				layer.closeAll('iframe'); 
-			}
 		</script>
 	</body>
 </html>

@@ -72,6 +72,9 @@
 							$("#listForm").ajaxSubmit({
 								url:action,
 								dataType:"json",
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									var n= getData({
 											"iId": iId

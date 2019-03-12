@@ -15,53 +15,55 @@
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
 		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
 		<style type="text/css">
-			.s100{
-				width:100px;
-				padding:5px 10px;
-			}
-			.s120{
-				width:120px; 
-				padding:5px 10px;
+			.panel-head{
+				padding:10px 0;
 			}
 			.kalendae .k-calendar {
-			    display: inline-block;
-			    zoom:1;
-			    *display:inline;
-			    /* width改为100% width:155px;*/ 
-			    width: 200px; 
-			    vertical-align:top;
+				display: inline-block;
+				zoom:1;
+				*display:inline;
+				/* width改为100% width:155px;*/
+				width: 200px;
+				vertical-align:top;
 			}
-			.kalendae .k-title, 
-			.kalendae .k-header, 
+			.kalendae .k-title,
+			.kalendae .k-header,
 			.kalendae .k-days{
 				width:100%;
 				line-height: 1px;
 			}
-			
+
 			.kalendae .k-header span{
 				width:25px;
-			    height:25px;
-			    line-height:25px;
+				height:25px;
+				line-height:25px;
 			}
 			.kalendae .k-days span {
-			    /* 水平居中 */
-			    text-align:center;
-			    width:25px;
-			    /* 高度 4.5em效果比较好 height等于line-height就能垂直居中了 */
-			    height:25px;
-			    line-height:25px;
-			    padding:2px 3px 2px 2px;
-			    border:1px solid transparent;
-			    border-radius:3px;
-			    color:#999;
+				/* 水平居中 */
+				text-align:center;
+				width:25px;
+				/* 高度 4.5em效果比较好 height等于line-height就能垂直居中了 */
+				height:25px;
+				line-height:25px;
+				padding:2px 3px 2px 2px;
+				border:1px solid transparent;
+				border-radius:3px;
+				color:#999;
 			}
 			.tab-body dl{
 				border-bottom:1px solid #DCDCDC;
 				width:48%;
 				display: inline-block;
-			} 
+			}
 			.tab-body dl:nth-child(odd){
 				border-right:1px solid #DCDCDC;
+			}
+			#fm>div{
+				padding:0px 20px;
+			}
+			#fm .form-group .label{
+				text-align: left;
+				width: 80px;
 			}
 			
 		</style>
@@ -72,7 +74,7 @@
 				<ul class="search">
 					<li>
 						<button type="button" id="add" @click="dateadd()" class="button">
-							选择日期<span class="icon-calendar text-big"></span>
+							选择日期&nbsp;&nbsp;<span class="icon-calendar text-big"></span>
 						</button>
 					</li>
 					<li id="dateview" v-show="dv" style="position: absolute;left:10px;top:50px;z-index: 10;"></li>
@@ -94,6 +96,15 @@
 						<input type="hidden" name="dates" :value="dates" />
 						<input type="hidden" name="type" :value="tp" />
 						<div v-if="tp==1">
+							<div class="form-group">
+								<div class="label">
+									<label>方案地址:</label>
+								</div>
+								<div class="field">
+									<input type="text" class="input" v-model="note"   name="note" data-validate="required:请输入方案地址,length#<1000:字符长度小于1000位" />
+									<div class="tips"></div>
+								</div>
+							</div>
 							<div class="field label-block">
 								<dl v-for="item in courses.list">
 									<dt @click="courses.selectid=item.id">
@@ -143,11 +154,8 @@
 							<h2>串讲复习需要维护好日期区间即可</h2>
 						</div>
 						<div class="form-group">
-					        <div class="label">
-					          <label></label>
-					        </div>
-					        <div class="field">
-					          <button  class="button bg-main icon-check-square-o" type="button" @click="submit"> 提交</button>
+					        <div class="label" style="width: 100%">
+								<button  class="button bg-main icon-check-square-o" type="button" @click="submit"> 提交</button>
 					        </div>
 					      </div>
 					</form>
@@ -163,7 +171,6 @@
 			if(arrange.type==1)
 				plan=getData({"id":arrange.pId},path2+"plan/getPlanById");
 			var out=getData({"gId":arrange.gId,"aId":arrange.id},path2+"arrangeList/getDatesWithoutAid");
-			console.log(plan);
 			var vue=new Vue({
 				el:"#app",
 				data:{

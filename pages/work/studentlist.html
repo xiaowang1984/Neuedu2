@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+    <style>
+
+/*        .thead{
+            height: 100px;
+            display:flex;
+            position:fixed;
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 30px;
+        }
+
+        .name{
+            width: 80px;
+        }
+        .check{
+            width: 50px;
+        }
+        .thead .item{
+            padding-left: 36px;
+        }
+        .item{
+            width:170px;
+        }
+        .item div{
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
+        }*/
+        #tbtitle{
+            position: fixed;
+            background: #fff;
+        }
+        #tbtitle th,#tb td{
+            padding:5px 10px;
+            text-align: center;
+        }
+        #tb{
+            margin-top:20px;
+        }
+        #tb .name{
+            width: 80px;
+        }
+        .item{
+            width:150px;
+            height:120px;
+            box-shadow: 0px 0px 6px #aaa;
+            display: flex;
+            flex-direction: column;
+            padding:5px 10px;
+        }
+        .item .top{
+            height:29px;
+            border-bottom: 1px dashed #999999;
+            line-height: 30px;
+            font-size: 16px;
+        }
+        .item .top a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .item .mid{
+            padding-top:10px;
+            padding-left:25px;
+            text-align: left;
+        }
+        .item .mid>div{
+            padding:5px ;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="panel admin-panel" style="border-bottom: 0;position: relative" v-cloak>
+        <table id="tbtitle">
+            <thead>
+            <tr>
+                <th><div style="width: 80px;"></div></th>
+                <th><div style="width: 30px;"></div></th>
+                <th v-for="item in entry">
+                    <div class="item">
+                        <div class="top">{{day(item.dat)}}&nbsp;&nbsp;&nbsp;&nbsp;{{week(item.dat)}}</div>
+                        <div class="mid">
+                            <div><span class="icon-cloud-upload"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{avg(item).avgcommit}}</div>
+                            <div><span class="icon-code"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{avg(item).avgcode}}</div>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+        </table>
+        <hr style="margin-top: 150px;"/>
+        <table id="tb" >
+            <tbody>
+                <tr v-for="student in works">
+                    <td><div class="name"> {{student.name}}</div></td>
+                    <td>
+                        <div style="width: 30px;">
+                            <input type="checkbox" v-model="student.ischeck" @click="chk($event,student)">
+                        </div>
+                    </td>
+                    <template v-for="work in student.works">
+                        <td v-if="work!=null">
+                            <div class="item">
+                                <div class="top"><a href="javascript:void(0)" @click="details(work.wId,work.sId,work.dat)">{{day(work.dat)}}&nbsp;&nbsp;&nbsp;&nbsp;{{week(work.dat)}}</a></div>
+                                <div class="mid">
+                                    <div><span class="icon-cloud-upload"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{work.count}}</div>
+                                    <div><span class="icon-code"></span>&nbsp;&nbsp;&nbsp;&nbsp;{{work.adds}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td v-else>
+                            <div class="item" style="box-shadow: 0 0 0 0">&nbsp;</div>
+                        </td>
+                    </template>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        let gId = $.getUrlParam("gId");
+        let id = $.getUrlParam("id");
+        var vue = new Vue({
+            el:"#app",
+            data(){
+                return {
+                    students:getData({gId:gId,wId:id},path2+"work/stuwork"),
+                    entry:getData({wId:id},path2+"work/checkwork")
+                };
+            },
+            computed:{
+               works(){
+                   var result=[];
+                   for(let j=0;j<this.students.length;j++){
+                       var work={};
+                       work.name=this.students[j].name;
+                       work.sId=this.students[j].id;
+                       work.ischeck=false;
+                       var arr=[];
+                       for(let i=0;i<this.entry.length;i++){
+                           var flag=true;
+                           for(let k=0;k<this.students[j].works.length;k++){
+                               if(this.students[j].works[k].ischeck)
+                                   work.ischeck=true;
+                                if(this.students[j].works[k].dat==this.entry[i].dat){
+                                    flag=false;
+                                    arr.push(this.students[j].works[k]);
+                                    break;
+                                }
+                           }
+                           if(flag)
+                               arr.push(null);
+                       }
+                       work.works=arr;
+                       result.push(work);
+                   }
+                    return result;
+               }
+            },
+            methods:{
+                avg(item){
+                   return {
+                       avgcommit:(item.stucommit/item.stucount).toFixed(2),
+                       avgcode:(item.adds/item.stucount).toFixed(2)
+                   }
+                },
+                week(dat){
+                    return getweek(dat);
+                },
+                day(dat){
+                    let strarr=dat.split("-");
+                    let month=strarr[1];
+                    return month+"."+strarr[2];
+                },
+                details(wId,sId,dat){
+                    parent.addTab("pages/work/workstudentdetails.html?wId="+wId+"&sId="+sId+"&dat="+dat,"37","学生作业详情");
+                },
+                chk(ev,student){
+                    $.ajax({
+                        url:path2+"work/check",
+                        type:"post",
+                        dataType:"json",
+                        xhrFields:{
+						    withCredentials:true
+						},
+                        data:{sId:student.sId,wId:id,ischeck:student.ischeck},
+                        success:function (data) {
+                            if(data.code==0){
+                                alert("检查失败");
+                                ev.target.checked=false;
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        window.onscroll=function(){
+            var sl=-Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
+            document.getElementById('tbtitle').style.left=sl+'px';
+        };
+    </script>
+</body>
+</html>

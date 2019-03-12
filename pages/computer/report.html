@@ -1,133 +1,247 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
-		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-	</head>
-	<body>
-		<div id="app" class="panel admin-panel" v-cloak>
-			<div class="padding border-bottom">
-				<ul class="search" style="padding-left:10px;">
-					<li>
-						<button type="button" class="button input s100" @click="add(gId)"><span class="icon-plus-square-o"></span>添加考试</button>
-					</li>
-				</ul>
-			</div>
-			<form id="listForm" method="post">	
-				<table  class="table table-hover table-bordered">
-					<thead>	
-						<tr>
-							<th style="display: none;">编号</th>
-							<th rowspan="2">姓名</th>
-							<template v-for="entry in list">
-								<th colspan="2">{{entry.name}}</th>
-							</template>
-						</tr>
-						<tr>
-							<template v-for="entry in list">
-								<th>技术分</th>
-								<th>表达分</th>
-							</template>
-						</tr>
-					</thead>
-					<tbody>
-						<input name="id" type="hidden" v-model="selectId" />
-						<template v-for="student in stulist">
-							<tr>
-								<td>{{student.name}}</td>
-								<template v-for="interview in list">
-									<td v-if="selectId==course(student.id,interview.list).id">
-										<input @keydown="save($event)" name="skill" :value="course(student.id,interview.list).skill" />
-									</td>
-									<td v-else @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).skill}}</td>
-									<td  v-if="selectId==course(student.id,interview.list).id">
-										<input  @keydown="save($event)" name="express" :value="course(student.id,interview.list).express" />
-									</td>
-									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).express}}</td>
-								</template>
-							</tr>
-						</template>
-						
-						<!--<tr v-for="entry in list">
-							<td style="display: none;">{{entry.id}}</td>
-							<td>{{entry.name}}</td>
-							<td>{{entry.dat}}</td>
-							<td>
-								<button class="button button-little border-main" @click="score(entry.id)">成绩</button>
-							</td>
-						</tr>-->
-					</tbody>
-				</table>
-			</form>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+	<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+	<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+	<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+	<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+	<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+	<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/echarts.min.js"></script>
+	<style>
+		.ym{
+			margin:30px auto;
+			height: 100%;
+			line-height: 30px;
+			width: 150px;
+			text-align: center;
+			border-radius:10px;
+			border: 1px solid #cccccc;
+			padding:0 10px;
+			color: #96A5AA;
+		}
+		.ym .prev,.ym .next{
+			cursor: pointer;
+		}
+		.ym .prev:hover,.ym .next:hover{
+			color: black;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+<div id="app" class="panel admin-panel" v-cloak>
+	<div style="width: 60%;margin: 0 auto;height: 30px">
+		<div class="ym" >
+			<span class="prev" @click="prev()">&lt;</span>&nbsp;&nbsp;
+			<span style="display: inline-block;width:80px">{{select}}</span>&nbsp;&nbsp;
+			<span class="next" @click="next()">&gt;</span>
 		</div>
-		<script type="text/javascript">
-			$(function() {
-				var url = backPath + "interview/getReport";
-				var gId = $.getUrlParam("gId");
-				var data = getData({
-					"gId": gId
-				}, url);
-				var students=getData({
-					"gId": gId
-				}, backPath + "interviewDetails/getStudents" );
-				var action = backPath + "interviewDetails/edit";
-				var vue = new Vue({
-					el: "#app",
-					data: {
-						"list": data,
-						"stulist":students,
-						"gId":gId,
-						"selectId":0
-					},
-					methods:{
-						course :function(sid,arr){
-						
-							for(var i=0;i<arr.length;i++){
-								if(sid==arr[i].sId){
-									return {"skill":arr[i].skill==-1?"":arr[i].skill,"express":arr[i].express==-1?"":arr[i].express,"id":arr[i].id};
-								}
-							}
-							return {"skill":-1,"express":-1,"id":0};
-						},
-						add: function(id) {
-							dialogframe({
-								"title": "添加面试",
-								"url": "pages/interview/add.html?gId=" + id
-							});
-						},
-						save:function(event){
-							if(event.keyCode==13){
-								$("#listForm").ajaxSubmit({
-									url:action,
-									dataType:"json",
-									success:function(data){
-										var n= getData({
-											"gId": gId
-										}, url);
-										vue.list=n;
-										vue.selectId=0;
-									}
-								});
-							}
-						}
-					},
-				});
-				$("body").keydown(function(e){
-					if(e.keyCode==27){
-						vue.selectId=0;
+	</div>
+	<div id="charts" style="width: 900px;height:500px;padding-left: 20px;"></div>
+</div>
+<script>
+    var gId=$.getUrlParam("gId");
+    var vue = new Vue({
+        el:"#app",
+        data(){
+            return {
+                selectdat:"",
+                year:0,
+                month:0
+            }
+        },
+        computed:{
+            select(){
+                return ymtxt(this.year,this.month);
+            },
+			list() {
+                var a=[];
+                var b=[];
+                var c=[];
+                var d=[];
+                var e=[];
+                var dat=[];
+                var list =getData({"year": this.year, "month": this.month, "gId": gId}, path2 + "computer/details");
+                for(var i=0;i<list.length;i++){
+                    dat.push(list[i].dat);
+                    a.push(0);
+                    b.push(0);
+                    c.push(0);
+                    d.push(0);
+                    e.push(0);
+                    for(var j=0;j<list[i].scores.length;j++){
+                        if(list[i].scores[j].skill==1)
+                            a[i]++;
+                        else if(list[i].scores[j].skill==2)
+                            b[i]++;
+                        else if(list[i].scores[j].skill==3)
+                            c[i]++;
+                        else if(list[i].scores[j].skill==4)
+                            d[i]++;
+                        else
+                            e[i]++;
 					}
-				});
-			
-			});
-		</script>
-	</body>
+				}
+         		return {
+                    dates:dat,
+					a:a,
+					b:b,
+					c:c,
+					d:d,
+					e:e
+				}
+            }
+        },
+        mounted(){
+            var dat=new Date();
+            this.year=dat.getFullYear();
+            this.month=dat.getMonth()+1;
+            this.drawLine();
+        },
+        methods:{
+            drawLine(){
+                var myChart = echarts.init(document.getElementById('charts'));
+				option = {
+				tooltip : {
+					trigger: 'axis',
+					axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+						type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+					}
+				},
+				toolbox: {
+					show : true,
+					feature : {
+						dataView : {show: true, readOnly: false},
+						magicType : {show: true, type: ['line', 'bar']},
+						restore : {show: true},
+						saveAsImage : {show: true},
+
+					}
+				},
+				legend: {
+					data:['A','B','C','D','E']
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
+				xAxis : [
+					{
+						type : 'category',
+						data : this.list.dates
+					}
+				],
+				yAxis : [
+					{
+						type : 'value'
+					}
+				],
+				series : [
+					{
+						name:'A',
+						type:'bar',
+                        barWidth : 20,
+						data:this.list.a
+					},
+					{
+						name:'B',
+						type:'bar',
+						barWidth : 20,
+						data:this.list.b
+					},
+					{
+						name:'C',
+						type:'bar',
+						barWidth : 20,
+						data:this.list.c
+					},
+					{
+						name:'D',
+						type:'bar',
+						barWidth : 20,
+						data:this.list.d
+					},
+                    {
+                        name: 'E',
+                        type: 'bar',
+                        barWidth : 20,
+                        data: this.list.e
+                    }
+				],
+				color:["#3FFFAC","#4181FF","#9D40FF","#FFDB41","#FE4C88"]
+			};
+                myChart.setOption(option);
+
+            },
+            prev(){
+                if(this.month==1){
+                    this.year--;
+                    this.month=12;
+                }else {
+                    this.month--;
+                }
+                this.drawLine();
+            },
+            next(){
+                if(this.month==12){
+                    this.year++;
+                    this.month=1;
+                }else {
+                    this.month++;
+                }
+                this.drawLine();
+            }
+        }
+    });
+    function ymtxt(year,month) {
+        var monthtxt="";
+        switch (month) {
+            case 1:
+                monthtxt="Jan";
+                break;
+            case 2:
+                monthtxt="Feb";
+                break;
+            case 3:
+                monthtxt="Mar";
+                break;
+            case 4:
+                monthtxt="Apr";
+                break;
+            case 5:
+                monthtxt="May";
+                break;
+            case 6:
+                monthtxt="Jun";
+                break;
+            case 7:
+                monthtxt="Jul";
+                break;
+            case 8:
+                monthtxt="Aug";
+                break;
+            case 9:
+                monthtxt="Sept";
+                break;
+            case 10:
+                monthtxt="Oct";
+                break;
+            case 11:
+                monthtxt="Nov";
+                break;
+            default:
+                monthtxt="Dec";
+        }
+        return monthtxt+year;
+    }
+</script>
+</body>
 </html>

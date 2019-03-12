@@ -63,6 +63,9 @@
 			 <!--<div id="wy_page" class="wy_page"></div>-->
 		</div>
 		<script type="text/javascript">
+			function details(sname,sId){
+				parent.addTab("pages/talk/details.html?sname="+sname+"&sid="+sId,"41","沟通详情");
+			}
 			$(function(){
 				var url=backPath+"talk/list";
 				var url2=backPath+"grade/edit";
@@ -77,7 +80,6 @@
 				var type={"0":"招转","1":"小学期","2":"高校个体","3":"社会个体","4":"专业共建"};
 				$("#type").text(type[grade.type]);
 				var data=getData({"pageNo":pageNo,"gId":gId},url);
-			/*	$("#wy_page").wy_page({"pageNo":pageNo,"params":"gId="+gId,"path":path,"totalPage":data.totalPage});*/
 				for(var i=0;i<data.list.length;i++){
 					var $tr=$('<tr></tr>');
 					var $detail=$('<td><ul style="width:100%"></ul></td>');
@@ -102,9 +104,11 @@
 					$tr.append('<td style="display:none">'+data.list[i].id+'</td>');
 					$tr.append('<td style="width:100px">'+data.list[i].name+'</td>');
 					$tr.append($detail);
-					$tr.append('<td style="width:100px"><button  class="button button-little border-main" onclick="dialog(this)" data-title="添加沟通记录" data-url="pages/talk/add.html?sId='+data.list[i].id+'&gId='+data.list[i].gId+'" >添加沟通</button></td>');
+					$tr.append('<td style="width:200px"><button  class="button button-little border-main" onclick="dialog(this)" data-title="添加沟通记录" data-url="pages/talk/add.html?sId='+data.list[i].id+'&gId='+data.list[i].gId+'" >添加沟通</button>'+
+					'<button  class="button button-little border-main" onclick="details(\''+data.list[i].name+'\',\''+data.list[i].id+'\')">详细信息</button></td>');
 					$("#tb tbody").append($tr);
 				}
+				
 				$("#tb").dblclick(function(e){
 					if(e.target.tagName=='SPAN'){
 						var id= $(e.target).data("id");

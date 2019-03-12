@@ -8,10 +8,11 @@
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
 		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
 		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
 		<style type="text/css">
 			.s100{
 				width:100px;
@@ -32,13 +33,10 @@
 				color: #585858;
 		          
 		        }
-		    .wy_page{
-		    	margin-top:10px;
-		    }
 		</style>
 	</head>
 	<body>
-		<div class="panel admin-panel" style="margin-top: 10px;">
+		<div id="app" class="panel admin-panel" style="margin-top: 10px;">
 			<table id="tb"  class="table table-hover table-bordered">
 			 	<thead>
 		 			<tr>
@@ -49,29 +47,36 @@
 		 			</tr>
 		 		</thead>
 		 		<tbody>
-		 			
+					<template v-for="entry in list">
+						<tr>
+							<td>{{entry.date}}</td>
+							<td rowspan="2">{{entry.morning}}</td>
+							<td rowspan="2">{{entry.afternoon}}</td>
+							<td rowspan="2">{{entry.night}}</td>
+						</tr>
+						<tr>
+							<td>{{day(entry.date)}}</td>
+						</tr>
+					</template>
 		 		</tbody>
 			</table>
-		<!--	<div id="wy_page" class="wy_page"></div>-->
 		</div>
 		<script type="text/javascript">
 			$(function(){
-				var pageNo=$.getUrlParam("pageNo");
-				if(pageNo==null){
-					pageNo=1;
-				}
-				var path=basePath+"pages/grade/log.html";
-				var gId=$.getUrlParam("gId");	
-				var data=getData({"gId":gId,"pageNo":pageNo},backPath+"/arrangeList/logs");
-				for(var i=0;i<data.list.length;i++){
-					var week={"1":"周一","2":"周二","3":"周三","4":"周四","5":"周五","6":"周六","0":"周日"};
-					var dat=new Date(data.list[i].date);
-					var $tr=$("<tr></tr>");
-					$tr.append("<td>"+data.list[i].date+"</td>").append("<td rowspan='2'>"+data.list[i].morning.replace(/\n|\r\n/g,'<br/>')+"</td>")
-					.append("<td rowspan='2'>"+data.list[i].afternoon.replace(/\n|\r\n/g,'<br/>')+"</td>").append("<td rowspan='2'>"+data.list[i].night.replace(/\n|\r\n/g,'<br/>')+"</td>");
-					$("#tb tbody").append($tr).append("<tr><td>"+week[dat.getDay()]+"</td></tr>");
-				}
-			/*	$("#wy_page").wy_page({"pageNo":pageNo,"params":"gId="+gId,"path":path,"totalPage":data.totalPage});*/
+                var gId=$.getUrlParam("gId");
+                var week={"1":"周一","2":"周二","3":"周三","4":"周四","5":"周五","6":"周六","0":"周日"};
+				var vue=new Vue({
+					el:"#app",
+					data:{
+					    list:getData({"gId":gId},path2+"arrangeList/logs")
+					},
+					methods:{
+					    day(date){
+                            var dat=new Date(date);
+                            return week[dat.getDay()]
+						}
+					}
+				});
 			});
 		</script>
 	</body>

@@ -66,6 +66,9 @@
 							$("#fm").ajaxSubmit({
 								url:backPath+"exam/getPaper",
 								dataType:"json",
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									if(data.code==0){
 										alert(data.mess);
@@ -82,6 +85,9 @@
 							$("#fm").ajaxSubmit({
 								url:backPath+"exam/checkDetails",
 								dataType:"json",
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									if(data.code==0){
 										alert(data.mess);

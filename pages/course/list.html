@@ -99,6 +99,9 @@
 								type:"post",
 								data:{id:id,isDel:isDel},
 								dataType:"json",
+								xhrFields:{
+								    withCredentials:true
+								},
 								success:function(data){
 									alert(data.message);
 									vue.list=getData({name:this.name},path2+"course/list");

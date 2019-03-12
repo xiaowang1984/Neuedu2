@@ -118,6 +118,9 @@
 								url:path2+"plan/update",
 								dataType:"json",
 								data:{id:id},
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									alert(data.message);
 									vue.selected=0;
@@ -130,6 +133,9 @@
 								url:path2+"plan/add",
 								dataType:"json",
 								data:{cId:cid},
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									alert(data.message);
 									vue.isAdd=false;

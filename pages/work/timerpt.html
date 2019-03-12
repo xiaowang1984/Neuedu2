@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/echarts.min.js"></script>
+</head>
+<body>
+    <div id="app"  class="panel admin-panel" v-cloak>
+        <div id="charts" style="width: 900px;height:500px;padding-left: 20px;"></div>
+    </div>
+    <script type="text/javascript">
+        var wid=$.getUrlParam("wid");
+        var dat=$.getUrlParam("dat");
+        var vue = new Vue({
+            el:"#app",
+            data(){
+                return {
+                    list:JSON.parse(getData({dat:dat,wId:wid},path2+"work/timerpt"))
+                }
+            },
+            computed:{
+                record(){
+                    var tim=[];
+                    var data=[]
+                    for(var i=0;i<=11;i++){
+                        tim.push(i*2);
+                        data.push(0);
+                    }
+                    for(var i=0;i<this.list.length;i++){
+                        var hour =  this.list[i].tim.split(":")[0];
+                        data[parseInt(hour/2)]++;
+                    }
+                    return {
+                        tim:tim,
+                        data:data
+                    }
+                }
+            },
+            mounted(){
+                this.drawLine(this.record.tim,this.record.data);
+            },
+            methods:{
+                drawLine(tim,data){
+                    var myChart = echarts.init(document.getElementById('charts'));
+                    option = {
+                        title : {
+                            text: '任务提交时间段统计',
+                        },
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        calculable : true,
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data :tim
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                type:'bar',
+                                barWidth : 30,
+                                data:data,
+                                markPoint : {
+                                    data : [
+                                        {type : 'max', name: '最大值'},
+                                        {type : 'min', name: '最小值'}
+                                    ]
+                                }
+                            }
+                        ],
+                        color:['#20b2aa']
+                    };
+                    myChart.setOption(option);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -16,13 +16,8 @@
 		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
 		<style type="text/css">
 
-			.s100{
-				width:100px;
-				padding:5px 10px;
-			}
-			.s120{
-				width:120px; 
-				padding:5px 10px;
+			.panel-head{
+				padding:10px 0;
 			}
 			.kalendae .k-calendar {
 			    display: inline-block;
@@ -64,7 +59,13 @@
 			.tab-body dl:nth-child(odd){
 				border-right:1px solid #DCDCDC;
 			}
-			
+			#fm>div{
+				padding:0px 20px;
+			}
+			#fm .form-group .label{
+				text-align: left;
+				width: 80px;
+			}
 		</style>
 	</head>
 	<body>
@@ -73,7 +74,7 @@
 				<ul class="search">
 					<li>
 						<button type="button" id="add" @click="dateadd()" class="button">
-							选择日期<span class="icon-calendar text-big"></span>
+							选择日期&nbsp;&nbsp;<span class="icon-calendar text-big"></span>
 						</button>
 					</li>
 					<li id="dateview" v-show="dv" style="position: absolute;left:10px;top:50px;z-index: 10;"></li>
@@ -100,7 +101,7 @@
 						            <label>方案地址:</label>
 						        </div>
 						        <div class="field">
-							        <input type="text" class="input" v-model="note"   name="note" data-validate="required:请输入方案地址,length#<1000:字符长度小于1000位" />
+							        <input  type="text" class="input" v-model="note"   name="note" data-validate="required:请输入方案地址,length#<1000:字符长度小于1000位" />
 							        <div class="tips"></div>
 						        </div>
 						    </div>
@@ -147,17 +148,12 @@
 						      </div>     
 						</div>
 						<div v-if="tp==3">
-							<h2>就业期需要维护好日期区间 每天不需要在写日志</h2>
 						</div>
 						<div v-if="tp==4">
-							<h2>串讲复习需要维护好日期区间即可</h2>
 						</div>
 						<div class="form-group">
-					        <div class="label">
-					          <label></label>
-					        </div>
-					        <div class="field">
-					          <button  class="button bg-main icon-check-square-o" type="button" @click="submit"> 提交</button>
+					        <div class="label" style="width: 100%">
+								<button  class="button bg-main icon-check-square-o" type="button" @click="submit"> 提交</button>
 					        </div>
 					      </div>
 					</form>
@@ -201,12 +197,12 @@
 									alert("请选择一个方案");
 									return;
 								}	
-							}else if(this.tp==2){
+							}else if(this.tp==0){
 								if($.trim(this.note)==""){
 									alert("小学期方案地址不能为空");
 									return;
 								}
-							}else if(this.tp==3){
+							}else if(this.tp==2){
 								if($.trim(this.project)==""){
 									alert("项目名称不能为空");
 									return;

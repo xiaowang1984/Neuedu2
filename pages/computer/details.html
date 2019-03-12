@@ -1,90 +1,171 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+	<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+	<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+	<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+	<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+	<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	<script src="http://47.94.95.151:8080/kindeditor/kindeditor.js"></script>
+	<script src="http://47.94.95.151:8080/kindeditor/lang/zh_CN.js"></script>
+	<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+	<style>
 
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
-		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-	</head>
-
-	<body>
-		<div id="app" class="panel admin-panel" v-cloak>
-			<form id="listForm" method="post">	
-				<input type="hidden" name="id" v-model="selectId" />
-				<table class="table table-hover table-bordered">
-					<thead>
-						<tr>
-							<th>学生姓名</th>
-							<th>技术分</th>
-							<th>表达分</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						<template v-for="entry in list">
-							<tr v-if="selectId!=entry.id">
-								<td>{{entry.sname}}</td>
-								<td>{{entry.skill}}</td>
-								<td>{{entry.express}}</td>
-								<td>
-									<button type="button"  class="button button-little border-main" @click="selectId=entry.id">修改</button>
-								</td>
-							</tr>
-							<tr v-else>
-								<td>{{entry.sname}}</td>
-								<td><input name="skill" :value="entry.skill"></td>
-								<td><input name="express" :value="entry.express"></td>
-								<td>
-									<button type="button" class="button button-little border-main" @click="save">保存</button>
-									<button type="button" class="button button-little border-main" @click="selectId=0">取消</button>
-								</td>
-							</tr>
-						</template>
-						
-					</tbody>
-				</table>
-			</form>
+		.box{
+			position:absolute;
+			z-index:10;
+			background:#fff;
+			left:30%;
+			width: 400px;
+			height:400px;
+			border: 1px solid #000;
+			display: flex;
+		}
+		.box ul{
+			flex: 1;
+			color: #000;
+			padding:0;
+		}
+		.box ul li{
+			height:40px;
+			line-height: 40px;
+			padding-left:15px;
+			border-bottom: 1px solid #ccc;
+		}
+		.box ul li:hover{
+			color:#444;
+		}
+		.box ul .check{
+			background:#4983FE;
+		}
+		.box ul:nth-child(1){
+			border-right: 1px solid #000;
+		}
+		.wy_content{
+			text-align: left;
+			width: 100%;
+			padding: 7px 7px 7px 0;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+<div id="app" class="body-content" v-cloak>
+	<form method="post" class="form-x" id='fm' >
+		<input name="id" type="hidden" v-model="entry.id">
+		<div class="form-group">
+			<div class="label">
+				<label>考试时间：</label>
+			</div>
+			<div class="field">
+				<div class="wy_content">{{entry.dat}}</div>
+			</div>
 		</div>
-		<script type="text/javascript">
-			$(function() {
-				var url = backPath + "interviewDetails/list";
-				var iId = $.getUrlParam("id");
-				var data = getData({
-					"iId": iId
-				}, url);
-				var action = backPath + "interviewDetails/edit";
-				var vue = new Vue({
-					el: "#app",
-					data: {
-						"list": data.list,
-						"selectId":0
-					},
-					methods: {
-						save: function() {
-							$("#listForm").ajaxSubmit({
-								url:action,
-								dataType:"json",
-								success:function(data){
-									var n= getData({
-											"iId": iId
-										}, url);
-									vue.list=n.list;
-									vue.selectId=0;
-								}
-							});
-						},
-					}
-				});
-			});
-		</script>
-	</body>
-
+		<div class="form-group">
+			<div class="label">
+				<label>考试名称：</label>
+			</div>
+			<div class="field">
+				<div class="wy_content">{{entry.name}}</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>课程：</label>
+			</div>
+			<div class="field">
+				<div class="wy_content">{{coursename}}</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>题目：</label>
+			</div>
+			<div class="field">
+				<div class="wy_content">{{storename}}</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>难度等级：</label>
+			</div>
+			<div class="field">
+				<input type="hidden" name="level" :value="level">
+				<span v-if="level>=1"  class="icon-star text-yellow text-large"></span>
+				<span v-else  class="icon-star-o  text-large"></span>
+				<span v-if="level>=2" class="icon-star text-yellow text-large"></span>
+				<span v-else class="icon-star-o  text-large"></span>
+				<span v-if="level>=3" class="icon-star text-yellow text-large"></span>
+				<span v-else class="icon-star-o text-large"></span>
+				<span v-if="level>=4" class="icon-star text-yellow text-large"></span>
+				<span v-else class="icon-star-o  text-large"></span>
+				<span v-if="level>=5" class="icon-star text-yellow text-large"></span>
+				<span v-else class="icon-star-o  text-large"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>功能和要求：</label>
+			</div>
+			<div class="field">
+				<div class="wy_content" v-html="entry.description"></div>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+    var callBackPath = basePath+'pages/case/redirect.html';
+    var id=$.getUrlParam("id");
+    var entry=getData({id:id},path2+"computer/edit");
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#description',{
+            width : "100%",
+            height: "300px",
+            filePostName:"img",
+            uploadJson:path2+"imgupload?callBackPath="+callBackPath,
+            afterBlur: function () {
+                this.sync();
+            }
+        });
+    });
+    var vue = new Vue({
+        el:"#app",
+        data() {
+            return {
+                level:entry.level,
+                cId:entry.cId,
+                sId:entry.sId,
+                description:entry.description,
+                courses:getData({gId:entry.gId},path2+"course/getCourseByGid"),
+                entry:entry
+            };
+        },
+        computed:{
+            storename(){
+                var store= getData({cId:this.cId},path2+"storehouse/getByCid");
+                for(var i=0;i<store.length;i++){
+                    if(this.sId==store[i].id)
+                        return store[i].name;
+				}
+				return "";
+            },
+			coursename(){
+               var courses=getData({gId:entry.gId},path2+"course/getCourseByGid");
+                for(var i=0;i<courses.length;i++){
+                    if(this.cId==courses[i].id)
+                        return courses[i].name;
+                }
+                return "";
+			}
+        }
+    });
+</script>
+</body>
 </html>

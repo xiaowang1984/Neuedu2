@@ -31,6 +31,9 @@
 	        .button{
 	        	margin-right:10px;
 	        }
+			.panel{
+				border:0;
+			}
 		</style>
 	</head>
 	<body>
@@ -51,14 +54,10 @@
 						<button id="board" type="button" class="button ">
 									<span class="icon-calendar text-blue"></span>&nbsp;&nbsp;过程看板</button>
 						<button id="work" type="button" class="button ">
-									<span class="icon-tasks text-blue"></span>&nbsp;&nbsp;任务看板</button>
+									<span class="icon-tasks text-blue"></span>&nbsp;&nbsp;任务列表</button>
 					</div></br></br>
 					<div class="button-toolbar">
 					<div class="button-group  button-group-big">
-						<button type="button" class="button" id="mncj">
-                    		<span class="text-blue"><svg class="icon" aria-hidden="true">
-		                        <use xlink:href="#icon-chengjizhongxin"></use>
-		                    </svg></span>&nbsp;&nbsp;面试成绩</button>
 						<button type="button" class="button" id="mn">
 							<span class="text-blue"><svg class="icon" aria-hidden="true">
 		                        <use xlink:href="#icon-05"></use>
@@ -105,6 +104,21 @@
 				</div>
 			</div>
 		</div>
+		<div class="panel">
+			<div class="panel-body">
+				<div class="button-toolbar">
+					<div class="button-group  button-group-big">
+						<button id="stulog" type="button" class="button ">
+								<span class="icon-file-text-o text-blue"></span>&nbsp;&nbsp;学生日志
+						</button>
+						<button type="button" class="button" id="mncj">
+                    		<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-chengjizhongxin"></use>
+		                    </svg></span>&nbsp;&nbsp;报表总览</button>
+					</div>
+				</div>
+			</div>
+		</div>	
 		<script type="text/javascript">
 			$(function(){
 				var id=$.getUrlParam("id");
@@ -115,7 +129,7 @@
 					parent.addTab("pages/board/list.html?gId="+id,"6","过程看板");
 				});
 				$("#work").click(function(){
-					parent.addTab("pages/work/list.html?gId="+id,"17","任务看板");
+					parent.addTab("pages/work/list.html?gId="+id,"17","任务列表");
 				});
 				$("#log").click(function(){
 					parent.addTab("pages/grade/log.html?gId="+id,"19","日志看板");
@@ -136,7 +150,10 @@
 					parent.addTab("pages/computer/list.html?gId="+id,"34","机试");
 				});
 				$("#mncj").click(function(){
-					parent.addTab("pages/interview/report.html?gId="+id,"31","模拟面试成绩");
+					parent.addTab("pages/grade/report.html?gId="+id,"31","报表总览");
+				});
+				$("#stulog").click(function(){
+					parent.addTab("pages/grade/stulog.html?gId="+id,"40","学生日志");
 				});
 			});
 		</script>

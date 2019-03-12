@@ -1,133 +1,160 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+	<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+	<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+	<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+	<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+	<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+	<style type="text/css">
+		.s100{
+			width:100px;
+			padding:5px 10px;
+		}
 
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
-		<script src="http://47.94.95.151:8080/js/iconfont.js"></script>
-		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-		<style type="text/css">
-			.s100 {
-				width: 100px;
-				padding: 5px 10px;
-			}
-			.icon {
-				font-size: 20px;
-				/* 通过设置 font-size 来改变图标大小 */
-				width: 1em;
-				height: 1em;
-				/* 图标和文字相邻时，垂直对齐 */
-				vertical-align: -0.15em;
-				/* 通过设置 color 来改变 SVG 的颜色/fill */
-				fill: currentColor;
-				/* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
-		             normalize.css 中也包含这行 */
-				overflow: hidden;
-				color: #585858;
-			}
-			
-			#tb tr td {
-				border: 0;
-			}
-			#tb tr .first{
-				width:100px;
-				border-right: 1px dashed #ccc;
-			}
-			#tb ul li{
-				float: left;
-				margin-left:20px;
-				width:100px;
-			}
-		</style>
-	</head>
+	</style>
+</head>
+<body>
+<div id="app"class="panel admin-panel"  v-cloak>
+	<div class="padding border-bottom">
+		<form id="listForm" method="post">
+			<ul class="search" style="padding-left:10px;">
+				<li>
+					<input name="name" id="name" type="text" class="input s100" placeholder="案例编号" autocomplete="off" />
+				</li>
+				<li>
+					<input name="extend" id="extend" type="text" class="input s100" placeholder="案例名称" autocomplete="off" />
+				</li>
+				<li>
+					<input name="dat" id="dat" type="text" class="input s100" placeholder="日期" autocomplete="off" readonly="readonly" onClick="WdatePicker({el:this,dateFmt:'yyyy-MM-dd'})" />
+				</li>
 
-	<body>
-		<div id="app" class="panel admin-panel">
-			<div class="padding border-bottom">
-				<ul class="search" style="padding-left:10px;">
-					<li>
-						<strong>{{grade.name}}</strong>
-					</li>
-					<li>
-						<strong  v-if="grade.type==0">招转</strong>
-						<strong  v-else-if="grade.type==1">小学期</strong>
-						<strong  v-else-if="grade.type==2">高校个体</strong>
-						<strong  v-else-if="grade.type==3">社会个体</strong>
-						<strong  v-else>专业共建</strong>
-					</li>
-				</ul>
-			</div>
-			<hr class="bg-main" />
-			<div class="admin-panel">
-				<ul style="margin-top: 20px;">
-					<li v-for="work in works.list">
-						<div><span class="icon icon-building-o"></span>&nbsp;&nbsp;{{work.name}}</div>
-						<table id="tb" class="table table-hover" style="border:1px solid #585858">
-							<tbody>
-								<tr>
-									<td class="first">
-										<div><span class="icon icon-users"></span>&nbsp;&nbsp;{{grade.stuCount}}</div>
-										<div><span class="icon icon-signal"></span>&nbsp;&nbsp;{{work.workGrade.count}}</div>
-										<div><span class="icon icon-database"></span>&nbsp;&nbsp;</div>
-									</td>
-									<td>
-										<ul>
-											<li v-for="detail in work.workGrade.workGradeDetails" >
-												<div style="width:100%;height:75px;border:1px solid #BBBBBB;background: #CCCCCC;">
-													<h4 style="text-align: center;border-bottom: 1px dashed #141417;">{{week[getDay(detail.dat)]}}</h4>
-													<div style="text-align: center;line-height: 52px;">{{detail.dat}}</div>
-												</div>
-												<div style="margin-top:10px ;">
-													<div style="height: 40px;width:60px;background:#CBEEFF;float:left;font-size: 18px;text-align: center;line-height: 40px;">
-														{{detail.count}}
-													</div>
-													<div style="height: 40px;width:30px;float:left;background:#009900;margin-left:10px"></div>
-												</div>
-											</li>
-										</ul>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</li>
-				</ul>
-				<div id="wy_page" class="wy_page"></div>
-			</div>
-			<script type="text/javascript">
-				$(function() {
-					var gId = $.getUrlParam("gId");
-					var data = getData({
-						"gId": gId
-					}, backPath + "work/list");
-					new Vue({
-						el:"#app",
-						data:{
-							grade:data.grade,
-							works:data.works,
-							week:{0:"周日",1:"周一",2:"周二",3:"周三",4:"周四",5:"周五",6:"周六"}
+				<li>
+					<select id="isDel" name="isDel" class="input s100"  >
+						<option value="">全部</option>
+						<option value="1">有效</option>
+						<option value="0">失效</option>
+					</select>
+				</li>
+				<li>
+					<button type="button"  @click="search" class="button input s100"><span class="icon-search"></span>搜索</button>
+				</li>
+				<li>
+					<button type="button" id="add" class="button input s100 dialogs" @click="create" data-title="添加案例" data-url="pages/case/add.html"  ></span>创建案例</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<hr class="bg-main" />
+	<table id="tb" class="table table-hover table-bordered">
+		<thead>
+		<tr>
+			<th style="width: 100px;">项目名称</th>
+			<th >案例名称</th>
+			<th style="width: 180px;">起止日期</th>
+			<th style="width: 50px;">天数</th>
+			<th style="width: 100px;">完成率</th>
+			<th style="width: 80px;">平均代码量</th>
+			<th style="width: 150px;">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr v-for="work in entry.list" >
+			<td>{{work.name}}</td>
+			<td>{{work.extend}}</td>
+			<td>{{work.startDat}}～{{work.endDat}}</td>
+			<td>{{daycount(work.startDat,work.endDat)}}</td>
+			<td>{{work.done}}%</td>
+			<td>{{work.code}}</td>
+			<td>
+				<button class="button button-little border-main" @click="details(work.id)" >详情</button>&nbsp;&nbsp;
+				<button class="button button-little border-main" @click="isdel(work.id,work.isDel)"><span v-if="work.isDel==1">删除</span><span v-else>恢复</span></button>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div id="wy_page" class="wy_page">
+		<mypage :pageno="entry.pageNo" :totalpage="entry.totalPage" :callback="changepage"> </mypage>
+	</div>
+</div>
+<script type="text/javascript">
+	var gid=$.getUrlParam("gId");
+    var url=path2+"/work/list";
+    var vue=new Vue({
+        el:"#app",
+        data:{
+            entry:getData({"pageNo":1,gid:gid},url),
+            params:{
+                pageNo:1,
+                name:"",
+                extend:"",
+                dat:"",
+                isDel:""
+            },
+            languages:getData({isDel:1},path2+"language/list")
+        },
+        methods:{
+            daycount(start,end){
+                return (getDateByStr(end,"-").getTime()-getDateByStr(start,"-").getTime())/(1000*60*60*24);
+			},
+            changepage(i){
+                this.params.pageNo=i
+                this.entry=getData(this.params,url);
+            },
+            edit(id){
+                dialogframe({
+                    width:"100%",
+                    height:"100%",
+                    "title":"修改案例",
+                    "url":"pages/case/edit.html?id="+id
+                });
+            },
+            search(){
+                this.params.name=$("#name").val();
+                this.params.extend=$("#extend").val();
+                this.params.dat=$("#dat").val();
+                this.params.isDel=$("#isDel").val();
+                this.params.pageNo=1;
+                this.entry=getData(this.params,url);
+            },
+            isdel(id,isDel){
+                var message=isDel==1?"确定要删除该任务吗":"确定要将该任务恢复为可用状态吗";
+                isDel=isDel==1?0:1;
+                if(confirm(message)){
+                    $.ajax({
+                        url:path2+"work/del",
+                        type:"post",
+                        data:{id:id,isDel:isDel},
+                        dataType:"json",
+                        xhrFields:{
+						    withCredentials:true
 						},
-						methods:{
-							getDay:function(dat){
-								var date=new Date(dat);
-								return date.getDay();
-							}
-						},
-						ccomputed:{
-							
-						}
-						
-					});
-					
-				});
-			</script>
-	</body>
-
+                        success:function(data){
+                            alert(data.message);
+                            vue.entry=getData(vue.params,url);
+                        }
+                    });
+                }
+            },
+            create(){
+                dialogframe({
+                    width:"100%",
+                    height:"100%",
+                    title:"添加任务",
+                    url:"pages/work/add.html?gId="+gid
+                });
+            },
+            details(id){
+                parent.addTab("pages/work/gradedetails.html?id="+id,"35","作业详情");
+            }
+        }
+    });
+</script>
+</body>
 </html>

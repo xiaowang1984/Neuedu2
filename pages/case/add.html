@@ -1,126 +1,247 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-	</head>
-	<body>
-		<div class="body-content">
-		    <form method="post" class="form-x" id='fm'>  
-		      <div class="form-group">
-		        <div class="label">
-		          <label>案例名称：</label>
-		        </div>
-		        <div class="field">
-		          <input type="text" class="input w50" value="" name="name" data-validate="required:请输入案例名称" />
-		          <div class="tips"></div>
-		        </div>
-		      </div>
-		      <div class="form-group">
-		        <div class="label">
-		          <label>案例类型：</label>
-		        </div>
-		        <div class="field">
-		         <select name="type" class="input w50" data-validate="required:请选择案例类型" >
-		      			<option value="" disabled="disabled" selected="selected">请选择案例类型</option>
-		      			<option value="0">课堂案例</option>
-		      			<option value="1">实践案例</option>
-		      			<option value="2">企业案例</option>
-		      			<option value="3">拓展案例</option>
-		      		</select>
-		          <div class="tipss"></div>
-		        </div>
-		      </div>     
-		      <div class="form-group">
-		        <div class="label">
-		          <label>案例描述：</label>
-		        </div>
-		        <div class="field">
-		           <input type="text" class="input w50" name="extend" data-validate="required:请输入案例描述" />
-		          <div class="tips"></div>
-		        </div>
-		      </div>
-		      <div class="form-group">
-		        <div class="label">
-		          <label>代码数量：</label>
-		        </div>
-		        <div class="field">
-		           <input type="text" class="input w50" value="" name="count" data-validate="required:请输入代码数量,number:必须是数字" />
-		        	<div class="tips"></div>
-		        </div>
-		      </div>
-		      <div class="form-group">
-		      	<div class="label">
-		      		<label>知识点：</label>
-		      	</div>
-		      	<div class="field">
-		      		<input type="text" class="input w50" value="" name="point" data-validate="required:请输入知识点" />
-		      		<div class="tips"></div>
-		      	</div>
-		      </div>
-		      <div class="form-group">
-		      	<div class="label">
-		      		<label>功能：</label>
-		      	</div>
-		      	<div class="field">
-		      		 <textarea class="input" name="description" style=" height:90px;" data-validate="required:请输入功能" ></textarea>
-		      		<div class="tips"></div>
-		      	</div>
-		      </div>
-		       <div class="form-group">
-		      	<div class="label">
-		      		<label>要求：</label>
-		      	</div>
-		      	<div class="field">
-		      		 <textarea class="input" name="requirement" style=" height:90px;" data-validate="required:请输入要求" ></textarea>
-		      		<div class="tips"></div>
-		      	</div>
-		      </div>
-		       <div class="form-group">
-		      	<div class="label">
-		      		<label>源码链接：</label>
-		      	</div>
-		      	<div class="field">
-		      		 <textarea class="input" name="url" style=" height:90px;" ></textarea>
-		      		<div class="tips"></div>
-		      	</div>
-		      </div>
-		      <div class="form-group">
-		      	<div class="label">
-		      		<label>提供者：</label>
-		      	</div>
-		      	<div class="field">
-		      		<select id="provider" name="provider" class="input w50" data-validate="required:请选择案例提供者" >
-		      			<option value="" disabled="disabled" selected="selected">请选择案例类型</option>
-		      		</select>
-		      		<div class="tips"></div>
-		      	</div>
-		      </div>
-		      <div class="form-group">
-		        <div class="label">
-		          <label></label>
-		        </div>
-		        <div class="field">
-		          <button  class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','cases/add',true)"> 提交</button>
-		        </div>
-		      </div>
-		    </form>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+	<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+	<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+	<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+	<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+	<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	<script src="http://47.94.95.151:8080/kindeditor/kindeditor.js"></script>
+	<script src="http://47.94.95.151:8080/kindeditor/lang/zh_CN.js"></script>
+	<style>
+
+		.box{
+			position:absolute;
+			z-index:10;
+			background:#fff;
+			left:30%;
+			width: 400px;
+			height:400px;
+			border: 1px solid #000;
+			display: flex;
+		}
+		.box ul{
+			flex: 1;
+			color: #000;
+			padding:0;
+		}
+		.box ul li{
+			height:40px;
+			line-height: 40px;
+			padding-left:15px;
+			border-bottom: 1px solid #ccc;
+		}
+		.box ul li:hover{
+			color:#444;
+		}
+		.box ul .check{
+			background:#4983FE;
+		}
+		.box ul:nth-child(1){
+			border-right: 1px solid #000;
+		}
+	</style>
+</head>
+<body>
+<div id="app" class="body-content" v-cloak>
+	<form method="post" class="form-x" id='fm' >
+		<input type="hidden" name="id" >
+		<div class="form-group">
+			<div class="label">
+				<label>案例编号：</label>
+			</div>
+			<div class="field">
+				<input type="text"  class="input w50" value="" name="name" data-validate="required:请输入案例编号" />
+				<div class="tips"></div>
+			</div>
 		</div>
-		<script type="text/javascript">
-			$(function(){
-				var url=backPath+"cases/provider";
-				var data=getData({},url);
-				for(var i=0;i<data.length;i++){
-					$("#provider").append($('<option value="'+data[i].id+'">'+data[i].name+'</option>'));
-				}
-			});
-		</script>
-	</body>
+		<div class="form-group">
+			<div class="label">
+				<label>案例类型：</label>
+			</div>
+			<div class="field">
+				<select name="type"  class="input w50" data-validate="required:请选择案例类型" >
+					<option value="" disabled="disabled" selected="selected">请选择案例类型</option>
+					<option value="0">课堂案例</option>
+					<option value="1">实践案例</option>
+					<option value="2">企业案例</option>
+					<option value="3">拓展案例</option>
+				</select>
+				<div class="tipss"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>案例名称：</label>
+			</div>
+			<div class="field">
+				<input type="text"  class="input w50" name="extend" data-validate="required:请输入案例名称" />
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>难度等级：</label>
+			</div>
+			<div class="field">
+				<input type="hidden" name="level" :value="level">
+				<span v-if="level>=1" @click="level=1" class="icon-star text-yellow text-large"></span>
+				<span v-else @click="level=1" class="icon-star-o  text-large"></span>
+				<span v-if="level>=2" @click="level=2" class="icon-star text-yellow text-large"></span>
+				<span v-else @click="level=2" class="icon-star-o  text-large"></span>
+				<span v-if="level>=3" @click="level=3" class="icon-star text-yellow text-large"></span>
+				<span v-else @click="level=3" class="icon-star-o text-large"></span>
+				<span v-if="level>=4" @click="level=4" class="icon-star text-yellow text-large"></span>
+				<span v-else @click="level=4" class="icon-star-o  text-large"></span>
+				<span v-if="level>=5" @click="level=5" class="icon-star text-yellow text-large"></span>
+				<span v-else @click="level=5" class="icon-star-o  text-large"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>选择语言：</label>
+			</div>
+			<div class="field">
+				<select v-model="language" name="language" class="input w50" data-validate="required:请选择语言" >
+					<option value="0" disabled="disabled" selected="selected">请选择语言</option>
+					<option v-for="language in languages" :value="language.id">{{language.name}}</option>
+				</select>
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>代码数量：</label>
+			</div>
+			<div class="field">
+				<input  type="text" class="input w50" value="" name="count" data-validate="required:请输入代码数量,number:必须是数字" />
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>知识点：</label>
+			</div>
+			<div class="field" style="position: relative;">
+				<input type="hidden" name="point" :value="point" >
+				<input type="text" readonly="readonly" class="input w50" @click="showbox" :value="pointstr" name="pointstr" data-validate="required:请选择知识点" />
+				<div v-show="showpoint" class="box">
+					<ul>
+						<li v-for="entry in modules" @click="mid=entry.id" :value="entry.id">{{entry.name}}</li>
+					</ul>
+					<ul>
+						<li v-for="entry in points" @click="add(entry)" :class="{check:point.indexOf(entry.id)>-1}" :value="entry.id">{{entry.name}}</li>
+					</ul>
+				</div>
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>功能和要求：</label>
+			</div>
+			<div class="field">
+				<textarea id="description"  class="input" name="description"   data-validate="required:请输入功能和要求"></textarea>
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>源码链接：</label>
+			</div>
+			<div class="field">
+				<textarea  class="input" name="url"></textarea>
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label>提供者：</label>
+			</div>
+			<div class="field">
+				<select id="provider" name="provider" class="input w50" data-validate="required:请选择案例提供者" >
+					<option value="" disabled="disabled" selected="selected">请选择案例提供者</option>
+					<option v-for="entry in provider" :value="entry.id">{{entry.name}}</option>
+				</select>
+				<div class="tips"></div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="label">
+				<label></label>
+			</div>
+			<div class="field">
+				<button  class="button bg-main icon-check-square-o" type="button" onclick="submitForm('fm','cases/add',true)"> 提交</button>
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+    var callBackPath = basePath+'pages/case/redirect.html';
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#description',{
+            width : "100%",
+            height: "300px",
+            filePostName:"img",
+            uploadJson:path2+"imgupload?callBackPath="+callBackPath,
+            afterBlur: function () {
+                this.sync();
+            }
+        });
+    });
+    var vue = new Vue({
+        el:"#app",
+        data(){
+            return {
+                provider:getData({isDel:1,type:1,withPage:0},path2+"teacher/list").list,
+                level:0,
+                languages:getData({isDel:1},path2+"language/list"),
+                point:[],
+                pointstr:[],
+                language:'',
+                showpoint:false,
+                mid:0
+            };
+        },
+        computed:{
+            modules(){
+                return getData({lId:this.language},path2+"module/list");
+            },
+            points(){
+                for(var i=0;i<this.modules.length;i++){
+                    if(this.mid==this.modules[i].id)
+                        return this.modules[i].points
+                }
+            }
+        },
+        methods:{
+            showbox(){
+                if(this.showpoint)
+                    this.showpoint=false;
+                else{
+                    if(this.language=="")
+                        alert("请先选择语言")
+                    else
+                        this.showpoint=true;
+                }
+            },
+            add(entry){
+                var index=this.point.indexOf(entry.id);
+                if(index==-1){
+                    this.point.push(entry.id);
+                    this.pointstr.push(entry.name);
+                }else{
+                    this.point.splice(index, 1);
+                    this.pointstr.splice(index, 1);
+                }
+            }
+        }
+    });
+</script>
+</body>
 </html>

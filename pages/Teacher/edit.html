@@ -69,6 +69,7 @@
 							<option value="" disabled="disabled" selected="selected">请选择类型</option>
 							<option value="0">实施</option>
 							<option value="1">讲师</option>
+							<option value="3">就业</option>
 						</select>
 						<div class="tips"></div>
 					</div>
@@ -89,7 +90,6 @@
 			var data = getData({
 				"id": id
 			}, url);
-			console.log(data);
 			new Vue({
 				el:"#app",
 				data:{

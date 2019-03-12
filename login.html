@@ -20,9 +20,8 @@
 			}
 			.content .left{
 				width:700px;
-				background: url('http://47.94.95.151:8080/images/banner_u1.jpg') no-repeat 0px center;
+				background: url('http://47.94.95.151:8080/images/banner_u1.jpg') no-repeat 150px center;
 				background-size:979px 412px;
-				
 			}
 			.content .right{
 				flex:1;
@@ -99,7 +98,7 @@
 							},
 							success:function(data){
 								if(data.code==1)
-									window.location.href=basePath+"/index.html";
+									window.location.href=basePath+"index.html";
 								else
 									vue.message=data.message;
 							}

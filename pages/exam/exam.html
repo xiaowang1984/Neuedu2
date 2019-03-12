@@ -108,7 +108,6 @@
 					}
 					sessionStorage.setItem("data",JSON.stringify(data));
 				}
-				console.log(exam);
 				var timer=setInterval(function(){
 					vue.now=new Date();
 				},1000);
@@ -150,6 +149,9 @@
 								url:backPath+"exam/examSubmt",
 								data:{"list":JSON.stringify(this.list)} ,
 								dataType:"json",
+								"xhrFields":{
+									withCredentials:true
+								},
 								success:function(data){
 									if(data.code==0){
 										alert(data.mess);

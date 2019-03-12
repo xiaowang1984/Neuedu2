@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/iconfont.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/echarts.min.js"></script>
+    <style>
+        .icon {
+            font-size:20px;
+            /* 通过设置 font-size 来改变图标大小 */
+            width: 1em;
+            height: 1em;
+            /* 图标和文字相邻时，垂直对齐 */
+            vertical-align: -0.25em;
+            /* 通过设置 color 来改变 SVG 的颜色/fill */
+            fill: currentColor;
+            /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+               normalize.css 中也包含这行 */
+            overflow: hidden;
+            color:#777777;
+        }
+        .s100{
+            width:100px;
+            padding:5px 10px;
+        }
+        .wy_list li{
+            list-style: none;
+            width: 205px;
+            height: 290px;
+            display:flex;
+            background: #FFFFFF;
+            margin: 10px;
+            flex-direction: column;
+            box-shadow: 0px 0px 6px #aaa;
+            padding: 0 20px;
+            display:inline-block;
+        }
+        .wy_list li .list-top{
+            height:80px;
+            display:flex;
+            flex-direction: column;
+        }
+        .wy_list li .list-top div{
+            text-align: center;
+            border-bottom: 1px dashed #999999;
+            color: #999999;
+        }
+        .wy_list li .list-top div:nth-child(1){
+            height: 34px;
+            line-height: 35px;
+            margin:0 40px;
+        }
+        .wy_list li .list-top div:nth-child(2){
+            flex:1;
+            line-height: 44px;
+            font-size: 20px;
+            color: #888888;
+            border-color: #888888;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+        .wy_list li .list-body{
+            height:210px;
+            display:flex;
+            flex-direction: column;
+            padding-left:15px;
+        }
+        .wy_list li .list-body div{
+            height:52px;
+            line-height: 52px;
+            font-size: 16px;
+            color:#777777;
+            padding-left:25px;
+        }
+        .wy_list li .list-body div .text{
+            padding-left:20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="panel admin-panel" v-cloak>
+        <div class="padding border-bottom" style="border:0">
+            <ul class="search" style="padding-left:10px;">
+                <li><span class="s100">{{entry.extend}}</span></li>
+                <li><span class="s100">开始:{{entry.startDat}}</span></li>
+                <li><span class="s100">验收:{{entry.endDat}}</span></li>
+                <li><span class="s100">{{record.count}}</span></li>
+                <button type="button" @click="studentview(entry.id,entry.gid)"  class="button input s100 " style="background: #F9511F;color: #fff;">check</button>
+                </li>
+            </ul>
+        </div>
+        <hr style="border-top:1px dashed  #96A5AA;"/>
+        <div id="charts" style="width: 900px;height:500px;padding-left: 20px;"></div>
+        <hr style="border-top:1px dashed  #96A5AA;"/>
+        <ul class="wy_list">
+            <li v-for="item in entry.workgrade">
+                <div class="list-top">
+                    <div>{{week(item.dat)}}</div>
+                    <div>{{day(item.dat)}}</div>
+                </div>
+                <div class="list-body">
+                    <div><span class="icon-user"></span><span class="text">{{math(item).person}}%</span></div>
+                    <div><span class="icon-github"></span><span class="text">{{math(item).avgcommit}}</span></div>
+                    <div style="padding-left: 23px;cursor: pointer" title="查看报表" @click="showtimerpt(item.dat)">
+                        <svg class="icon" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-time"></use>
+                        </svg><span style="padding-left:16px">{{getTime(item.avgtime)}}</span></div>
+                    <div><span class="icon-code"></span><span class="text">{{item.adds}}</span></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        var id=$.getUrlParam("id");
+        var vue = new Vue({
+            el:"#app",
+            data(){
+                return {
+                  entry:JSON.parse(getData({id:id},path2+"work/getOne"))
+                };
+            },
+            computed:{
+                record(){
+                    var sum=0;
+                    var datarr=[];
+                    var addarr=[];
+                    var delarr=[];
+                    for(let i=0;i<this.entry.workgrade.length;i++){
+                        sum+=this.entry.workgrade[i].adds;
+                        datarr.push(this.entry.workgrade[i].dat);
+                        addarr.push(this.entry.workgrade[i].adds);
+                        delarr.push(this.entry.workgrade[i].dels)
+                    }
+                    return {
+                        count:sum,
+                        datarr:datarr,
+                        addarr:addarr,
+                        delarr:delarr
+                    };
+                },
+            },
+            mounted(){
+                this.drawLine();
+            },
+            methods:{
+                drawLine(){
+                    var myChart = echarts.init(document.getElementById('charts'));
+                    option = {
+                        title : {
+                            text: '任务提交代码量统计',
+                        },
+                        tooltip : {
+                            trigger: 'axis'
+                        },
+                        legend: {
+                            data:['增加','删除']
+                        },
+                        toolbox: {
+                            show : true,
+                            feature : {
+                                dataView : {show: true, readOnly: false},
+                                magicType : {show: true, type: ['line', 'bar']},
+                                restore : {show: true},
+                                saveAsImage : {show: true},
+
+                            }
+                        },
+                        calculable : true,
+                        xAxis : [
+                            {
+                                type : 'category',
+                                data :this.record.datarr
+                            }
+                        ],
+                        yAxis : [
+                            {
+                                type : 'value'
+                            }
+                        ],
+                        series : [
+                            {
+                                name:'增加',
+                                type:'bar',
+                                barWidth : 30,
+                                data:this.record.addarr,
+                                markPoint : {
+                                    data : [
+                                        {type : 'max', name: '最大值'},
+                                        {type : 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine : {
+                                    data : [
+                                        {type : 'average', name: '平均值'}
+                                    ]
+                                }
+                            },
+                            {
+                                name:'删除',
+                                type:'bar',
+                                barWidth : 30,
+                                data:this.record.delarr,
+                                markPoint : {
+                                    data : [
+                                        {type : 'max', name: '最大值'},
+                                        {type : 'min', name: '最小值'}
+                                    ]
+                                },
+                                markLine : {
+                                    data : [
+                                        {type : 'average', name : '平均值'}
+                                    ]
+                                }
+                            }
+                        ],
+                        color:['#20b2aa','crimson']
+                    };
+                    myChart.setOption(option);
+                },
+                week(dat){
+                   return getweek(dat);
+                },
+                day(dat){
+                    let strarr=dat.split("-");
+                    let month=strarr[1];
+                    return month+"."+strarr[2];
+                },
+                math(item){
+                    return {
+                        person: Math.round(item.person/item.stucount*100),
+                        avgcommit:(item.stucommit/item.stucount).toFixed(2)
+                } ;
+                },
+                studentview(id,gId){
+                    parent.addTab("pages/work/studentlist.html?id="+id+"&gId="+gId,"36","学生作业列表");
+                },
+                getTime(tim){
+                    var arr=tim.split(":");
+                    return arr[0]+":"+arr[1];
+                },
+                showtimerpt(dat){
+                    dialogframe({
+                        "width":"100%",
+                        "height":"100%",
+                        "title":"修改案例",
+                        "url":"pages/work/timerpt.html?dat="+dat+"&wid="+id
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+</head>
+ <style>
+     .content li{
+         display: flex;
+         margin-top: 20px;
+     }
+     .content li .left{
+         width: 150px;
+         text-align: center;
+         border-right: 1px solid #96A5AA;
+     }
+     .content li .left .circular{
+         width: 100px;
+         height: 100px;
+         border: 1px solid #585858;
+         margin:10px auto;
+         padding: 30px 20px;
+         border-radius:50px;
+     }
+     .dtitle{
+         font-size: 18px;
+     }
+     #tb{
+
+     }
+     #tb td{
+         border:0;
+     }
+ </style>
+<body>
+    <div id="app" v-cloak>
+        <ul class="content">
+            <li v-for="entry in list">
+                <div class="left">
+                    <div class="circular">
+                        <div style="border-bottom: 1px solid #999999">{{getTim(entry.tim)}}</div>
+                        <div>{{getDay(entry.dat)}}</div>
+                    </div>
+                </div>
+                <div style="flex: 1">
+                    <table id="tb"  class="table" >
+                        <thead>
+                            <tr>
+                                <th style="border-right: 1px solid #ccc;width: 300px">
+                                    <ul class="dtitle">
+                                        <li class="text-green">Add : {{entry.additions}}</li>
+                                        <li class="text-red">Del : {{entry.deletions}}</li>
+                                    </ul>
+                                </th>
+                                <th style="font-size: 16px;padding-left:30px;text-align: left">
+                                    {{entry.message}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="2">
+                                    <div>add:</div>
+                                    <ul>
+                                        <li v-for="aitem in getgroup(entry.details).adds">
+                                            <div style="flex: 1;">{{aitem.file}}</div>
+                                            <div style="width: 80px;text-align: right"><span class="text-green" style="margin-right: 20px">{{aitem.additions}}</span><span class="text-red">{{aitem.deletions}}</span></div>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div>update:</div>
+                                    <ul>
+                                        <li v-for="uitem in getgroup(entry.details).updates">
+                                            <div style="flex: 1;">{{uitem.file}}</div>
+                                            <div style="width: 80px;text-align: right"><span class="text-green" style="margin-right: 20px">{{uitem.additions}}</span><span class="text-red">{{uitem.deletions}}</span></div>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div>del:</div>
+                                    <ul>
+                                        <li v-for="ditem in getgroup(entry.details).dels">
+                                            <div style="flex: 1;">{{ditem.file}}</div>
+                                            <div style="width: 80px;text-align: right"><span class="text-green" style="margin-right: 20px">{{ditem.additions}}</span><span class="text-red">{{ditem.deletions}}</span></div>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script>
+        let wId=$.getUrlParam("wId");
+        let sId=$.getUrlParam("sId");
+        let dat=$.getUrlParam("dat");
+        var data=getData({wId:wId,sId:sId,dat:dat},path2+"work/studetails");
+        var vue = new Vue({
+            el:"#app",
+            data(){
+                return {
+                    list:JSON.parse(data)
+                };
+            },
+            methods:{
+                getTim(tim){
+                    var result=tim.split(":");
+                    return result[0]+":"+result[1];
+                },
+                getDay(dat){
+                    var result=dat.split("-");
+                    return result[1]+"."+result[2];
+                },
+                getgroup(items){
+                    var adds=[];
+                    var updates=[];
+                    var dels=[];
+                    for(var i=0;i<items.length;i++){
+                        if(items[i].status=="added")
+                            adds.push(items[i]);
+                        else if(items[i].status=="modified")
+                            updates.push(items[i]);
+                        else
+                            dels.push(items[i]);
+                    }
+                    return {
+                        adds:adds,
+                        updates:updates,
+                        dels:dels
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

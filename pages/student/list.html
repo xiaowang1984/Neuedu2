@@ -89,7 +89,7 @@
 		 					<input  v-model="student.name" type="text" class="input s100" placeholder="学生姓名"  />
 		 				</li>
 		 				<li>
-		 					<select id="month" name="month" class="input s100" v-model="student.gender">
+		 					<select id="gender" name="gender" class="input s100" v-model="student.gender">
 								<option value="">请选择性别</option>
 								<option value="1">男</option>
 								<option value="0">女</option>
@@ -152,8 +152,9 @@
 			 				<td>{{stu.specialty}}</td>
 			 				<td>{{stu.education}}</td>
 			 				<td>
-			 					<button class="button button-little border-main" @click="edit(stu.id)" >修改</button>&nbsp;&nbsp;
-			 					<button class="button button-little border-main" @click="del(stu.id)" >删除</button></td>
+			 					<button class="button button-little border-main" @click="edit(stu.id)" >编辑</button>&nbsp;&nbsp;
+			 					<button class="button button-little border-main" @click="pwd(stu.id)" >修改密码</button>&nbsp;&nbsp;
+			 					<button class="button button-little border-red" @click="del(stu.id)" >删除</button></td>
 			 				</td>
 			 			</tr>
 			 		</tbody>
@@ -196,11 +197,17 @@
 							title:"修改学生信息"
 						});
 					},
+					pwd(id){
+						dialogframe({
+							url:"pages/student/pwd.html?id="+id,
+							title:"修改学生密码"
+						});
+					},
 					batch(){
 						$("#sfile").click();
 					},
 					changeFile(){
-						submitForm('listForm',"student/upload?gid="+this.gId,false);
+						submitForm('listForm',"student/upload?gId="+gId,false);
 					}
 				}
 			});

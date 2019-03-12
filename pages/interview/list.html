@@ -8,92 +8,167 @@
 		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
 		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
 		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
 		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
 		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
 		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<style>
+			.inter-table td{
+				height:30px;
+			}
+			.inter-table td div{
+				height:25px;
+				width: 180px;
+				overflow: hidden;
+				white-space: nowrap ;
+			}
+		</style>
 	</head>
 	<body>
-		<div id="app" class="panel admin-panel" v-cloak>
+		<div id="app" class="panel admin-panel" style="border:0" v-cloak>
 			<div class="padding border-bottom">
 				<ul class="search" style="padding-left:10px;">
 					<li>
-						<button type="button" class="button input s100" @click="add(gId)"><span class="icon-plus-square-o"></span>添加考试</button>
+						<button type="button" class="button input s100" @click="add"><span class="icon-plus-square-o"></span>添加考试</button>
 					</li>
 				</ul>
 			</div>
 			<form id="listForm" method="post">	
-				<table  class="table table-hover table-bordered">
+				<table  class="inter-table table table-hover table-bordered" style="width: 0%">
 					<thead>	
 						<tr>
-							<th rowspan="2" style="width:80px">姓名</th>
-							<template v-for="entry in list">
-								<th colspan="3">{{entry.name}}</th>
+							<th rowspan="3" style="width:80px">姓名</th>
+							<template v-for="entry in interviews">
+								<th style="width: 200px;" colspan="2" >{{entry.name}}</th>
 							</template>
 						</tr>
 						<tr>
-							<template v-for="entry in list">
-								<th style="width:40px">技术分</th>
-								<th style="width:40px">表达分</th>
-								<th style="width:100px">评语</th>
+							<template v-for="entry in interviews">
+								<th colspan="2">{{entry.dat}}</th>
+							</template>
+						</tr>
+						<tr>
+							<template v-for="entry in interviews">
+								<th style="width: 100px">技术分</th>
+								<th style="width: 100px">表达分</th>
 							</template>
 						</tr>
 					</thead>
 					<tbody>
-						<input name="id" type="hidden" v-model="selectId" />
-						<input name="iId" type="hidden" v-model="selectQue"  />
-						<template v-for="student in stulist">
+						<template v-for="student in students">
 							<tr>
-								<td>{{student.name}}</td>
-								<template v-for="interview in list">
-									<td v-if="selectId==course(student.id,interview.list).id">
-										<input @keydown="save($event)" name="skill" :value="course(student.id,interview.list).skill" />
-									</td>
-									<td v-else @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).skill}}</td>
-									<td  v-if="selectId==course(student.id,interview.list).id">
-										<input  @keydown="save($event)" name="express" :value="course(student.id,interview.list).express" />
-									</td>
-									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).express}}</td>
-									<td  v-if="selectId==course(student.id,interview.list).id">
-										<input  @keydown="save($event)" name="mark" :value="course(student.id,interview.list).mark" />
-									</td>
-									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).mark}}</td>
+								<td rowspan="2">{{student.name}}</td>
+								<template v-for="entry in interviews">
+									<template v-if="selectsid==student.id&&selectiid==entry.id">
+										<td><input class="input input-small" @keydown="save" name="skill" style="width: 100%;height: 100%;" :value="fraction(student.id,entry.id,entry.interviewDetailsList).skill==-1?'':fraction(student.id,entry.id,entry.interviewDetailsList).skill"></td>
+										<td><input class="input input-small" @keydown="save" name="express" style="width: 100%;height: 100%;" :value="fraction(student.id,entry.id,entry.interviewDetailsList).express==-1?'':fraction(student.id,entry.id,entry.interviewDetailsList).express"></td>
+									</template>
+									<template v-else>
+										<td  @dblclick="selectsid=student.id;selectiid=entry.id" >{{fraction(student.id,entry.id,entry.interviewDetailsList).skill==-1?"":fraction(student.id,entry.id,entry.interviewDetailsList).skill}}</td>
+										<td  @dblclick="selectsid=student.id;selectiid=entry.id" >{{fraction(student.id,entry.id,entry.interviewDetailsList).express==-1?"":fraction(student.id,entry.id,entry.interviewDetailsList).express}}</td>
+									</template>
+								</template>
+							</tr>
+							<tr>
+								<template v-for="entry in interviews">
+									<template v-if="selectsid==student.id&&selectiid==entry.id">
+										<td @dblclick="selectsid=student.id;selectiid=entry.id" colspan="2"><input @keydown="save"  class="input input-small" name="mark" style="width: 100%;height: 100%;" :value="fraction(student.id,entry.id,entry.interviewDetailsList).mark" /></td>
+									</template>
+									<template v-else>
+										<td @dblclick="selectsid=student.id;selectiid=entry.id" colspan="2"><div style="overflow: hidden" :title="fraction(student.id,entry.id,entry.interviewDetailsList).mark" v-html="fraction(student.id,entry.id,entry.interviewDetailsList).mark"></div></td>
+									</template>
 								</template>
 							</tr>
 						</template>
 						<tr>
 							<td>问题</td>
-							<template v-for="interview in list">
-								<template  v-if="selectQue==interview.id">
-									<td colspan="2">
-										<textarea style="width:80%;" name="question" >{{interview.question}}</textarea>
-									</td>
-									<td>
-										<button class="button bg-main icon-check-square-o" style="vertical-align: middle;" type="button" @click="saveque()"> 提交</button>
-									</td>
-								</template>
-								<template v-else>
-									<td colspan="3" @dblclick="selectQue=interview.id" v-html="replace(interview.question)"></td>
-								</template>
-								
+							<template v-for="entry in interviews">
+								<td colspan="2" v-if="selectque==entry.id" style="padding:0" ><textarea style="height: 200px;width:100%;border:0" @keydown="saveque(entry.id,$event)" >{{entry.question}}</textarea></td>
+								<td colspan="2" v-else ><div @dblclick="selectque=entry.id">{{entry.question}}</div></td>
 							</template>
 						</tr>
-						
-						<!--<tr v-for="entry in list">
-							<td style="display: none;">{{entry.id}}</td>
-							<td>{{entry.name}}</td>
-							<td>{{entry.dat}}</td>
-							<td>
-								<button class="button button-little border-main" @click="score(entry.id)">成绩</button>
-							</td>
-						</tr>-->
 					</tbody>
 				</table>
 			</form>
 		</div>
 		<script type="text/javascript">
-			$(function() {
-				var url = backPath + "interview/getReport";
+            $(function() {
+            	var gId = $.getUrlParam("gId");
+            	var vue = new Vue({
+            		el:"#app",
+            		data:{
+            			students:getData({"gId":gId},path2+"student/getStudents"),
+            			interviews:getData({"gId":gId},path2+"interView/list"),
+						selectsid:0,
+            			selectiid:0,
+						gId:gId,
+						selectque:0
+            		},
+					methods:{
+                        fraction(sId,iId,list){
+							for(let i=0;i<list.length;i++){
+							    if(list[i].sId==sId&&list[i].iId==iId)
+							        return list[i];
+							}
+							return {id:0,iId:0,sId:0,express:"",mark:"",skill:""};
+						},
+						save(event){
+                            if(event.keyCode==13) {
+                                $("#listForm").ajaxSubmit({
+                                    url: path2 + "interView/detailsave",
+                                    dataType: "json",
+									type:"post",
+									"xhrFields":{
+										withCredentials:true
+									},
+                                    data: {iId: vue.selectiid, sId: vue.selectsid},
+                                    success: function (data) {
+                                        vue.interviews = getData({"gId": gId}, path2 + "interView/list");
+                                        vue.selectsid = 0;
+                                        vue.selectiid = 0;
+                                        vue.selectque = 0;
+                                    }
+                                });
+                            }
+						},
+                        add() {
+                            dialogframe({
+                                "title": "添加面试",
+                                "url": "pages/interview/add.html?gId=" + vue.gId
+                            });
+                        },
+                        replace(name){
+                            return replacen(name);
+                        },
+                        saveque(id,event){
+                            if(event.altKey&&event.keyCode==13){
+                                $.ajax({
+                                    url: path2 + "interView/update",
+                                    dataType: "json",
+                                    type:"post",
+                                    "xhrFields":{
+										withCredentials:true
+									},
+                                    data: {id: id, question: event.target.value},
+                                    success: function (data) {
+                                        vue.interviews = getData({"gId": gId}, path2 + "interView/list");
+                                        vue.selectsid = 0;
+                                        vue.selectiid = 0;
+                                        vue.selectque = 0;
+                                    }
+								});
+							}
+						}
+					}
+            	});
+                $("body").keydown(function(event){
+                    if(event.keyCode==27){
+                        vue.selectsid = 0;
+                        vue.selectiid = 0;
+                        vue.selectque = 0;
+                    }
+                });
+				/*var url = backPath + "interview/getReport";
 				var gId = $.getUrlParam("gId");
 				var data = getData({
 					"gId": gId
@@ -160,12 +235,7 @@
 						}
 					},
 				});
-				$("body").keydown(function(e){
-					if(e.keyCode==27){
-						vue.selectId=0;
-						vue.selectQue=0;
-					}
-				});
+				*/
 			
 			});
 		</script>

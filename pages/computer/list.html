@@ -1,169 +1,199 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title></title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
-		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-	</head>
-	<body>
-		<div id="app" class="panel admin-panel" v-cloak>
-			<div class="padding border-bottom">
-				<ul class="search" style="padding-left:10px;">
-					<li>
-						<button type="button" class="button input s100" @click="add(gId)"><span class="icon-plus-square-o"></span>添加考试</button>
-					</li>
-				</ul>
-			</div>
-			<form id="listForm" method="post">	
-				<table  class="table table-hover table-bordered">
-					<thead>	
-						<tr>
-							<th rowspan="2" style="width:80px">姓名</th>
-							<template v-for="entry in list">
-								<th colspan="2" style="width:142px">{{entry.cName}}</th>
-							</template>
-						</tr>
-						<tr>
-							<template v-for="entry in list">
-								<th style="width:40px">技术分</th>
-								<th style="width:100px">评语</th>
-							</template>
-						</tr>
-					</thead>
-					<tbody>
-						<input name="id" type="hidden" v-model="selectId" />
-						<input name="iId" type="hidden" v-model="selectQue"  />
-						<template v-for="student in stulist">
-							<tr>
-								<td>{{student.name}}</td>
-								<template v-for="interview in list">
-									<td v-if="selectId==course(student.id,interview.list).id">
-										<input @keydown="save($event)" name="skill" :value="course(student.id,interview.list).skill" />
-									</td>
-									<td v-else @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).skill}}</td>
-									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).express}}</td>
-									<td  v-if="selectId==course(student.id,interview.list).id">
-										<input  @keydown="save($event)" name="mark" :value="course(student.id,interview.list).mark" />
-									</td>
-									<td v-else  @dblclick="selectId=course(student.id,interview.list).id" >{{course(student.id,interview.list).mark}}</td>
-								</template>
-							</tr>
-						</template>
-						<tr>
-							<td>机试题</td>
-							<template v-for="interview in list">
-								<template  v-if="selectQue==interview.id">
-									<td>
-										<textarea style="width:80%;" name="question" >{{interview.question}}</textarea>
-									</td>
-									<td>
-										<button class="button bg-main icon-check-square-o" style="vertical-align: middle;" type="button" @click="saveque()"> 提交</button>
-									</td>
-								</template>
-								<template v-else>
-									<td colspan="2" @dblclick="selectQue=interview.id" v-html="replace(interview.question)"></td>
-								</template>
-								
-							</template>
-						</tr>
-						
-						<!--<tr v-for="entry in list">
-							<td style="display: none;">{{entry.id}}</td>
-							<td>{{entry.name}}</td>
-							<td>{{entry.dat}}</td>
-							<td>
-								<button class="button button-little border-main" @click="score(entry.id)">成绩</button>
-							</td>
-						</tr>-->
-					</tbody>
-				</table>
-			</form>
-		</div>
-		<script type="text/javascript">
-			$(function() {
-				var url = backPath + "computer/getReport";
-				var gId = $.getUrlParam("gId");
-				var data = getData({
-					"gId": gId
-				}, url);
-				var students=getData({
-					"gId": gId
-				}, backPath + "computerDetails/getStudents" );
-				var action = backPath + "computerDetails/edit";
-				var queaction = backPath + "computer/edit";
-				var vue = new Vue({
-					el: "#app",
-					data: {
-						"list": data,
-						"stulist":students,
-						"gId":gId,
-						"selectId":0,
-						"selectQue":0
-					},
-					methods:{
-						course :function(sid,arr){
-							for(var i=0;i<arr.length;i++){
-								if(sid==arr[i].sId){
-									return {"skill":arr[i].skill==-1?"":arr[i].skill,"id":arr[i].id,"mark":arr[i].mark};
-								}
-							}
-							return {"skill":"","id":-1};
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+	<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+	<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+	<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+	<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+	<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+	<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+	<style type="text/css">
+		.s100{
+			width:100px;
+			padding:5px 10px;
+		}
+	</style>
+</head>
+<body>
+<div id="app"class="panel admin-panel"  v-cloak>
+	<div class="padding border-bottom">
+		<form id="listForm" method="post">
+			<ul class="search" style="padding-left:10px;">
+				<li>
+					<input v-model="name" type="text" class="input s100" placeholder="试题名称" autocomplete="off" />
+				</li>
+				<li>
+					<select v-model="cId"  class="input s100">
+						<option value=""  selected="selected">请选择课程</option>
+						<option v-for="course in courses" :value="course.id">{{course.name}}</option>
+					</select>
+				</li>
+				<li>
+					<select v-model="isDel" class="input s100">
+						<option value="">全部</option>
+						<option value="1">有效</option>
+						<option value="0">失效</option>
+					</select>
+				</li>
+				<li>
+					<button type="button"  @click="search" class="button input s100"><span class="icon-search"></span>搜索</button>
+				</li>
+				<li>
+					<button type="button"  class="button input s100 dialogs" @click="create"><span class="icon-plus-square-o"></span>&nbsp;&nbsp;创建考试</button>
+				</li>
+                <li>
+                    <button type="button"  class="button input s100 dialogs" @click="report"></span>查看报表</button>
+                </li>
+			</ul>
+		</form>
+	</div>
+	<hr class="bg-main" />
+	<table id="tb"  class="table table-hover table-bordered">
+		<thead>
+		<tr>
+			<th style="width: 120px;">考试日期</th>
+			<th style="width:200px">考试题目</th>
+			<th style="width:100px">科目</th>
+			<th>统计</th>
+			<th style="width: 260px;">操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr v-for="computer in entry.list">
+			<td>{{computer.dat}}</td>
+			<td><a href="javascript:void(0)" @click="details(computer.id)">{{computer.name}}</a></td>
+			<td>{{coursename(computer.cId)}}</td>
+			<td v-html="sum(computer.scores)"></td>
+			<td>
+				<button class="button button-little border-main" @click="edit(computer.id)" >修改</button>&nbsp;&nbsp;
+				<button class="button button-little border-main" @click="isdel(computer.id,computer.isDel)"><span v-if="computer.isDel==1">删除</span><span v-else>恢复</span></button>
+				<button class="button button-little border-main" v-if="computer.isDel==1" @click="score(computer.id)" >成绩</button>&nbsp;
+			</td>
+		</tr>
+		</tbody>
+	</table>
+	<div id="wy_page" class="wy_page">
+		<mypage :pageno="entry.pageNo" :totalpage="entry.totalPage" :callback="changepage"> </mypage>
+	</div>
+</div>
+<script type="text/javascript">
+	var gid=$.getUrlParam("gId");
+    var vue=new Vue({
+        el:"#app",
+        data:{
+            entry:getData({"pageNo":1,"gId":gid},path2+"computer/list"),
+            name:"",
+            cId:"",
+            isDel:"",
+            cName:"",
+            params:{
+                pageNo:1,
+				gId:gid,
+                name:"",
+                cId:"",
+                isDel:""
+            },
+            courses:getData({isDel:1},path2+"course/list"),
+        },
+        methods:{
+            changepage:function(i){
+                this.params.pageNo=i
+                this.entry=getData(this.params,path2+"computer/list");
+            },
+            edit:function(id){
+                dialogframe({
+                    width:"100%",
+                    height:"100%",
+                    "title":"修改机试信息",
+                    "url":"pages/computer/edit.html?id="+id
+                });
+            },
+            search:function(){
+                this.params.pageNo=1;
+                this.params.name=this.name;
+                this.params.cId=this.cId;
+                this.params.isDel=this.isDel;
+                this.entry=getData(this.params,path2+"computer/list")
+            },
+            isdel:function(id,isDel){
+                var message=isDel==1?"确定要删除该考试吗":"确定要将该考试恢复为可用状态吗";
+                isDel=isDel==1?0:1;
+                if(confirm(message)){
+                    $.ajax({
+                        url:path2+"computer/edit",
+                        type:"post",
+                        data:{id:id,isDel:isDel},
+                        xhrFields:{
+						    withCredentials:true
 						},
-						add: function(id) {
-							dialogframe({
-								"title": "添加机试",
-								"url": "pages/computer/add.html?gId=" + id
-							});
-						},
-						save:function(event){
-							if(event.keyCode==13){
-								$("#listForm").ajaxSubmit({
-									url:action,
-									dataType:"json",
-									success:function(data){
-										var n= getData({
-											"gId": gId
-										}, url);
-										vue.list=n;
-										vue.selectId=0;
-									}
-								});
-							}
-						},
-						saveque:function(event){
-							$("#listForm").ajaxSubmit({
-								url:queaction,
-								dataType:"json",
-								success:function(data){
-									var n= getData({
-										"gId": gId
-									}, url);
-									vue.list=n;
-									vue.selectQue=0;
-								}
-							});
-						},
-						replace:function(name){
-							return replacen(name);
-						}
-					},
-				});
-				$("body").keydown(function(e){
-					if(e.keyCode==27){
-						vue.selectId=0;
-						vue.selectQue=0;
-					}
-				});
-			
-			});
-		</script>
-	</body>
+                        dataType:"json",
+                        success:function(data){
+                            alert(data.message);
+                            vue.entry=getData({"pageNo":1},path2+"computer/list");
+                        }
+                    });
+                }
+            },
+            create(){
+                dialogframe({
+                    width:"100%",
+                    height:"100%",
+                    title:"添加上机考试",
+                    url:"pages/computer/add.html?gId="+gid
+                });
+            },
+            details(id){
+                dialogframe({
+                    width:"100%",
+                    height:"100%",
+                    "title":"案例详情",
+                    "url":"pages/computer/details.html?id="+id
+                });
+            },
+            coursename(cId){
+                for(var i=0;i<this.courses.length;i++){
+                    if(cId==this.courses[i].id)
+                        return this.courses[i].name;
+                }
+                return "";
+            },
+            score(cId){
+                parent.addTab("pages/computer/score.html?cId="+cId,"39","机试成绩");
+			},
+            report(){
+                parent.addTab("pages/computer/report.html?gId="+gid,"40","机试报表");
+            },
+            sum(scores){
+                if(scores.length==0)
+                    return "A:0人(0%)&nbsp;&nbsp;B:0人(0%))&nbsp;&nbsp;C:0人(0%))&nbsp;&nbsp;D:0人(0%))&nbsp;&nbsp;E:0人(0%)";
+                else{
+                    var score=[0,0,0,0,0];
+                    for(var i=0;i<scores.length;i++){
+                        if(scores[i].skill==1){
+                            score[0]++;
+                        }else if(scores[i].skill==2){
+                            score[1]++;
+                        }else if(scores[i].skill==3){
+                            score[2]++;
+                        }else if(scores[i].skill==4){
+                            score[3]++;
+                        }else{
+                            score[4]++;
+                        }
+                    }
+                    return "A:"+score[0]+"人("+(parseInt(score[0]*10000/scores.length)/100) +"%)" +
+                        "&nbsp;&nbsp;B:"+score[1]+"人("+(parseInt(score[1]*10000/scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;C:"+score[2]+"人("+(parseInt(score[2]*10000/scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;D:"+score[3]+"人("+(parseInt(score[3]*10000/scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;E:"+score[4]+"人("+(parseInt(score[4]*10000/scores.length)/100) +"%)";
+				}
+			}
+        }
+    });
+</script>
+</body>
 </html>

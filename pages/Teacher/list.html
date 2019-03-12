@@ -29,6 +29,7 @@
 								<option value="" selected="selected">教师类型</option>
 								<option value="0">实施</option>
 								<option value="1">讲师</option>
+								<option value="3">就业</option>
 							</select>
 				 	 	</li>
 				 	 	
@@ -76,7 +77,6 @@
 		<script type="text/javascript">
 			$(function(){
 				var url=path2+"/teacher/list";
-				var path=basePath+"pages/Teacher/list.html";
 				var data=getData({"pageNo":1},url);
 				var vue=new Vue({
 					el:"#app",
@@ -94,7 +94,12 @@
 							this.entry=getData(this.params,url);
 						},
 						getTypeName:function(typeid){
-							return typeid==0?"实施":"讲师";
+							if(typeid==0)
+								return "实施";
+							else if(typeid==1)
+								return "讲师";
+							else
+								return "就业";
 						},
 						edit:function(id){
 							dialogframe({
@@ -115,15 +120,17 @@
 								return "离职";
 						},
 						isdel:function(id,isDel){
-							isDel=isDel==1?0:1;
 							var message=isDel==1?"确定该员工已经离职了吗":"确定要将该员工恢复为在职状态吗";
-							if(confirm("确定该员工已经离职了吗")){
-								
+                            isDel=isDel==1?0:1;
+							if(confirm(message)){
 								$.ajax({
 									url:path2+"teacher/isDel",
 									type:"post",
 									data:{id:id,isDel:isDel},
 									dataType:"json",
+									xhrFields:{
+									    withCredentials:true
+									},
 									success:function(data){
 										alert(data.message);
 										vue.entry=getData(vue.params,url);

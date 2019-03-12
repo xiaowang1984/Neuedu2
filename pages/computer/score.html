@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <style>
+        .icon-check-circle{
+            font-size: 20px;
+        }
+        .scoren{
+            color:#cccccc;
+        }
+        .scoree{
+            color: #FE4C88;
+        }
+        .scored{
+            color: #FFDB41;
+        }
+        .scorec{
+            color: #9D40FF;
+        }
+        .scoreb{
+            color: #4181FF;
+        }
+        .scorea{
+            color: #3FFFAC;
+        }
+        .icon-check-circle{
+            cursor:pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app" class="panel admin-panel" v-cloak>
+    <header style="padding: 10px 20px;" v-html="sum"></header>
+    <form id="fm" method="post" onkeydown="if(event.keyCode==13){return false}">
+        <input type="hidden" name="cId" v-model="cId">
+        <table  class="inter-table table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 120px;">姓名</th>
+                    <th style="width: 150px;">成绩</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="student in students">
+                    <td>{{student.name}}</td>
+                    <td>
+                        <span class="icon-check-circle scorea" v-if="score(student.id).skill==1"></span>
+                        <span @click="setSkill(student.id,1)" class="icon-check-circle scoren" v-else></span>
+                        <span class="icon-check-circle scoreb" v-if="score(student.id).skill==2"></span>
+                        <span @click="setSkill(student.id,2)" class="icon-check-circle scoren" v-else></span>
+                        <span class="icon-check-circle scorec" v-if="score(student.id).skill==3"></span>
+                        <span @click="setSkill(student.id,3)" class="icon-check-circle scoren" v-else></span>
+                        <span class="icon-check-circle scored" v-if="score(student.id).skill==4"></span>
+                        <span @click="setSkill(student.id,4)" class="icon-check-circle scoren" v-else></span>
+                        <span class="icon-check-circle scoree" v-if="score(student.id).skill==5"></span>
+                        <span @click="setSkill(student.id,5)"  class="icon-check-circle scoren" v-else></span>
+                    </td>
+                    <td v-if="student.id==sId">
+                        <input class="input" :value="score(student.id).mark" name="mark" @keydown="savaandcancel(student.id,$event)" autocomplete="off">
+                    </td>
+                    <td v-else @dblclick="setmark(student.id)">
+                        {{score(student.id).mark}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    var id=$.getUrlParam("cId");
+    var entry=getData({id:id},path2+"computer/edit");
+    new Vue({
+        el:"#app",
+        data(){
+            return {
+                entry:entry,
+                cId:id,
+                sId:0,
+                students:getData({"gId":entry.gId},path2+"student/getStudents"),
+                scores:getData({"cId":id},path2+"score/list")
+            };
+        },
+        computed:{
+            sum(){
+                if(this.entry.scores.length==0)
+                    return "A:0人(0%)&nbsp;&nbsp;B:0人(0%))&nbsp;&nbsp;C:0人(0%))&nbsp;&nbsp;D:0人(0%))&nbsp;&nbsp;E:0人(0%)";
+                else{
+                    var score=[0,0,0,0,0];
+                    for(var i=0;i<this.entry.scores.length;i++){
+                        if(this.entry.scores[i].skill==1){
+                            score[0]++;
+                        }else if(this.entry.scores[i].skill==2){
+                            score[1]++;
+                        }else if(this.entry.scores[i].skill==3){
+                            score[2]++;
+                        }else if(this.entry.scores[i].skill==4){
+                            score[3]++;
+                        }else{
+                            score[4]++;
+                        }
+                    }
+                    return "A:"+score[0]+"人("+(parseInt(score[0]*10000/this.entry.scores.length)/100) +"%)" +
+                        "&nbsp;&nbsp;B:"+score[1]+"人("+(parseInt(score[1]*10000/this.entry.scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;C:"+score[2]+"人("+(parseInt(score[2]*10000/this.entry.scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;D:"+score[3]+"人("+(parseInt(score[3]*10000/this.entry.scores.length)/100) +"%)"+
+                        "&nbsp;&nbsp;E:"+score[4]+"人("+(parseInt(score[4]*10000/this.entry.scores.length)/100) +"%)";
+                }
+            }
+        },
+        methods:{
+            score(sId){
+                for(var i=0;i<this.scores.length;i++){
+                    if(this.scores[i].sId==sId)
+                        return this.scores[i];
+                }
+                return {"id":0,"cId":id,"sId":sId,"skill":0,"mark":"",isDel:""};
+            },
+            setSkill(sId,skill){
+                this.submitForm("fm","score/save",{"skill":skill,sId:sId});
+            },
+            setmark(sId){
+                this.sId=sId;
+            },
+            savaandcancel(sId,e){
+              if(e.keyCode==27){
+                  this.sId=0;
+              }else if(e.keyCode==13){
+                  this.submitForm("fm","score/save",{"sId":sId});
+              }
+            },
+            submitForm(id,url,params){
+                var self=this;
+                $('#'+id).ajaxSubmit({
+                    "url":path2+url,
+                    dataType:"json",
+                    data:params,
+                    type:"post",
+                    async:false,
+                    xhrFields:{
+                        withCredentials:true
+                    },
+                    error:function(request,message,obj){
+
+                    },
+                    success:function(data){
+                        self.sId=0;
+                        self.scores=getData({"cId":self.cId},path2+"score/list");
+                    }
+                });
+            }
+        }
+    });
+   /* $(function() {
+        var url = backPath + "interviewDetails/list";
+        var iId = $.getUrlParam("id");
+        var data = getData({
+            "iId": iId
+        }, url);
+        var action = backPath + "interviewDetails/edit";
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                "list": data.list,
+                "selectId":0
+            },
+            methods: {
+                save: function() {
+                    $("#listForm").ajaxSubmit({
+                        url:action,
+                        dataType:"json",
+                        success:function(data){
+                            var n= getData({
+                                "iId": iId
+                            }, url);
+                            vue.list=n.list;
+                            vue.selectId=0;
+                        }
+                    });
+                },
+            }
+        });
+    });*/
+</script>
+</body>
+
+</html>

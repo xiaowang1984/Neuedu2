@@ -105,6 +105,9 @@
 									url:backPath+"exam/createReport",
 									data:{"eId":id} ,
 									dataType:"json",
+									"xhrFields":{
+										withCredentials:true
+									},
 									success:function(data){
 										alert(data.mess);
 									}
