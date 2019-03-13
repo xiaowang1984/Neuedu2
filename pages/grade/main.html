@@ -73,6 +73,11 @@
 		                        <use xlink:href="#icon-kaoshi"></use>
 		             		</svg></span>&nbsp;&nbsp;考试模块
 						</button>
+						<button type="button" class="button" id="jy">
+							<span class="text-blue"><svg class="icon" aria-hidden="true">
+		                        <use xlink:href="#icon-kaoshi"></use>
+		       				</svg></span>&nbsp;&nbsp;面试和就业
+						</button>
 					</div>
 				</div>
 				</div>
@@ -154,6 +159,9 @@
 				});
 				$("#stulog").click(function(){
 					parent.addTab("pages/grade/stulog.html?gId="+id,"40","学生日志");
+				});
+				$("#jy").click(function(){
+					parent.addTab("pages/employment/grade.html?gId="+id,"44","就业和面试");
 				});
 			});
 		</script>

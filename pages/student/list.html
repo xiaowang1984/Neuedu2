@@ -131,9 +131,9 @@
 			 				<th width="50px">性别</th>
 			 				<th width="110px">电话</th>
 			 				<th width="50px">民族</th>
-			 				<th width="200px">学校</th>
+			 				<th width="150px">学校</th>
 			 				<th width="150px">专业</th>
-			 				<th width="80">学历</th>
+			 				<th width="80px">学历</th>
 			 				<th>操作</th>
 			 			</tr>
 			 		</thead>
@@ -152,9 +152,11 @@
 			 				<td>{{stu.specialty}}</td>
 			 				<td>{{stu.education}}</td>
 			 				<td>
+			 					<button class="button button-little border-main" @click="offer(stu.id)" >就业</button>
 			 					<button class="button button-little border-main" @click="edit(stu.id)" >编辑</button>&nbsp;&nbsp;
 			 					<button class="button button-little border-main" @click="pwd(stu.id)" >修改密码</button>&nbsp;&nbsp;
 			 					<button class="button button-little border-red" @click="del(stu.id)" >删除</button></td>
+			 					
 			 				</td>
 			 			</tr>
 			 		</tbody>
@@ -208,6 +210,9 @@
 					},
 					changeFile(){
 						submitForm('listForm',"student/upload?gId="+gId,false);
+					},
+					offer(sId){
+						parent.addTab("pages/employment/student.html?sId="+sId,"45","面试记录");
 					}
 				}
 			});
