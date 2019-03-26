@@ -1,350 +1,371 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<meta name="renderer" content="webkit">
-		<title>教学过程可视化系统</title>
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
-		<link rel="stylesheet" href="http://47.94.95.151:8080/css/wy_tab.css">
-		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
-		<script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
-		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
-		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
-		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
-		<style type="text/css">
-			*{
-				margin: 0;
-				padding: 0;
-			}
-			html,body{
-				height:100%;
-				background:#141417;
-				color:#C5CACD;
-				font-family: "微软雅黑";
-			}
-			a{
-				color:#96A5AA;
-			}
-			.wrap{
-				height:100%;
-				width:100%;
-				display: flex;
-				flex-direction: column;
-			}
-			.wrap .content{
-				display: flex;
-				flex: 1;
-			}
-			.cover{
-				width:100%;
-				height:100%;
-				background:#585858;
-				opacity:0.5;
-				position:absolute;
-				z-index: 99;
-				display:none;
-			}
-			.cover .rotate{
-				width:30px;
-				height:42px;
-				font-size:30px;
-				position:absolute;
-				left:49%;
-				top:49%;
-			}
-		 	#login{
-		        display:none;
-		        position:absolute;
-		        width:100%;
-		        height:100%;
-		        top:0;
-		        left:0;
-		      }
-		      #cover{
-		        position:absolute;
-		        width:100%;
-		        height:100%;
-		        top:0;
-		        left:0;
-		        background:#000000;
-		        z-index:99;
-		        opacity:0.3;
-		      }
-		      #loginform{
-		        position:absolute;
-		        width:100%;
-		        top:150px;
-		        z-index: 100;
-		      }
-		</style>
-	</head>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="renderer" content="webkit">
+    <title>教学过程可视化系统</title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/wy_tab.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-	<body>
-		<div class="wrap">
-			<div class="header" id="header" v-cloak>
-				<div class="logo margin-big-left fadein-top">
-					<h1>教学过程可视化系统</h1>
-				</div>
-				<div style="float:right;line-height: 70px;" class="padding">
-					<ul class="search" style="padding-left:10px;">
-						<li>欢迎{{user.name}}老师</li>
-						<li>[<a href="javascript:void(0)" @click="changepwd">修改密码</a>]</li>
-						<li>[<a href="javascript:void(0)" @click="exit">退出登录</a>]</li>
-					</ul>
-				</div>
-			</div>
-			<div class="content">
-				<div id="nav" class="leftnav"  v-cloak>
-					<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
-					<nav v-for="m in menu.list" @click="changeselect(m.id)">
-						<h2><span :class="m.icon"></span>{{m.text}}</h2>
-						<ul style="display:block" v-show="selected==m.id">
-							<li v-for="l in m.list">
-								<a @click="addTab(l)" href="javascript:void(0)"><span class="icon-caret-right"></span>{{l.text}}</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
-				<div id="tabs" class="admin"  v-cloak >
-					<div class="wy_tab_head">
-						<ul class="wy_head_ul">
-							<li v-for="value in items" :class="{selected:selected==value.id}">
-								<a @click="selecttab(value.id)" href="javascript:void(0)">{{value.text}}</a>
-								<span class="close" @click="close(value.id)"></span>
-							</li>
-						</ul>
-					</div>
-					<div id="wy_tab_content" class="wy_tab_content">
-						<div v-for="value in items" class="wy_tab_panel" style="overflow: hidden;padding-bottom:20px;" v-show="selected==value.id">
-							<iframe :src="value.url" style="width:100%;height:100%;border:0"></iframe>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="cover">
-				<div class="icon-spinner rotate"></div>
-			</div>
-		</div>
-		<div id="login">
-	      <div id="cover"></div>
-	      <div id="loginform" class="container"  >
-	        <div class="line bouncein"  >
-	          <div class="xs6 xm4 xs3-move xm4-move" style="background:#ffffff;opacity: 1" >
-	            <form  method="post" id="loginfm">
-	              <div class="panel loginbox">
-	                <div class="text-center margin-big padding-big-top"></div>
-	                <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
-	                  <div class="form-group">
-	                    <div class="field field-icon-right">
-	                      <input type="text" class="input input-big" name="no" placeholder="登录账号" data-validate="required:请填写账号" />
-	                      <span class="icon icon-user margin-small"></span>
-	                    </div>
-	                  </div>
-	                  <div class="form-group">
-	                    <div class="field field-icon-right">
-	                      <input type="password" class="input input-big" name="password" placeholder="登录密码" data-validate="required:请填写密码" />
-	                      <span class="icon icon-key margin-small"></span>
-	                    </div>
-	                  </div>
-	                </div>
-	                <div style="padding:30px;"><input id="logbtn" type="button" class="button button-block bg-main text-big input-big" value="登录"></div>
-	              </div>
-	            </form>
-	          </div>
-	        </div>
-	      </div>
-	   </div>
-		<script type="text/javascript">
-			var login=getSession();
-			if(login.code==0){
-				alert("当前会话已经失效,自动跳转到登录页面");
-				window.location.href=basePath+"login.html";
-			}else{
-				new Vue({
-					el:"#header",
-					data:{
-						user:login.user
-					},
-					methods:{
-						changepwd:function(){
-							dialogframe({
-								"title":"修改密码",
-								"url":"pages/Teacher/pwd.html"
-							});
-						},
-						exit:function(){
-							if(confirm("确定要退出吗？？")){
-								$.ajax({
-									url:path2+"exit",
-									type:"get",
-									xhrFields:{
-										withCredentials:true
-									},
-									complete:function(){
-										window.location.href=basePath+"login.html";
-									}
-								});
-							}
-						}
-					}
-				});
-			}
-			var tab=new Vue({
-				el:"#tabs",
-				data:{
-					selected:0,
-					items:[]
-				},
-				methods:{
-					close:function(id){
-						for(let i=0;i<this.items.length;i++){
-							if(this.items[i].id==id){
-								this.items.splice(i,1);
-								if(this.selected==id){
-									if(this.items.length>0){
-										this.selected=this.items[this.items.length-1].id;
-									}
-								}
-								break;
-							}
-						}
-					},
-					selecttab:function(id){
-						this.selected=id;
-					}
-				},
-			});
-			var menu=new Vue({
-				el:"#nav",
-				data:{
-					selected:"a",
-					menu:{
-						list:[
-							{
-								id:"a",
-								text:"班级管理",
-								list:[
-									{
-										id:4,
-										text:"班级列表",
-										url:"pages/grade/list.html?isDel=1"
-									}
-								],
-								icon:"icon-user"
-							},
-							{
-								id:"b",
-								text:"基本资料",
-								list:[
-									{
-										id:3,
-										text:"教师管理",
-										url:"pages/Teacher/list.html"
-									},
-									{
-										id:15,
-										text:"课程管理",
-										url:"pages/course/list.html"
-									},
-									{
-										id:13,
-										text:"语言管理",
-										url:"pages/language/list.html"
-									},
-									{
-										id:16,
-										text:"案例管理",
-										url:"pages/case/list.html"
-									},
-									{
-										id:23,
-										text:"题库管理",
-										url:"pages/questions/list.html"
-									},
-									{
-										id:25,
-										text:"试卷管理",
-										url:"pages/paper/list.html"
-									},
-                                    {
-                                        id:38,
-                                        text:"上机考试库",
-                                        url:"pages/storehouse/list.html"
-                                    },
-                                    {
-                                        id:42,
-                                        text:"企业管理",
-                                        url:"pages/company/list.html"
-                                    },
-                                    {
-                                        id:43,
-                                        text:"岗位管理",
-                                        url:"pages/job/list.html"
-                                    }
-								],
-								icon:"icon-pencil-square-o"
-								
-							}
-						]
-					}
-				},
-				methods:{
-					changeselect:function(a){
-						this.selected=a;
-					},
-					addTab:function(l){
-						if(this.$options.methods.check(l)){
-							tab.items.push({id:l.id,text:l.text,url:l.url});
-							tab.selected=l.id;
-						}
-					},
-					check:function(l){
-						for(let i=0;i<tab.items.length;i++){
-							if(tab.items[i].id==l.id){
-								tab.selected=l.id;
-								tab.items[i].url=l.url;
-								return false;
-							}
-						}
-						return true;
-					}
-				}
-			});
-			function addTab(url,id,title){
-				if(menu.$options.methods.check({id:id,url:url,title:title})){
-					tab.items.push({id:id,text:title,url:url});
-					tab.selected=id;
-				}
-			}
-			function showlogin(){
-	       	 	$("#login").show();
-	       	 	$("#cover").show();
-	       	 	$("#loginform").show();
-	    	}
-			 $("#logbtn").click(function(){
-	          $('#loginfm').ajaxSubmit({
-	            url:path2+"login",
-	            type:"post",
-	            async:false,
-	            dataType:"json",
-	            xhrFields:{
-	              withCredentials:true
-	            },
-	            success:function(data){
-	              if(data.code==1){
-	                $("#login").hide();
-	                $("#cover").hide();
-	                $("#loginform").hide();
-	              }
-	              else
-	               alert(data.message);
-	            }
-	          });
-	        });
-		</script>
-	</body>
+        html, body {
+            height: 100%;
+            background: #141417;
+            color: #C5CACD;
+            font-family: "微软雅黑";
+        }
+
+        a {
+            color: #96A5AA;
+        }
+
+        .wrap {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .wrap .content {
+            display: flex;
+            flex: 1;
+        }
+
+        .cover {
+            width: 100%;
+            height: 100%;
+            background: #585858;
+            opacity: 0.5;
+            position: absolute;
+            z-index: 99;
+            display: none;
+        }
+
+        .cover .rotate {
+            width: 30px;
+            height: 42px;
+            font-size: 30px;
+            position: absolute;
+            left: 49%;
+            top: 49%;
+        }
+
+        #login {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        #cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: #000000;
+            z-index: 99;
+            opacity: 0.3;
+        }
+
+        #loginform {
+            position: absolute;
+            width: 100%;
+            top: 150px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="header" id="header" v-cloak>
+        <div class="logo margin-big-left fadein-top">
+            <h1>教学过程可视化系统</h1>
+        </div>
+        <div style="float:right;line-height: 70px;" class="padding">
+            <ul class="search" style="padding-left:10px;">
+                <li>欢迎{{user.name}}老师</li>
+                <li>[<a href="javascript:void(0)" @click="changepwd">修改密码</a>]</li>
+                <li>[<a href="javascript:void(0)" @click="exit">退出登录</a>]</li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        <div id="nav" class="leftnav" v-cloak>
+            <div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+            <nav v-for="m in menu.list" @click="changeselect(m.id)">
+                <h2><span :class="m.icon"></span>{{m.text}}</h2>
+                <ul style="display:block" v-show="selected==m.id">
+                    <li v-for="l in m.list">
+                        <a @click="addTab(l)" href="javascript:void(0)"><span class="icon-caret-right"></span>{{l.text}}</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div id="tabs" class="admin" v-cloak>
+            <div class="wy_tab_head">
+                <ul class="wy_head_ul">
+                    <li v-for="value in items" :class="{selected:selected==value.id}">
+                        <a @click="selecttab(value.id)" href="javascript:void(0)">{{value.text}}</a>
+                        <span class="close" @click="close(value.id)"></span>
+                    </li>
+                </ul>
+            </div>
+            <div id="wy_tab_content" class="wy_tab_content">
+                <div v-for="value in items" class="wy_tab_panel" style="overflow: hidden;padding-bottom:20px;"
+                     v-show="selected==value.id">
+                    <iframe :src="value.url" style="width:100%;height:100%;border:0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cover">
+        <div class="icon-spinner rotate"></div>
+    </div>
+</div>
+<div id="login">
+    <div id="cover"></div>
+    <div id="loginform" class="container">
+        <div class="line bouncein">
+            <div class="xs6 xm4 xs3-move xm4-move" style="background:#ffffff;opacity: 1">
+                <form method="post" id="loginfm">
+                    <div class="panel loginbox">
+                        <div class="text-center margin-big padding-big-top"></div>
+                        <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                            <div class="form-group">
+                                <div class="field field-icon-right">
+                                    <input type="text" class="input input-big" name="no" placeholder="登录账号"
+                                           data-validate="required:请填写账号"/>
+                                    <span class="icon icon-user margin-small"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="field field-icon-right">
+                                    <input type="password" class="input input-big" name="password" placeholder="登录密码"
+                                           data-validate="required:请填写密码"/>
+                                    <span class="icon icon-key margin-small"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding:30px;"><input id="logbtn" type="button"
+                                                          class="button button-block bg-main text-big input-big"
+                                                          value="登录"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var login = getSession();
+    if (login.code == 0) {
+        alert("当前会话已经失效,自动跳转到登录页面");
+        window.location.href = basePath + "login.html";
+    } else {
+        new Vue({
+            el: "#header",
+            data: {
+                user: login.user
+            },
+            methods: {
+                changepwd: function () {
+                    dialogframe({
+                        "title": "修改密码",
+                        "url": "pages/Teacher/pwd.html"
+                    });
+                },
+                exit: function () {
+                    if (confirm("确定要退出吗？？")) {
+                        $.ajax({
+                            url: path2 + "exit",
+                            type: "get",
+                            xhrFields: {
+                                withCredentials: true
+                            },
+                            complete: function () {
+                                window.location.href = basePath + "login.html";
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+    var tab = new Vue({
+        el: "#tabs",
+        data: {
+            selected: 0,
+            items: []
+        },
+        methods: {
+            close: function (id) {
+                for (let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].id == id) {
+                        this.items.splice(i, 1);
+                        if (this.selected == id) {
+                            if (this.items.length > 0) {
+                                this.selected = this.items[this.items.length - 1].id;
+                            }
+                        }
+                        break;
+                    }
+                }
+            },
+            selecttab: function (id) {
+                this.selected = id;
+            }
+        },
+    });
+    var menu = new Vue({
+        el: "#nav",
+        data: {
+            selected: "a",
+            menu: {
+                list: [
+                    {
+                        id: "a",
+                        text: "班级管理",
+                        list: [
+                            {
+                                id: 4,
+                                text: "班级列表",
+                                url: "pages/grade/list.html?isDel=1"
+                            }
+                        ],
+                        icon: "icon-user"
+                    },
+                    {
+                        id: "b",
+                        text: "基本资料",
+                        list: [
+                            {
+                                id: 3,
+                                text: "教师管理",
+                                url: "pages/Teacher/list.html"
+                            },
+                            {
+                                id: 15,
+                                text: "课程管理",
+                                url: "pages/course/list.html"
+                            },
+                            {
+                                id: 13,
+                                text: "语言管理",
+                                url: "pages/language/list.html"
+                            },
+                            {
+                                id: 16,
+                                text: "案例管理",
+                                url: "pages/case/list.html"
+                            },
+                            {
+                                id: 23,
+                                text: "题库管理",
+                                url: "pages/questions/list.html"
+                            },
+                            {
+                                id: 25,
+                                text: "试卷管理",
+                                url: "pages/paper/list.html"
+                            },
+                            {
+                                id: 38,
+                                text: "上机考试库",
+                                url: "pages/storehouse/list.html"
+                            },
+                            {
+                                id: 42,
+                                text: "企业管理",
+                                url: "pages/company/list.html"
+                            },
+                            {
+                                id: 43,
+                                text: "岗位管理",
+                                url: "pages/job/list.html"
+                            },
+                            {
+                                id: 44,
+                                text: "企业就业管理",
+                                url: "pages/employment/list.html"
+                            }
+                        ],
+                        icon: "icon-pencil-square-o"
+                    }
+                ]
+            }
+        },
+        methods: {
+            changeselect: function (a) {
+                this.selected = a;
+            },
+            addTab: function (l) {
+                if (this.$options.methods.check(l)) {
+                    tab.items.push({id: l.id, text: l.text, url: l.url});
+                    tab.selected = l.id;
+                }
+            },
+            check: function (l) {
+                for (let i = 0; i < tab.items.length; i++) {
+                    if (tab.items[i].id == l.id) {
+                        tab.selected = l.id;
+                        tab.items[i].url = l.url;
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+    });
+
+    function addTab(url, id, title) {
+        if (menu.$options.methods.check({id: id, url: url, title: title})) {
+            tab.items.push({id: id, text: title, url: url});
+            tab.selected = id;
+        }
+    }
+
+    function showlogin() {
+        $("#login").show();
+        $("#cover").show();
+        $("#loginform").show();
+    }
+
+    $("#logbtn").click(function () {
+        $('#loginfm').ajaxSubmit({
+            url: path2 + "login",
+            type: "post",
+            async: false,
+            dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                if (data.code == 1) {
+                    $("#login").hide();
+                    $("#cover").hide();
+                    $("#loginform").hide();
+                }
+                else
+                    alert(data.message);
+            }
+        });
+    });
+</script>
+</body>
 
 </html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+    <style>
+        #app .title-wrapper {
+            margin: 20px 0;
+        }
+
+        #app .company-info-wrapper {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        #app .table-wrapper {
+            margin-top: 20px;
+        }
+
+        #app .company-info-wrapper span {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="title-wrapper">
+        <h1 class="title">{{entry.c_name}}</h1>
+    </div>
+    <div class="company-info-wrapper">
+        <span>总面试数：{{entry.c_num}}</span>
+        <span>offer：{{entry.c_offer}}</span>
+        <span>入职人数：{{entry.c_in}}</span>
+        <span>通过比率：{{entry.c_success}}</span>
+        <span>平均薪资：{{entry.c_money}}</span>
+    </div>
+    <hr class="bg-black"/>
+    <div class="table-wrapper">
+        <table class="table table-bordered">
+            <tr>
+                <th>时间</th>
+                <th>姓名</th>
+                <th>学校</th>
+                <th>薪资</th>
+                <th>岗位</th>
+            </tr>
+            <tr v-for="student in entry.pi.list">
+                <td>{{student.gname}}</td>
+                <td>{{student.sname}}</td>
+                <td>{{student.school}}</td>
+                <td>{{student.salary}}</td>
+                <td>{{student.jname}}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="wy_page" class="wy_page">
+        <mypage :pageno="entry.pi.pageNum" :totalpage="entry.pi.pages" :callback="changePage"></mypage>
+    </div>
+</div>
+<script>
+    const cname = $.getUrlParam('cname');
+    const is_job = $.getUrlParam('is_job');
+    const app = new Vue({
+        el: '#app',
+        data: {
+            entry: {},
+            pageSize: 10
+        },
+        methods: {
+            _initData(param) {
+                // 请求参数：pageNum=1&pageSize=1&is_type=0&is_job=0&cname=天津神州商龙
+                let data = getData(param, path2 + 'employment/joblistdetil');
+                this.entry = data.data;
+            },
+            changePage(index) {
+                this._initData({pageNum: index, pageSize: this.pageSize, is_type: 0, is_job: is_job, cname: cname});
+            }
+        },
+        created() {
+            this._initData({pageNum: 1, pageSize: this.pageSize, is_type: 0, is_job: is_job, cname: cname});
+        }
+    });
+</script>
+</body>
+</html>

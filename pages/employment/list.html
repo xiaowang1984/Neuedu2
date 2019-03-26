@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+    <script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/jquery.form.js"></script>
+    <script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+    <script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+    <script src="http://47.94.95.151:8080/layer/layer.js"></script>
+    <script src="http://47.94.95.151:8080/js/wy_pagination.js"></script>
+    <script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+    <script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+    <style>
+        #app .search-wrapper {
+            width: 100%;
+            padding: 20px 0;
+            display: flex;
+        }
+
+        #app .search-wrapper .input {
+            width: 20%;
+        }
+
+        #app .search-wrapper .button {
+            margin-left: 20px;
+        }
+
+        #app .clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="search-wrapper">
+        <input type="text" class="input" placeholder="请输入企业名称" v-model="searchCompnayNmae"
+               @keyup.enter.stop="searchByCompanyName()"/>
+        <button class="button border-black" @click="searchByCompanyName()"><span class="icon-search"></span>搜索</button>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th>公司</th>
+            <th>面试人数</th>
+            <th>offer</th>
+            <th>成功率</th>
+            <th>平均薪资</th>
+        </tr>
+        <tr v-for="company in entry.list">
+            <td>{{company.c_name}}</td>
+            <td class="clickable" @click="companyDetail(company.c_name, 0)">{{company.c_num}}<span
+                    style="float: right;">此栏点击跳转企业详情</span></td>
+            <td class="clickable" @click="companyDetail(company.c_name, 1)">{{company.c_offer}}<span
+                    style="float: right;">此栏点击跳转企业详情</span></td>
+            <td>{{company.c_success}}</td>
+            <td>{{company.c_money}}</td>
+        </tr>
+    </table>
+    <div id="wy_page" class="wy_page">
+        <mypage :pageno="entry.pageNum" :totalpage="entry.pages" :callback="changePage"></mypage>
+    </div>
+</div>
+<script>
+    const app = new Vue({
+        el: "#app",
+        data: {
+            entry: {},
+            searchCompnayNmae: '',
+            pageSize: 10
+        },
+        methods: {
+            _initData(param) {
+                let data = getData(param, path2 + 'employment/joblist');
+                if (data.status === 0) {
+                    this.entry = data.data;
+                } else {
+                    alert('数据加载出错');
+                }
+            },
+            searchByCompanyName() {
+                let data = getData({'c_name': this.searchCompnayNmae}, path2 + 'employment/joblistCname');
+                if (data.status === 0) {
+                    this.entry.list.length = 0;
+                    this.entry.list.push(data.data);
+                } else {
+                    alert('数据加载失败');
+                }
+            },
+            companyDetail(cname, is_job) {
+                parent.addTab(`pages/employment/detail.html?cname=${cname}&is_job=${is_job}`, '45', '企业详情页');
+            },
+            changePage(index) {
+                this._initData({'is_type': 1, 'pageNum': index, 'pageSize': this.pageSize});
+            }
+        },
+        created() {
+            this._initData({'is_type': 1, 'pageNum': 1, 'pageSize': this.pageSize});
+        }
+    });
+</script>
+</body>
+</html>
