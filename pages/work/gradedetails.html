@@ -99,7 +99,7 @@
             </ul>
         </div>
         <hr style="border-top:1px dashed  #96A5AA;"/>
-        <div id="charts" style="width: 900px;height:500px;padding-left: 20px;"></div>
+        <div id="charts" style="width: 100%;height:500px;padding-left: 20px;"></div>
         <hr style="border-top:1px dashed  #96A5AA;"/>
         <ul class="wy_list">
             <li v-for="item in entry.workgrade">
@@ -114,7 +114,7 @@
                         <svg class="icon" aria-hidden="true">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-time"></use>
                         </svg><span style="padding-left:16px">{{getTime(item.avgtime)}}</span></div>
-                    <div><span class="icon-code"></span><span class="text">{{item.adds}}</span></div>
+                    <div><span class="icon-code"></span><span class="text">{{avgcode(item)}}</span></div>
                 </div>
             </li>
         </ul>
@@ -135,18 +135,18 @@
                     var addarr=[];
                     var delarr=[];
                     for(let i=0;i<this.entry.workgrade.length;i++){
-                        sum+=this.entry.workgrade[i].adds;
+                        sum+=this.entry.workgrade[i].adds/this.entry.workgrade[i].stucount;
                         datarr.push(this.entry.workgrade[i].dat);
-                        addarr.push(this.entry.workgrade[i].adds);
-                        delarr.push(this.entry.workgrade[i].dels)
+                        addarr.push(parseInt(this.entry.workgrade[i].adds/this.entry.workgrade[i].stucount));
+                        delarr.push(parseInt(this.entry.workgrade[i].dels/this.entry.workgrade[i].stucount));
                     }
                     return {
-                        count:sum,
+                        count:parseInt(sum),
                         datarr:datarr,
                         addarr:addarr,
                         delarr:delarr
                     };
-                },
+                }
             },
             mounted(){
                 this.drawLine();
@@ -254,9 +254,13 @@
                         "title":"修改案例",
                         "url":"pages/work/timerpt.html?dat="+dat+"&wid="+id
                     });
+                },
+                avgcode(item){
+                    return parseInt(item.adds/item.stucount);
                 }
             }
         });
+        console.log(vue.entry);
     </script>
 </body>
 </html>
