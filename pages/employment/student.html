@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/pintuer.css">
+		<link rel="stylesheet" href="http://47.94.95.151:8080/css/admin.css">
+		<script src="http://47.94.95.151:8080/js/jquery.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/pintuer.js"></script>
+		<script src="http://47.94.95.151:8080/js/neuedu2.js"></script>
+		<script src="http://47.94.95.151:8080/layer/layer.js"></script>
+		<script src="http://47.94.95.151:8080/js/vue.min.js"></script>
+		<script src="http://47.94.95.151:8080/js/vuepage.js"></script>
+		<script src="http://47.94.95.151:8080/My97DatePicker/WdatePicker.js"></script>
+		<style type="text/css">
+			.s100{
+				width:100px;
+				padding:5px 10px;
+			}
+	
+		</style>
+	</head>
+	<body>
+		<div id="app"class="panel admin-panel"  v-cloak>
+			 <div class="padding border-bottom">
+			 	<form id="listForm" class="form-x">
+				 	<ul class="search" style="padding-left:10px;">
+				 	 	<li>
+				 	 		{{name}}
+				 	 	</li>
+				 	 	<li>
+				 	 		面试总数:{{count}}
+				 	 	</li>
+				 	 	<li>
+				 	 		offer数:{{offer}}
+				 	 	</li>
+				 	 	<li>
+				 	 		成功率:{{chenggong}}%
+				 	 	</li>
+				 	 </ul>
+			 	 </form>
+			 </div>
+			 <hr class="bg-main" />
+			<table id="tb"  class="table table-hover table-bordered">
+				<thead>
+				<tr>
+					<th style="width: 100px;">时间</th>
+					<th style="width: 100px;">姓名</th>
+					<th style="width: 200px;">企业</th>
+					<th style="width: 100px;">渠道</th>
+					<th style="width: 100px;">岗位</th>
+					<th style="width: 100px;">offer</th>
+					<th style="width: 50px ;">就业</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr v-for="entry in list">
+					<td>{{entry.c_date}}</td>
+					<td>{{entry.sname}}</td>
+					<td>{{entry.c_name}}</td>
+					<td>
+						<span v-if="entry.type==1">企业推荐</span>
+						<span v-else>自主寻找</span>
+					</td>
+					<td>{{entry.jname}}</td>
+					<td>
+						<span v-if="entry.offer==1">({{entry.practice}}){{entry.salary}}</span>
+						<span v-else></span>
+					</td>
+					<td>
+						<span v-if="entry.choice==1">√</span>
+						<span v-else></span>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<script>
+			var sId = $.getUrlParam("sId");
+			var vue = new Vue({
+				el:"#app",
+				data(){
+					return {
+						name:"",
+						list: getData({sId:sId},path2+"employment/reportByStudent")
+					}
+				},
+				mounted(){
+					
+				},
+				computed:{
+					count(){
+						return this.list.length;
+					},
+					offer(){
+						let count=0;
+						for(let i=0;i<this.list.length;i++){
+							if(this.list[i].offer==1)
+								count++;
+						}
+						return count;
+					},
+					chenggong(){
+						return parseInt(this.offer/this.count*10000)/100
+					}
+				},
+				methods:{
+					
+				}
+			});
+		</script>
+	</body>
+</html>

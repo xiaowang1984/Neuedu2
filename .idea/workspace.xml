@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8cdd3afa-e8a1-4267-aa26-905025ea981e" name="Default" comment="删除.project文件">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/employment/detail.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/employment/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="8cdd3afa-e8a1-4267-aa26-905025ea981e" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,12 +35,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/index.html">
+      <file leaf-file-name="score.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/computer/score.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="27">
-              <caret line="213" column="10" lean-forward="true" selection-start-line="213" selection-start-column="10" selection-end-line="213" selection-end-column="10" />
+            <state relative-caret-position="286">
+              <caret line="64" column="41" selection-start-line="64" selection-start-column="41" selection-end-line="64" selection-end-column="41" />
+              <folding>
+                <element signature="n#style#0;n#header#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#0;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#1;n#tr#0;n#thead#0;n#table#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="grade.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pages/employment/grade.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="student.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pages/employment/student.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1602" />
           </provider>
         </entry>
       </file>
@@ -103,33 +115,33 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/pages/Teacher/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/computer/edit.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/interview/add.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/board/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/interview/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/computer/details.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/student/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/computer/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/Teacher/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/details.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/computer/report.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/computer/score.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/studentlist.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/work/workstudentdetails.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/work/timerpt.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/interview/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/case/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/interview/list.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/case/edit.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/case/add.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/case/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/work/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/storehouse/add.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/work/studentlist.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/storehouse/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/storehouse/edit.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/work/add.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/work/gradedetails.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/computer/add.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/grade/log.html" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/work/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/board/list.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/grade/list.html" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/pages/case/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/grade/log.html" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/score.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/computer/edit.html" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/pages/storehouse/details.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/edit.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/add.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/storehouse/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/list.html" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/pages/work/timerpt.html" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -170,7 +182,6 @@
         <option value="$PROJECT_DIR$/pages/computer/list.html" />
         <option value="$PROJECT_DIR$/pages/computer/score.html" />
         <option value="$PROJECT_DIR$/pages/computer/report.html" />
-        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -191,6 +202,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="40" />
     <option name="width" value="1346" />
@@ -202,23 +216,23 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Neuedu2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Neuedu2" type="462c0819:PsiDirectoryNode" />
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Neuedu2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Neuedu2" type="462c0819:PsiDirectoryNode" />
+              <item name="Neuedu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Neuedu" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -260,9 +274,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="login.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://127.0.0.1:8020/Neuedu/login.html">
-      <method v="2" />
-    </configuration>
+    <configuration name="login.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://127.0.0.1:8020/Neuedu/login.html" />
     <recent_temporary>
       <list>
         <item itemvalue="JavaScript Debug.login.html" />
@@ -320,7 +332,6 @@
       <workItem from="1542246173744" duration="392000" />
       <workItem from="1552378763644" duration="170000" />
       <workItem from="1552459273789" duration="13000" />
-      <workItem from="1553605541159" duration="1885000" />
     </task>
     <task id="LOCAL-00001" summary="上传">
       <created>1534986869519</created>
@@ -357,61 +368,63 @@
       <option name="project" value="LOCAL" />
       <updated>1538014031408</updated>
     </task>
-    <task id="LOCAL-00006" summary="删除.project文件">
-      <created>1553605700968</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1553605700968</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="308609000" />
+    <option name="totallyTimeSpent" value="308681000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49753696" visible="true" weight="0.12648809" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50074404" side_tool="true" visible="true" weight="0.3289256" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" sideWeight="0.49925596" visible="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" sideWeight="0.50246304" side_tool="true" weight="0.12648809" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49925596" weight="0.20991735" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49753696" visible="true" weight="0.19599578" />
       <window_info id="Structure" order="1" sideWeight="0.50246304" side_tool="true" weight="0.12648809" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3289256" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49925596" weight="0.20991735" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50074404" side_tool="true" weight="0.3289256" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32790446" />
-      <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.054545455" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32790446" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.054545455" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50074404" side_tool="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49925596" weight="0.20991735" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout>
     <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" weight="0.3289256" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13020833" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49925596" weight="0.20991735" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50074404" side_tool="true" weight="0.3289256" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.3289256" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Messages" order="11" visible="true" weight="0.054545455" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,13 +440,12 @@
     <MESSAGE value="删除.project文件" />
     <option name="LAST_COMMIT_MESSAGE" value="删除.project文件" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="7" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.project">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/test/add.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/test/edit.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -754,6 +766,14 @@
         <state relative-caret-position="27">
           <caret line="213" column="10" lean-forward="true" selection-start-line="213" selection-start-column="10" selection-end-line="213" selection-end-column="10" />
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/employment/grade.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/employment/student.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1602" />
       </provider>
     </entry>
   </component>
