@@ -65,7 +65,11 @@
     const app = new Vue({
         el: "#app",
         data: {
-            entry: {},
+            entry: {
+                list: [],
+                pageNum: 1,
+                pages: 1
+            },
             searchCompnayNmae: '',
             pageSize: 10
         },
@@ -75,7 +79,7 @@
                 if (data.status === 0) {
                     this.entry = data.data;
                 } else {
-                    alert('数据加载出错');
+                    alert(data.msg);
                 }
             },
             searchByCompanyName() {
@@ -84,7 +88,7 @@
                     this.entry.list.length = 0;
                     this.entry.list.push(data.data);
                 } else {
-                    alert('数据加载失败');
+                    alert(data.msg);
                 }
             },
             companyDetail(cname, is_job) {
