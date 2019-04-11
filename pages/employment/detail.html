@@ -15,6 +15,7 @@
     <style>
         #app .title-wrapper {
             margin: 20px 0;
+            display: flex;
         }
 
         #app .company-info-wrapper {
@@ -29,12 +30,27 @@
         #app .company-info-wrapper span {
             flex: 1;
         }
+
+        #app .title-wrapper .title {
+        }
+
+        #app .title-wrapper .input {
+            width: 60px;
+            margin-left: 20px;
+            position: relative;
+            top: 3px;
+        }
     </style>
 </head>
 <body>
 <div id="app">
     <div class="title-wrapper">
         <h1 class="title">{{entry.c_name}}</h1>
+        <select class="input input-small" v-model="is_job">
+            <option value="0">参加面试</option>
+            <option value="1">offer</option>
+            <option value="2">最终就业</option>
+        </select>
     </div>
     <div class="company-info-wrapper">
         <span>总面试数：{{entry.c_num}}</span>
@@ -67,8 +83,6 @@
     </div>
 </div>
 <script>
-    const cname = $.getUrlParam('cname');
-    const is_job = $.getUrlParam('is_job');
     const app = new Vue({
         el: '#app',
         data: {
@@ -79,7 +93,9 @@
                     list: []
                 }
             },
-            pageSize: 10
+            pageSize: 10,
+            is_job: $.getUrlParam('is_job'),
+            cname: $.getUrlParam('cname')
         },
         methods: {
             _initData(param) {
@@ -88,16 +104,22 @@
                 if (data.status === 0) {
                     this.entry = data.data;
                 } else {
+                    this.entry.pi.list.length = 0;
                     alert(data.msg);
                 }
 
             },
             changePage(index) {
-                this._initData({pageNum: index, pageSize: this.pageSize, is_type: 0, is_job: is_job, cname: cname});
+                this._initData({pageNum: index, pageSize: this.pageSize, is_type: 0, is_job: this.is_job, cname: this.cname});
             }
         },
         created() {
-            this._initData({pageNum: 1, pageSize: this.pageSize, is_type: 0, is_job: is_job, cname: cname});
+            this._initData({pageNum: 1, pageSize: this.pageSize, is_type: 0, is_job: this.is_job, cname: this.cname});
+        },
+        watch: {
+            is_job: function() {
+                this._initData({pageNum: 1, pageSize: this.pageSize, is_type: 0, is_job: this.is_job, cname: this.cname});
+            }
         }
     });
 </script>
