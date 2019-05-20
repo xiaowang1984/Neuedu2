@@ -28,6 +28,7 @@
 	</head>
 	<body>
 		<div id="app" v-cloak >
+			<div id="gradecharts" style="height:400px;padding-left: 20px;"></div>
 			<div id="charts" style="height:400px;padding-left: 20px;"></div>
 			<div class="line padding height-large" >
 				<div class="xl2-move xl1" @click="change(-7)"><span  class="icon-angle-double-left text-large"></span></div>
@@ -131,11 +132,16 @@
 							e:e
 						}
 					},
+					gradelogs(){
+                        return getData({"gId": gId}, path2 + "grade/logs");
+
+                    }
 					
 				},
 				mounted(){
 					this.selectDat=getDateStr(this.today);
 		            this.drawLine();
+		            this.gradereport();
 		        },
 				methods:{
 					drawLine(){
@@ -213,6 +219,53 @@
 						};
 		                myChart.setOption(option);
 	           	 	},
+					gradereport(){
+					    let datarr=[];
+					    let values=[];
+					  	let report=this.gradelogs;
+					  	report.list.forEach(mood=>{
+					  	    datarr.push(mood.dat);
+					  	    values.push(mood.val);
+						})
+						let widval=report.list.length*50;
+                        let mycharts=echarts.init(document.getElementById("gradecharts"));
+                        option = {
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            grid:{
+
+								width:'auto'
+                            },
+                            dataZoom:{
+                                start: 0, //默认为0
+                                end: 100, //默认为100
+								type: 'slider',
+								show: true,
+								xAxisIndex: [0],
+
+							},
+                            xAxis: {
+                                type: 'category',
+                                data: datarr
+                            },
+                            yAxis: {
+                                min:0,
+                                max:5,
+                                type: 'value'
+                            },
+                            series: [{
+                                name:"心情指数",
+                                data: values,
+                                type: 'line',
+								lineStyle:{
+                                    width:200
+								}
+                            }]
+                        };
+                        mycharts.setOption(option);
+
+					},
 					getmd(dat){
 						var arr=dat.split("-");
 						return arr[1]+"-"+arr[2];
